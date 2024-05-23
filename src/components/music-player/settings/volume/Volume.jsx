@@ -1,43 +1,73 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import "./volume.css";
 
 const Volume = ({ volume, setVolume }) => {
-  const [emptyBar, setEmptyBar] = useState(50);
-  const [fullBar, setFullBar] = useState(50); 
-  
+  const [bar, setBar] = useState(20);
+  const intervalRef = useRef(null);
+
   const increaseVolume = () => {
-    if (volume >= 0.1) {
+    if (volume >= 1) {
       alert("Music-Player kann nicht lauter gedreht werden!");
     } else {
-      setEmptyBar(emptyBar - 10);
-      setFullBar(fullBar + 10);
-      const newVolume = Number((volume + 0.01).toFixed(2));
-      setVolume(newVolume);
+      intervalRef.current = setInterval(() => {
+        setBar(prevBar => {
+          const newBar = prevBar + 5;
+          return newBar > 100 ? 100 : newBar;
+        });
+
+        setVolume(prevVolume => {
+          const newVolume = prevVolume + 0.05;
+          return newVolume > 1 ? 1 : newVolume;
+        });
+      }, 50);
     }
   };
+
   const decreaseVolume = () => {
     if (volume <= 0.01) {
       alert("Music-Player kann nicht leiser gedreht werden!");
     } else {
-      setFullBar(fullBar - 10);
-      setEmptyBar(emptyBar + 10);
-      const newVolume = Number((volume - 0.01).toFixed(2));
-      setVolume(newVolume);
+      intervalRef.current = setInterval(() => {
+        setBar(prevBar => {
+          const newBar = prevBar - 5;
+          return newBar < 0 ? 0 : newBar;
+        });
+
+        setVolume(prevVolume => {
+          const newVolume = prevVolume - 0.05;
+          return newVolume < 0 ? 0 : newVolume;
+        });
+      }, 50);
     }
+  };
+
+  const stopVolumeChange = () => {
+    clearInterval(intervalRef.current);
   };
 
   return (
     <>
-    <button disabled={volume <= 0.01 ? true : false} onClick={decreaseVolume}>leiser</button>
-      <button disabled={volume >= 0.1 ? true : false} onClick={increaseVolume}>lauter</button>
+      <button 
+        disabled={volume <= 0.01} 
+        onMouseDown={decreaseVolume} 
+        onMouseUp={stopVolumeChange}
+        onMouseLeave={stopVolumeChange}
+      >
+        leiser
+      </button>
+      <button 
+        disabled={volume >= 1} 
+        onMouseDown={increaseVolume} 
+        onMouseUp={stopVolumeChange}
+        onMouseLeave={stopVolumeChange}
+      >
+        lauter
+      </button>
       <p>
-        Lautstärke: {(volume * 100).toFixed(2)}{" "}
-        <span
-          className="volume-bar"
-          style={{
-            background: `linear-gradient(to right, #7bfeb2 ${fullBar}%, white ${emptyBar}%)`,
-          }}
-        ></span>
+        Lautstärke: {(volume * 100).toFixed(0)}%
+        <span className="volume-bar">
+          <span className="green" style={{ width: `${bar}px` }}></span>
+        </span>
       </p>
     </>
   );

@@ -3,20 +3,18 @@ import ReactPlayer from "react-player";
 import "./musicPlayer.css";
 import Settings from "./settings/Settings";
 
-const src =
-  "https://www.youtube.com/watch?v=C6PNc9KN50M&ab_channel=RewindMusic";
-
 const MusicPlayer = () => {
   const [playing, setIsPlaying] = useState(false);
-  const [volume, setVolume] = useState(0.05);
+  const [volume, setVolume] = useState(0.2);
   const [loop, setLoop] = useState(false);
   const [muted, setMuted] = useState(false);
   const [plackbackRate, setPlaybackRate] = useState(1);
+  const [src, setSrc] = useState([])
   return (
     <>
       <div className="player-container">
         <ReactPlayer
-          url={src}
+          url={src.src}
           controls
           playing={playing}
           volume={volume}
@@ -24,18 +22,26 @@ const MusicPlayer = () => {
           muted={muted}
           playbackRate={plackbackRate}
         />
+        <p>{src.name}</p>
       </div>
       <Settings
         playing={playing}
         setIsPlaying={setIsPlaying}
+
         volume={volume}
         setVolume={setVolume}
+
         loop={loop}
         setLoop={setLoop}
+
         muted={muted}
         setMuted={setMuted}
+
         plackbackRate={plackbackRate}
         setPlaybackRate={setPlaybackRate}
+
+        src={src}
+        setSrc={setSrc}
       />
     </>
   );

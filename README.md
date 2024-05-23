@@ -1,9 +1,16 @@
-# React + Vite
+Mp3 Player Ideen:
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+-Funktion um eigene Musik einzufügen.
+-Local Storage Bibliothek
+-Mp3 Player als Hintergrund
+-Einen Ladecomponente erstellen mit Verzögerung
+-Dem Nutzer sollte es möglich sein eine Playlist zu erstellen
+-Der Nutzer kann nach Name usw in einer Form sortieren (formobjectData)
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-# Media-Player
+
+
+
+
+
+Mp4 Player Ideen:
