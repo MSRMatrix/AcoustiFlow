@@ -1,12 +1,14 @@
-const Playing = ({playing, setIsPlaying}) => {
+const Playing = ({playing, setIsPlaying, src, setSrc}) => {
 
     const playFunction = () => {
-        setIsPlaying((prevMod) => !prevMod)
+        if(src.src){
+           setIsPlaying((prevMod) => !prevMod) 
+        }
     }
 
     return(
         <>
-        <button onClick={playFunction}>{playing ? "Stop" : "Play"}</button>
+        <button onClick={playFunction}>{playing && src.src ? "Stop" : "Play"}</button>
         </>
     )
 }

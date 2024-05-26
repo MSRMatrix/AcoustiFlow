@@ -1,0 +1,8 @@
+.default-table>tr>th{
+    width: 100px;
+}
+
+.default-table>tr>tb{
+    width: 100px;
+    height: max-content;
+}

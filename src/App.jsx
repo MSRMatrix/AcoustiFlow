@@ -3,6 +3,10 @@ import './App.css'
 import Start from './components/start/Start'
 import MusicPlayer from './components/music-player/MusicPlayer'
 import VideoPlayer from './components/video-player/VideoPlayer'
+import { useState } from 'react'
+import MusicContext from './components/music-player/MusicContext/MusicContext'
+
+
 
 const router = createBrowserRouter ([
   {
@@ -20,9 +24,13 @@ const router = createBrowserRouter ([
 ])
 
 function App() {
+  const [musicContext, setMusicContext] = useState([])
   return (
     <>
-    <RouterProvider router={router} />
+    <MusicContext.Provider value={{musicContext, setMusicContext}}>
+    <RouterProvider router={router} /> 
+    </MusicContext.Provider>
+    
     </>
   )
 }

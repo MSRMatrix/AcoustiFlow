@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import ReactPlayer from "react-player";
 import "./musicPlayer.css";
 import Settings from "./settings/Settings";
+import MusicContext from "./MusicContext/MusicContext";
 
 const MusicPlayer = () => {
   const [playing, setIsPlaying] = useState(false);
@@ -9,11 +10,17 @@ const MusicPlayer = () => {
   const [loop, setLoop] = useState(false);
   const [muted, setMuted] = useState(false);
   const [plackbackRate, setPlaybackRate] = useState(1);
-  const [src, setSrc] = useState([])
+  const [src, setSrc] = useState({
+    name: "",
+    band: "",
+    src: ""
+  })
+  const {musicContext, setMusicContext} = useContext(MusicContext)
+
   return (
     <>
       <div className="player-container">
-        <ReactPlayer
+       {src?.src ? <ReactPlayer
           url={src.src}
           controls
           playing={playing}
@@ -21,8 +28,8 @@ const MusicPlayer = () => {
           loop={loop}
           muted={muted}
           playbackRate={plackbackRate}
-        />
-        <p>{src.name}</p>
+        /> : <p>No music in use</p>}
+        <p>{src.band} by {src.name}</p>
       </div>
       <Settings
         playing={playing}

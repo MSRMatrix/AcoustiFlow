@@ -16,12 +16,19 @@ const Music = ({src, setSrc}) => {
     }
 
     const safeMusic = () => {
+        
         const storage = localStorage.getItem("your-music");
         const newData = src.name + ", " + src.band + ", " + src.src;
         
+        if(src.name === undefined || src.band === undefined || src.src === undefined){
+            alert("Diese Felder dürfen nicht leer sein!")
+            return
+        }
+
         if(storage !== null){
             if(storage.split(", ").includes(src.src)){
             alert("Dieses Lied existiert schon!")
+            setSrc([])
             return
           }
         }
@@ -31,6 +38,7 @@ const Music = ({src, setSrc}) => {
         } else {
             localStorage.setItem("your-music", newData);
         }
+        setSrc([])
     }
     
 
@@ -49,11 +57,11 @@ const Music = ({src, setSrc}) => {
         <input type="url" name="src" required placeholder="Put in your favorite music"/>
         <button type="submit">Abspielen</button>
         </form>
-        <div>
+        {src.src ? <div>
         <p>Möchten Sie dieses Lied speichern?</p>
         <button onClick={safeMusic}>Ja</button>
         <button onClick={deleteMusic}>Nein</button>
-        </div>
+        </div> : <></>}
 
         <Table src={src} setSrc={setSrc}/>
         </>

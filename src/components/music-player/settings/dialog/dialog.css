@@ -1,0 +1,9 @@
+.playlist-changer{
+    display: flex;
+    flex-direction: column;
+}
+
+.playlist-changer>button{
+    width: max-content;
+    height: max-content;
+}

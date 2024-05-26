@@ -26,7 +26,7 @@ const Settings = ({
 }) => {
   return (
     <>
-      <Playing playing={playing} setIsPlaying={setIsPlaying} />
+      <Playing playing={playing} setIsPlaying={setIsPlaying} src={src} setSrc={setSrc}/>
       <Loop loop={loop} setLoop={setLoop} />
       <Muted muted={muted} setMuted={setMuted} />
       <PlaybackRate plackbackRate={plackbackRate} setPlaybackRate={setPlaybackRate} />
