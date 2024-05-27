@@ -45,7 +45,15 @@ const Music = ({src, setSrc}) => {
     const deleteMusic = () => {
         setSrc([])
         console.log(`Dieses Lied wurde entfernt!`);
-        
+    }
+
+    const newPlaylist = (e) => {
+        e.preventDefault()
+        const newList = e.target.elements[0].value.trim()
+        if(newList){
+           localStorage.setItem(newList, "") 
+        }
+        e.target.reset()
     }
 
     return(
@@ -64,6 +72,11 @@ const Music = ({src, setSrc}) => {
         </div> : <></>}
 
         <Table src={src} setSrc={setSrc}/>
+        <form action="" onSubmit={newPlaylist}>
+            <input type="text" />
+        <button type="submit">Neue Playlist erstellen</button>    
+        </form>
+        
         </>
     )
 }

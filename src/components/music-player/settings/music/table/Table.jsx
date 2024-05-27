@@ -4,11 +4,32 @@ import { PlaylistChanger } from "../../dialog/Dialog";
 
 const Table = ({ src, setSrc }) => {
   const [storage, setStorage] = useState([]);
-  const [isOpen, setIsOpen] = useState(false)
-  const [takeMusic, setTakeMusic] = useState([])
-  const [allPlaylists, setAllPlaylists] = useState(Object.entries(localStorage).filter((item) => item[0] !== "your-music"))
-console.log(allPlaylists.map((item) => item[1].split(", ")));
+  const [isOpen, setIsOpen] = useState(false);
+  const [takeMusic, setTakeMusic] = useState([]);
+  const [allPlaylists, setAllPlaylists] = useState([]);
 
+  useEffect(() => {
+    displayStorage();
+    const playlists = Object.entries(localStorage)
+    .filter((item) => item[0] !== "your-music")
+    .map((item) => {
+      const songsArray = item[1].split(", ").reduce((acc, curr, index, array) => {
+        if (index % 3 === 0) {
+          const song = {
+            name: array[index],
+            band: array[index + 1],
+            src: array[index + 2],
+          };
+          acc.push(song);
+        }
+        return acc;
+      }, []);
+      console.log(songsArray);
+
+      return { playlist: item[0], songs: songsArray };
+    });
+  setAllPlaylists(playlists);
+  }, []);
 
   const displayStorage = () => {
     if (localStorage.getItem("your-music")) {
@@ -19,7 +40,7 @@ console.log(allPlaylists.map((item) => item[1].split(", ")));
         const name = storageData[i];
         const band = storageData[i + 1];
         const src = storageData[i + 2];
-        
+
         organizedData.push({ name, band, src });
       }
 
@@ -30,9 +51,7 @@ console.log(allPlaylists.map((item) => item[1].split(", ")));
   const handleDelete = (item) => {
     const storedData = localStorage.getItem("your-music");
     if (storedData) {
-
       const parsedData = storedData.split(", ");
-
       const updatedData = [];
       for (let i = 0; i < parsedData.length; i += 3) {
         if (parsedData[i] !== item.name || parsedData[i + 1] !== item.band || parsedData[i + 2] !== item.src) {
@@ -40,14 +59,9 @@ console.log(allPlaylists.map((item) => item[1].split(", ")));
         }
       }
       localStorage.setItem("your-music", updatedData.join(", "));
-
       displayStorage();
     }
   };
-
-  useEffect(() => {
-    displayStorage();
-  }, []);
 
   return (
     <>
@@ -62,7 +76,7 @@ console.log(allPlaylists.map((item) => item[1].split(", ")));
         <tbody>
           {storage.length > 0 ? (
             storage.map((item, index) => (
-              <tr key={index} onClick={() => setTakeMusic(item)}>
+              <tr key={index}>
                 <td>{item.name}</td>
                 <td>{item.band}</td>
                 <td>
@@ -78,8 +92,10 @@ console.log(allPlaylists.map((item) => item[1].split(", ")));
                     Abspielen
                   </button>
                   <button onClick={() => handleDelete(item)}>Löschen</button>
-                  <button onClick={() => setIsOpen((prevMode) => !prevMode)}>Verschieben</button>
-                  {isOpen ? <PlaylistChanger takeMusic={takeMusic} setIsOpen={setIsOpen} src={src} setSrc={setSrc}/> : <></>}
+                  <button onClick={() => {
+                    setTakeMusic(item);
+                    setIsOpen(true);
+                  }}>Verschieben</button>
                 </td>
               </tr>
             ))
@@ -90,23 +106,38 @@ console.log(allPlaylists.map((item) => item[1].split(", ")));
           )}
         </tbody>
       </table>
+      {isOpen && <PlaylistChanger takeMusic={takeMusic} setIsOpen={setIsOpen} src={src} setSrc={setSrc} />}
 
-    {/* {allPlaylists ?  (allPlaylists.map((item) => 
-      <>
-    <h2>{item[0]}</h2>
-    <table>
+       {allPlaylists ? allPlaylists.map((item) => (
+     <> <h2>{item.playlist}</h2>
+  <table>
         <thead>
-          <th>Song</th>
-          <th>Band</th>
-          <th>Actions</th>
+          <tr>
+            <th>Song</th>
+            <th>Band</th>
+            <th>Actions</th>
+          </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>{item[1].split()}</td>
-          </tr>
+          {item.songs.map((innerItem, key) => (
+          innerItem.name.length > 0 ? (<tr key={innerItem.src}>
+              <td>{innerItem.name}</td>
+              <td>{innerItem.band}</td>
+              <button
+                    onClick={() =>
+                      setSrc({
+                        src: innerItem.src,
+                        name: innerItem.name,
+                        band: innerItem.band,
+                      })
+                    }
+                  >
+                    Abspielen
+                  </button>
+          </tr>) : <tr key={key}>Keine Daten eingetragen</tr>
+        ))}
         </tbody>
-      </table>
-      </>) ): (<></>)} */}
+      </table> </>)) : <p>Sie haben noch keine Liste angelegt!</p>} 
     </>
   );
 };

@@ -29,7 +29,7 @@ const MusicPlayer = () => {
           muted={muted}
           playbackRate={plackbackRate}
         /> : <p>No music in use</p>}
-        <p>{src.band} by {src.name}</p>
+        <p>{src.band} ~ {src.name}</p>
       </div>
       <Settings
         playing={playing}
