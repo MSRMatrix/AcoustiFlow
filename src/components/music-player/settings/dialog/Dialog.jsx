@@ -14,27 +14,30 @@ const PlaylistChanger = ({ setIsOpen, src, setSrc, takeMusic }) => {
   const addToNewPlaylist = (playlist) => {
     const random = Object.values(takeMusic);
    const list = Object.entries(localStorage).filter((item) => item[0] === playlist);
-   console.log(list[0][1].split(", "));
-   
     
+   if(list[0][1].split(", ").includes(random[2])){
+    alert("Lied existiert schon in dieser Playlist")
+    return
+   }
+   
     if(list[0][1].split(", ").length >= 3){
        const newData =
       localStorage.getItem(playlist) +
       ", " +
-      random[0] +
+      random[0].trim() +
       ", " +
-      random[1] +
+      random[1].trim() +
       ", " +
-      random[2];
+      random[2].trim();
     return localStorage.setItem(playlist, newData); 
     }
     const newData =
       localStorage.getItem(playlist) +
-      random[0] +
+      random[0].trim() +
       ", " +
-      random[1] +
+      random[1].trim() +
       ", " +
-      random[2];
+      random[2].trim();
 
      return localStorage.setItem(playlist, newData); 
   };

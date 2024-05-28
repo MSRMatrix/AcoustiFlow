@@ -7,6 +7,7 @@ const Table = ({ src, setSrc }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [takeMusic, setTakeMusic] = useState([]);
   const [allPlaylists, setAllPlaylists] = useState([]);
+  const [list, setlist] = useState([])
 
   useEffect(() => {
     displayStorage();
@@ -24,8 +25,6 @@ const Table = ({ src, setSrc }) => {
         }
         return acc;
       }, []);
-      console.log(songsArray);
-
       return { playlist: item[0], songs: songsArray };
     });
   setAllPlaylists(playlists);
@@ -35,7 +34,6 @@ const Table = ({ src, setSrc }) => {
     if (localStorage.getItem("your-music")) {
       const storageData = localStorage.getItem("your-music").split(", ");
       const organizedData = [];
-
       for (let i = 0; i < storageData.length; i += 3) {
         const name = storageData[i];
         const band = storageData[i + 1];
@@ -43,7 +41,6 @@ const Table = ({ src, setSrc }) => {
 
         organizedData.push({ name, band, src });
       }
-
       setStorage(organizedData);
     }
   };
@@ -62,6 +59,14 @@ const Table = ({ src, setSrc }) => {
       displayStorage();
     }
   };
+
+  const listFunction = (list) => {
+    setSrc({src: list.songs.map((item) => item.src.split(","))})
+    console.log(src.src.length);
+    
+  }
+
+  
 
   return (
     <>
@@ -110,6 +115,7 @@ const Table = ({ src, setSrc }) => {
 
        {allPlaylists ? allPlaylists.map((item) => (
      <> <h2>{item.playlist}</h2>
+     <button onClick={() =>listFunction(item)}>Ganze Liste abspielen</button>
   <table>
         <thead>
           <tr>

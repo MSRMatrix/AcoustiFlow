@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import "./volume.css";
 
-const Volume = ({ volume, setVolume }) => {
+const Volume = ({ volume, setVolume, muted }) => {
   const [bar, setBar] = useState(20);
   const intervalRef = useRef(null);
 
@@ -11,12 +11,12 @@ const Volume = ({ volume, setVolume }) => {
     } else {
       intervalRef.current = setInterval(() => {
         setBar(prevBar => {
-          const newBar = prevBar + 5;
+          const newBar = prevBar + 1;
           return newBar > 100 ? 100 : newBar;
         });
 
         setVolume(prevVolume => {
-          const newVolume = prevVolume + 0.05;
+          const newVolume = prevVolume + 0.01;
           return newVolume > 1 ? 1 : newVolume;
         });
       }, 50);
@@ -29,12 +29,12 @@ const Volume = ({ volume, setVolume }) => {
     } else {
       intervalRef.current = setInterval(() => {
         setBar(prevBar => {
-          const newBar = prevBar - 5;
+          const newBar = prevBar - 1;
           return newBar < 0 ? 0 : newBar;
         });
 
         setVolume(prevVolume => {
-          const newVolume = prevVolume - 0.05;
+          const newVolume = prevVolume - 0.01;
           return newVolume < 0 ? 0 : newVolume;
         });
       }, 50);
@@ -64,7 +64,7 @@ const Volume = ({ volume, setVolume }) => {
         lauter
       </button>
       <p>
-        Lautstärke: {(volume * 100).toFixed(0)}%
+        Lautstärke: {!muted ? (volume * 100).toFixed(0) : 0}%
         <span className="volume-bar">
           <span className="green" style={{ width: `${bar}px` }}></span>
         </span>

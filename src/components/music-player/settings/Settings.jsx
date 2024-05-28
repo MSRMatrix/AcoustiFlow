@@ -3,14 +3,15 @@ import Music from "./music/Music";
 import Muted from "./muted/Muted";
 import PlaybackRate from "./playbackRate/PlaybackRate";
 import Playing from "./playing/Playing";
+import ProgressBar from "./progress/ProgressBar";
 import Volume from "./volume/Volume";
 
 const Settings = ({
   playing,
   setIsPlaying,
 
-  setVolume,
   volume,
+  setVolume, 
 
   loop,
   setLoop,
@@ -30,7 +31,8 @@ const Settings = ({
       <Loop loop={loop} setLoop={setLoop} />
       <Muted muted={muted} setMuted={setMuted} />
       <PlaybackRate plackbackRate={plackbackRate} setPlaybackRate={setPlaybackRate} />
-      <Volume volume={volume} setVolume={setVolume} />
+      <Volume muted={muted} volume={volume} setVolume={setVolume} />
+      <ProgressBar />
       <Music src={src} setSrc={setSrc} />
     </>
   );

@@ -11,5 +11,5 @@
     height: 15px;
     background-color: rgb(45, 206, 45);
     border-radius: 5px;
-    transition: 0.1s ease-in-out;
+    transition: 0.01s ease-in-out;
 }

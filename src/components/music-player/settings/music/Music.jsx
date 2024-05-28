@@ -16,30 +16,29 @@ const Music = ({src, setSrc}) => {
     }
 
     const safeMusic = () => {
-        
         const storage = localStorage.getItem("your-music");
-        const newData = src.name + ", " + src.band + ", " + src.src;
-        
-        if(src.name === undefined || src.band === undefined || src.src === undefined){
-            alert("Diese Felder dürfen nicht leer sein!")
-            return
-        }
+        const newData = `${src.name}, ${src.band}, ${src.src}`;
 
-        if(storage !== null){
-            if(storage.split(", ").includes(src.src)){
-            alert("Dieses Lied existiert schon!")
-            setSrc([])
-            return
-          }
+        if (!src.name || !src.band || !src.src) {
+            alert("Diese Felder dürfen nicht leer sein!");
+            return;
         }
         if (storage) {
-            const updatedData = [...storage.split(','), newData];
-            localStorage.setItem("your-music", updatedData.join(', '));
+            const existingData = storage.split(", ").map(item => item.trim());
+            if (existingData.includes(src.src)) {
+                alert("Dieses Lied existiert schon!");
+                setSrc([]);
+                return;
+            }
+            const updatedData = `${storage}, ${newData.trim()}`;
+            localStorage.setItem("your-music", updatedData);
         } else {
             localStorage.setItem("your-music", newData);
         }
-        setSrc([])
-    }
+    
+        setSrc([]);
+    };
+    
     
 
     const deleteMusic = () => {
@@ -71,7 +70,7 @@ const Music = ({src, setSrc}) => {
         <button onClick={deleteMusic}>Nein</button>
         </div> : <></>}
 
-        <Table src={src} setSrc={setSrc}/>
+        <Table src={src} setSrc={setSrc} />
         <form action="" onSubmit={newPlaylist}>
             <input type="text" />
         <button type="submit">Neue Playlist erstellen</button>    

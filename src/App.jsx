@@ -5,7 +5,7 @@ import MusicPlayer from './components/music-player/MusicPlayer'
 import VideoPlayer from './components/video-player/VideoPlayer'
 import { useState } from 'react'
 import MusicContext from './components/music-player/MusicContext/MusicContext'
-
+import Data from "./components/music-player/data/Data"
 
 
 const router = createBrowserRouter ([
@@ -20,6 +20,10 @@ const router = createBrowserRouter ([
   {
     path: "/video-player",
     element: <VideoPlayer />
+  },
+  {
+    path: "/import-export",
+    element: <Data />
   }
 ])
 
