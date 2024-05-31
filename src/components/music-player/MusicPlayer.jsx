@@ -21,12 +21,16 @@ const MusicPlayer = () => {
 
   const handleNextSong = () => {
     setCurrentSongIndex((prevIndex) => (prevIndex + 1) % src.src.length);
+    console.log(src);
+    
   };
 
   const handlePreviousSong = () => {
     setCurrentSongIndex((prevIndex) =>
       prevIndex === 0 ? src.src.length - 1 : prevIndex - 1
     );
+    console.log(src);
+    
   };
 
   const getCurrentUrl = () => {

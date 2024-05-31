@@ -62,11 +62,36 @@ const Table = ({ src, setSrc }) => {
 
   const listFunction = (list) => {
     setSrc({src: list.songs.map((item) => item.src.split(","))})
-    console.log(src.src.length);
-    
   }
 
+  const deletePlaylist = (playlist) => {
+    const list = playlist
+    console.log(list);
+    if(confirm(`Do you want to delete ${list}?`)){
+      localStorage.removeItem(list)
+      alert(`${list} was sucessfully deleted`)
+    } else{
+      alert(`You stopped the delete of ${list}`)
+    }
+  }
   
+  const randomSequence = (list) => {
+    const arrayList = list.songs.map((item) => item.src);
+    console.log("Original arrayList:", arrayList);
+    
+    const shuffleArray = (array) => {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    };
+    
+    const randomSequence = shuffleArray(arrayList);
+    const finalArray = randomSequence.map((item) => [item])
+    setSrc({src: finalArray})
+  }
+
 
   return (
     <>
@@ -115,7 +140,9 @@ const Table = ({ src, setSrc }) => {
 
        {allPlaylists ? allPlaylists.map((item) => (
      <> <h2>{item.playlist}</h2>
-     <button onClick={() =>listFunction(item)}>Ganze Liste abspielen</button>
+     <button onClick={() => deletePlaylist(item.playlist)}>Delete List</button>
+     <button onClick={() =>listFunction(item)}>Play the list</button>
+     <button onClick={() => randomSequence(item)}>Random Sequence</button>
   <table>
         <thead>
           <tr>

@@ -5,11 +5,11 @@ const Music = ({src, setSrc}) => {
     const takeUrl = (e) => {
         e.preventDefault();
         
-        const newSrc ={
-            name: e.target.elements.name.value,
+        const newSrc =[
+            {name: e.target.elements.name.value,
             band: e.target.elements.band.value,
-            src: e.target.elements.src.value,
-         }
+            src: e.target.elements.src.value,}
+         ]
 
          setSrc(newSrc)
          e.target.reset()
