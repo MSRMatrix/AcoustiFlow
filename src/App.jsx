@@ -4,8 +4,9 @@ import Start from './components/start/Start'
 import MusicPlayer from './components/music-player/MusicPlayer'
 import VideoPlayer from './components/video-player/VideoPlayer'
 import { useState } from 'react'
-import MusicContext from './components/music-player/MusicContext/MusicContext'
 import Data from "./components/music-player/data/Data"
+import DisplayTable from './components/music-player/MusicContext/DisplayTable'
+import Storage from './components/music-player/MusicContext/Storage'
 
 
 const router = createBrowserRouter ([
@@ -28,13 +29,15 @@ const router = createBrowserRouter ([
 ])
 
 function App() {
-  const [musicContext, setMusicContext] = useState([])
+  const [displayTable, setDisplayTable] = useState([])
+  const [storage, setStorage] = useState([])
   return (
     <>
-    <MusicContext.Provider value={{musicContext, setMusicContext}}>
+    <Storage.Provider value={{storage, setStorage}}>
+    <DisplayTable.Provider value={{displayTable, setDisplayTable}}>
     <RouterProvider router={router} /> 
-    </MusicContext.Provider>
-    
+    </DisplayTable.Provider>
+    </Storage.Provider>
     </>
   )
 }

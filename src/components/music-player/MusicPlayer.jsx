@@ -2,11 +2,11 @@ import React, { useContext, useState } from "react";
 import ReactPlayer from "react-player";
 import "./musicPlayer.css";
 import Settings from "./settings/Settings";
-import MusicContext from "./MusicContext/MusicContext";
 import { NavLink } from "react-router-dom";
+import DisplayTable from "./MusicContext/DisplayTable";
 
 const MusicPlayer = () => {
-  const { musicContext, setMusicContext } = useContext(MusicContext);
+  const { musicContext, setMusicContext } = useContext(DisplayTable);
   const [playing, setIsPlaying] = useState(true);
   const [volume, setVolume] = useState(0.2);
   const [loop, setLoop] = useState(false);
@@ -21,16 +21,12 @@ const MusicPlayer = () => {
 
   const handleNextSong = () => {
     setCurrentSongIndex((prevIndex) => (prevIndex + 1) % src.src.length);
-    console.log(src);
-    
   };
 
   const handlePreviousSong = () => {
     setCurrentSongIndex((prevIndex) =>
       prevIndex === 0 ? src.src.length - 1 : prevIndex - 1
     );
-    console.log(src);
-    
   };
 
   const getCurrentUrl = () => {
