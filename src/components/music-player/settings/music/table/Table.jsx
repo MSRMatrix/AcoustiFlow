@@ -23,18 +23,17 @@ const Table = ({ src, setSrc }) => {
     if (storedData) {
       const parsedData = storedData.split(", ");
       const updatedData = [];
-      for (let i = 0; i < parsedData.length; i += 3) {
-        if(parsedData.length <= 3){
+      for (let i = 0; i < parsedData.length; i += 2) {
+        if(parsedData.length <= 2){
          localStorage.setItem("your-music", "")
          setStorage([])
          return
         }
         if (
           parsedData[i] !== item.name ||
-          parsedData[i + 1] !== item.band ||
-          parsedData[i + 2] !== item.src
+          parsedData[i + 1] !== item.src
         ) {
-          updatedData.push(parsedData[i], parsedData[i + 1], parsedData[i + 2]);
+          updatedData.push(parsedData[i],  parsedData[i + 1]);
         }
         
       }
@@ -72,13 +71,20 @@ const Table = ({ src, setSrc }) => {
     setSrc({ src: finalArray });
   };
 
+  const playMusic = (music) => {
+    setSrc({
+      name: music.name,
+      src: music.src
+    })
+    
+  }
+
   return (
     <>
       <table className="default-table">
         <thead>
           <tr>
             <th>Song</th>
-            <th>Band</th>
             <th>Aktionen</th>
           </tr>
         </thead>
@@ -87,15 +93,9 @@ const Table = ({ src, setSrc }) => {
             storage.map((item, index) => (
               <tr key={index}>
                 <td>{item.name}</td>
-                <td>{item.band}</td>
                 <td>
                   <button
-                    onClick={() =>
-                      setSrc({
-                        src: item.src,
-                        name: item.name,
-                        band: item.band,
-                      })
+                    onClick={() => playMusic(item)
                     }
                   >
                     Abspielen
@@ -146,7 +146,6 @@ const Table = ({ src, setSrc }) => {
               <thead>
                 <tr>
                   <th>Song</th>
-                  <th>Band</th>
                   <th>Aktionen</th>
                 </tr>
               </thead>
@@ -155,14 +154,12 @@ const Table = ({ src, setSrc }) => {
                   innerItem.name.length > 0 ? (
                     <tr key={innerItem.src}>
                       <td>{innerItem.name}</td>
-                      <td>{innerItem.band}</td>
                       <td>
                         <button
                           onClick={() =>
                             setSrc({
                               src: innerItem.src,
                               name: innerItem.name,
-                              band: innerItem.band,
                             })
                           }
                         >

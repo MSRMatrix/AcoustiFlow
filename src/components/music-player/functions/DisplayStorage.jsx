@@ -2,12 +2,11 @@ export const displayStorage = (setStorage) => {
     if (localStorage.getItem("your-music")) {
       const storageData = localStorage.getItem("your-music").split(", ");
       const organizedData = [];
-      for (let i = 0; i < storageData.length; i += 3) {
+      for (let i = 0; i < storageData.length; i += 2) {
         const name = storageData[i];
-        const band = storageData[i + 1];
-        const src = storageData[i + 2];
+        const src = storageData[i + 1];
 
-        organizedData.push({ name, band, src });
+        organizedData.push({ name, src });
       }
       setStorage(organizedData);
     }

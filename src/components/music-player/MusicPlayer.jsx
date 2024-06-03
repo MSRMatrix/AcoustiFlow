@@ -53,7 +53,7 @@ const MusicPlayer = () => {
             onEnded={handleNextSong}
             progressInterval={1000} 
           />
-        <p>{src.band} ~ {src.name}</p>
+        <p>{src.name}</p>
         <button onClick={handleNextSong}>Weiter</button>
           <button onClick={handlePreviousSong}>Zurück</button>
       </div>

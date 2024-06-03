@@ -3,11 +3,10 @@ export const newestList = (setAllPlaylists) => {
         .filter((item) => item[0] !== "your-music")
         .map((item) => {
             const songsArray = item[1].split(", ").reduce((acc, curr, index, array) => {
-                if (index % 3 === 0) {
+                if (index % 2 === 0) {
                     const song = {
                         name: array[index],
-                        band: array[index + 1],
-                        src: array[index + 2],
+                        src: array[index + 1],
                     };
                     acc.push(song);
                 }

@@ -1,6 +1,5 @@
 Mp3 Player Ideen:
 
--Funktion um eigene Musik einzufügen.
 -Mp3 Player als Hintergrund
 -Eine Ladecomponente erstellen mit Verzögerung
 -Der Nutzer kann nach Name usw in einer Form sortieren (formobjectData)
