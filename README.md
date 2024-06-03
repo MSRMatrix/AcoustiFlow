@@ -11,4 +11,5 @@ Mp3 Player Ideen:
 -Wenn der Button "Abspielen" geklickt wird, muss die Playlist ab diesen Song beginnen
 -Die Reihenfolge der Lieder in der sie eingeordnet sind im Table müssen sich wechseln lassen
 -Song und Band müssen in den Playlists mitangegeben werden
+
 Mp4 Player Ideen:

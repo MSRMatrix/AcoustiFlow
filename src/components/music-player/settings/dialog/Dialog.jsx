@@ -1,12 +1,16 @@
+import { useContext, useEffect } from "react";
 import "./dialog.css";
+import { newestList } from "../../functions/NewestList";
+import DisplayTable from "../../MusicContext/DisplayTable";
 
 const PlaylistChanger = ({ setIsOpen, src, setSrc, takeMusic }) => {
-  const storage = Object.entries(localStorage);
+  const {displayTable, setDisplayTable} = useContext(DisplayTable)
+  const newStorage = Object.entries(localStorage);
   let allLists;
   let defaultList;
 
-  if (storage) {
-    const newList = storage.map((item) => item[0]);
+  if (newStorage) {
+    const newList = newStorage.map((item) => item[0]);
     allLists = newList.filter((item) => item !== "your-music");
     defaultList = newList.filter((item) => item === "your-music");
   }
@@ -29,7 +33,9 @@ const PlaylistChanger = ({ setIsOpen, src, setSrc, takeMusic }) => {
       random[1].trim() +
       ", " +
       random[2].trim();
-    return localStorage.setItem(playlist, newData); 
+
+     localStorage.setItem(playlist, newData); 
+    return newestList(setDisplayTable)
     }
     const newData =
       localStorage.getItem(playlist) +
@@ -39,8 +45,13 @@ const PlaylistChanger = ({ setIsOpen, src, setSrc, takeMusic }) => {
       ", " +
       random[2].trim();
 
-     return localStorage.setItem(playlist, newData); 
+      localStorage.setItem(playlist, newData); 
+   return newestList(setDisplayTable)
   };
+
+  useEffect(() =>{
+    newestList(setDisplayTable)
+  },[])
 
   return (
     <dialog open>
