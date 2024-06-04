@@ -12,10 +12,7 @@ const Table = ({ src, setSrc }) => {
   const {displayTable, setDisplayTable} = useContext(DisplayTable)
   const {storage, setStorage} = useContext(Storage)
 
-  useEffect(() => {
-    displayStorage(setStorage);
-    newestList(setDisplayTable);
-  }, []);
+  
 
   const handleDelete = (item) => {
     const storedData = localStorage.getItem("your-music");
@@ -78,7 +75,11 @@ const Table = ({ src, setSrc }) => {
     })
     
   }
-
+  
+useEffect(() => {
+    displayStorage(setStorage);
+    newestList(setDisplayTable);
+  }, []);
   return (
     <>
       <table className="default-table">

@@ -11,19 +11,23 @@ const Music = ({ src, setSrc }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    
+    
     const newSrc = {
       src: e.target.elements.src.value,
     };
     setSrc(newSrc);
     setTimeout(() => { 
         const title = document.querySelector("iframe").title.split(",").join("")
-        const newSrc = {
+        const newTitle = {
             name: title,
-            src: e.target.elements.src.value,
+            src: newSrc.src,
           };
-          setSrc(newSrc);
+          setSrc(newTitle);
+          console.log(src.src);
+          
     }, 1000);
-    // e.target.reset()
+    e.target.reset()
   };
 
   const handleSaveMusic = () => {
