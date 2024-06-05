@@ -39,6 +39,16 @@ const MusicPlayer = () => {
     return src.src;
   };
 
+  const getCurrentName = () => {
+    if (src.name === undefined || src.name.length === 0) {
+      return "";
+    }
+    if (Array.isArray(src.name[0])) {
+      return src.name[currentSongIndex][0];
+    }
+    return src.name;
+  };
+
   return (
     <>
       <div className="player-container">
@@ -53,7 +63,7 @@ const MusicPlayer = () => {
             onEnded={handleNextSong}
             progressInterval={1000} 
           />
-        <p>{src.name}</p>
+        <p>{getCurrentName()}</p>
         <button onClick={handleNextSong}>Weiter</button>
           <button onClick={handlePreviousSong}>Zurück</button>
       </div>

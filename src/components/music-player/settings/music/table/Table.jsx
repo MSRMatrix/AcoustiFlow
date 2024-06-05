@@ -40,7 +40,9 @@ const Table = ({ src, setSrc }) => {
   };
 
   const listFunction = (list) => {
-    setSrc({ src: list.songs.map((item) => item.src.split(",")) });
+    console.log(list);
+    
+    setSrc({ name: list.songs.map((item) => item.name.split(",")) , src: list.songs.map((item) => item.src.split(",")) });
   };
 
   const deletePlaylist = (playlist) => {
@@ -54,7 +56,10 @@ const Table = ({ src, setSrc }) => {
   };
 
   const randomSequence = (list) => {
-    const arrayList = list.songs.map((item) => item.src);
+    // Create an array of objects containing both 'name' and 'src'
+    const arrayList = list.songs.map((item) => ({ name: item.name, src: item.src }));
+  
+    // Shuffle the array using the Fisher-Yates algorithm
     const shuffleArray = (array) => {
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -62,19 +67,39 @@ const Table = ({ src, setSrc }) => {
       }
       return array;
     };
-
-    const randomSequence = shuffleArray(arrayList);
-    const finalArray = randomSequence.map((item) => [item]);
-    setSrc({ src: finalArray });
+  
+    const shuffledArray = shuffleArray(arrayList);
+    const name = shuffledArray.map((item) => item.name.split(","))
+    const srcUrls = shuffledArray.map((item) => item.src.split(","))
+    setSrc({
+     name: name,
+     src: srcUrls
+    });
   };
 
-  const playMusic = (music) => {
+  const playMusic = (music, list) => {
+    if (list) {
+      const playlistName = list.playlist;
+      const songs = list.songs;
+      const musicIndex = songs.findIndex((item) => item === music);
+      if (musicIndex === -1) {
+        console.error("Selected music not found in the list");
+        return;
+      }
+      const arrayList = songs.slice(musicIndex).concat(songs.slice(0, musicIndex));
+      const updatedList = {
+        playlist: playlistName,
+        songs: arrayList,
+      };
+     return  setSrc({ name:updatedList.songs.map((item) => item.name.split(",")), src: updatedList.songs.map((item) => item.src.split(",")) });
+    }
+  
     setSrc({
       name: music.name,
-      src: music.src
-    })
-    
-  }
+      src: music.src,
+    });
+  };
+  
   
 useEffect(() => {
     displayStorage(setStorage);
@@ -93,14 +118,8 @@ useEffect(() => {
           {storage.length > 0 ? (
             storage.map((item, index) => (
               <tr key={index}>
-                <td>{item.name}</td>
+                <td onClick={() => playMusic(item)}>{item.name}</td>
                 <td>
-                  <button
-                    onClick={() => playMusic(item)
-                    }
-                  >
-                    Abspielen
-                  </button>
                   <button onClick={() => handleDelete(item)}>Löschen</button>
                   <button
                     onClick={() => {
@@ -154,18 +173,9 @@ useEffect(() => {
                 {item.songs.map((innerItem, key) =>
                   innerItem.name.length > 0 ? (
                     <tr key={innerItem.src}>
-                      <td>{innerItem.name}</td>
+                      <td onClick={() => playMusic(innerItem, item)
+                          }>{innerItem.name}</td>
                       <td>
-                        <button
-                          onClick={() =>
-                            setSrc({
-                              src: innerItem.src,
-                              name: innerItem.name,
-                            })
-                          }
-                        >
-                          Abspielen
-                        </button>
                       </td>
                     </tr>
                   ) : (
