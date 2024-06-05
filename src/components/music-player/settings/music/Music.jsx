@@ -19,15 +19,6 @@ const Music = ({ src, setSrc }) => {
     setSrc(newSrc);
     setTimeout(() => { 
         const title = document.querySelector("iframe").title.split(",").join("")
-        if(title === "Youtube video player"){
-          setTimeout(() => {
-            const newTitle = {
-              name: title,
-              src: newSrc.src,
-            };
-           return setSrc(newTitle);
-          }, 2000);
-        }
         const newTitle = {
             name: title,
             src: newSrc.src,
@@ -35,7 +26,7 @@ const Music = ({ src, setSrc }) => {
           setSrc(newTitle);
           console.log(src.src);
           
-    }, 1000);
+    }, 2000);
     e.target.reset()
   };
 
