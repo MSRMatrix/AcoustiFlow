@@ -56,10 +56,8 @@ const Table = ({ src, setSrc }) => {
   };
 
   const randomSequence = (list) => {
-    // Create an array of objects containing both 'name' and 'src'
     const arrayList = list.songs.map((item) => ({ name: item.name, src: item.src }));
   
-    // Shuffle the array using the Fisher-Yates algorithm
     const shuffleArray = (array) => {
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
