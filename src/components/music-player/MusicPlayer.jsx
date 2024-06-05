@@ -20,52 +20,53 @@ const MusicPlayer = () => {
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
 
   const handleNextSong = () => {
-    setCurrentSongIndex((prevIndex) => (prevIndex + 1) % src.src.length);
+    setCurrentSongIndex((prevIndex) => (prevIndex + 1) % (src.src.length || 1));
   };
 
   const handlePreviousSong = () => {
     setCurrentSongIndex((prevIndex) =>
-      prevIndex === 0 ? src.src.length - 1 : prevIndex - 1
+      prevIndex === 0 ? (src.src.length || 1) - 1 : prevIndex - 1
     );
   };
 
   const getCurrentUrl = () => {
-    if (src.src === undefined || src.src.length === 0) {
+    if (!src.src || src.src.length === 0) {
       return "";
     }
     if (Array.isArray(src.src[0])) {
-      return src.src[currentSongIndex][0];
+      return src.src[currentSongIndex] ? src.src[currentSongIndex][0] : "";
     }
     return src.src;
   };
 
   const getCurrentName = () => {
-    if (src.name === undefined || src.name.length === 0) {
+    if (!src.name || src.name.length === 0) {
       return "";
     }
     if (Array.isArray(src.name[0])) {
-      return src.name[currentSongIndex][0];
+      return src.name[currentSongIndex] ? src.name[currentSongIndex][0] : "";
     }
     return src.name;
   };
 
   return (
     <>
+      {src.playlist ? <p>The Playlist: {src.playlist}</p> : <></>}
       <div className="player-container">
-          <ReactPlayer
-            url={getCurrentUrl()}
-            controls
-            playing={playing}
-            volume={volume}
-            loop={loop}
-            muted={muted}
-            playbackRate={playbackRate}
-            onEnded={handleNextSong}
-            progressInterval={1000} 
-          />
+        <ReactPlayer
+          url={getCurrentUrl()}
+          controls
+          playing={playing}
+          volume={volume}
+          loop={loop}
+          muted={muted}
+          playbackRate={playbackRate}
+          onEnded={handleNextSong}
+          progressInterval={1000} 
+        />
         <p>{getCurrentName()}</p>
         <button onClick={handleNextSong}>Weiter</button>
-          <button onClick={handlePreviousSong}>Zurück</button>
+        <button onClick={handlePreviousSong}>Zurück</button>
       </div>
       <Settings
         playing={playing}

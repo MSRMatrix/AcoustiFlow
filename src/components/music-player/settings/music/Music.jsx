@@ -72,12 +72,20 @@ const Music = ({ src, setSrc }) => {
   const handleNewPlaylist = (e) => {
     e.preventDefault();
     const newList = e.target.elements[0].value.trim();
-    if (newList) {
-      localStorage.setItem(newList, "");
-      newestList(setDisplayTable);
+    const list = Object.entries(localStorage).map((item) => item[0])
+    const checkIfThere = list.filter((item) => item === newList);
+
+    if(checkIfThere.length >= 1){
+      alert("List already exists")
+      e.target.reset();
+      return
     }
-    e.target.reset();
-    alert("Neue Playlist erstellt!");
+     if (newList) {
+       localStorage.setItem(newList, "");
+       newestList(setDisplayTable);
+     }
+     e.target.reset();
+     alert("Neue Playlist erstellt!");
   };
 
   useEffect(() => {

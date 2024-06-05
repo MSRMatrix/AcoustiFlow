@@ -9,40 +9,38 @@ import Storage from "../../../MusicContext/Storage";
 const Table = ({ src, setSrc }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [takeMusic, setTakeMusic] = useState([]);
-  const {displayTable, setDisplayTable} = useContext(DisplayTable)
-  const {storage, setStorage} = useContext(Storage)
+  const { displayTable, setDisplayTable } = useContext(DisplayTable);
+  const { storage, setStorage } = useContext(Storage);
 
-  
-
-  const handleDelete = (item) => {
-    const storedData = localStorage.getItem("your-music");
-    
+  const handleDelete = (item, playlist) => {
+    const storedData = localStorage.getItem(playlist);
     if (storedData) {
       const parsedData = storedData.split(", ");
       const updatedData = [];
       for (let i = 0; i < parsedData.length; i += 2) {
-        if(parsedData.length <= 2){
-         localStorage.setItem("your-music", "")
-         setStorage([])
-         return
+        if (parsedData.length <= 2) {
+          localStorage.setItem(playlist, "");
+          setStorage([]);
+          displayStorage(setStorage);
+          newestList(setDisplayTable);
+          return;
         }
-        if (
-          parsedData[i] !== item.name ||
-          parsedData[i + 1] !== item.src
-        ) {
-          updatedData.push(parsedData[i],  parsedData[i + 1]);
+        if (parsedData[i] !== item.name || parsedData[i + 1] !== item.src) {
+          updatedData.push(parsedData[i], parsedData[i + 1]);
         }
-        
       }
-      localStorage.setItem("your-music", updatedData.join(", "));
+      localStorage.setItem(playlist, updatedData.join(", "));
       displayStorage(setStorage);
+      newestList(setDisplayTable);
     }
   };
 
   const listFunction = (list) => {
-    console.log(list);
-    
-    setSrc({ name: list.songs.map((item) => item.name.split(",")) , src: list.songs.map((item) => item.src.split(",")) });
+    setSrc({
+      playlist: list.playlist,
+      name: list.songs.map((item) => item.name.split(",")),
+      src: list.songs.map((item) => item.src.split(",")),
+    });
   };
 
   const deletePlaylist = (playlist) => {
@@ -56,8 +54,11 @@ const Table = ({ src, setSrc }) => {
   };
 
   const randomSequence = (list) => {
-    const arrayList = list.songs.map((item) => ({ name: item.name, src: item.src }));
-  
+    const arrayList = list.songs.map((item) => ({
+      name: item.name,
+      src: item.src,
+    }));
+
     const shuffleArray = (array) => {
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -65,17 +66,20 @@ const Table = ({ src, setSrc }) => {
       }
       return array;
     };
-  
+
     const shuffledArray = shuffleArray(arrayList);
-    const name = shuffledArray.map((item) => item.name.split(","))
-    const srcUrls = shuffledArray.map((item) => item.src.split(","))
+    const name = shuffledArray.map((item) => item.name.split(","));
+    const srcUrls = shuffledArray.map((item) => item.src.split(","));
     setSrc({
-     name: name,
-     src: srcUrls
+      playlist: list.playlist,
+      name: name,
+      src: srcUrls,
     });
   };
 
   const playMusic = (music, list) => {
+    console.log(music);
+    setSrc([])
     if (list) {
       const playlistName = list.playlist;
       const songs = list.songs;
@@ -84,22 +88,43 @@ const Table = ({ src, setSrc }) => {
         console.error("Selected music not found in the list");
         return;
       }
-      const arrayList = songs.slice(musicIndex).concat(songs.slice(0, musicIndex));
+      const arrayList = songs
+        .slice(musicIndex)
+        .concat(songs.slice(0, musicIndex));
       const updatedList = {
         playlist: playlistName,
         songs: arrayList,
       };
-     return  setSrc({ name:updatedList.songs.map((item) => item.name.split(",")), src: updatedList.songs.map((item) => item.src.split(",")) });
+      return setSrc({
+        playlist: list.playlist,
+        name: updatedList.songs.map((item) => item.name.split(",")),
+        src: updatedList.songs.map((item) => item.src.split(",")),
+      });
+    } else {
+      
+      const playlistName = "your-music";
+      const songs = storage;
+      const musicIndex = songs.findIndex((item) => item === music);
+      if (musicIndex === -1) {
+        console.error("Selected music not found in the list");
+        return;
+      }
+      const arrayList = songs
+        .slice(musicIndex)
+        .concat(songs.slice(0, musicIndex));
+      const updatedList = {
+        playlist: playlistName,
+        songs: arrayList,
+      };
+      return setSrc({
+        playlist: playlistName,
+        name: updatedList.songs.map((item) => item.name.split(",")),
+        src: updatedList.songs.map((item) => item.src.split(",")),
+      });
     }
-  
-    setSrc({
-      name: music.name,
-      src: music.src,
-    });
   };
-  
-  
-useEffect(() => {
+
+  useEffect(() => {
     displayStorage(setStorage);
     newestList(setDisplayTable);
   }, []);
@@ -118,7 +143,9 @@ useEffect(() => {
               <tr key={index}>
                 <td onClick={() => playMusic(item)}>{item.name}</td>
                 <td>
-                  <button onClick={() => handleDelete(item)}>Löschen</button>
+                  <button onClick={() => handleDelete(item, item.playlist)}>
+                    Löschen
+                  </button>
                   <button
                     onClick={() => {
                       setTakeMusic(item);
@@ -171,9 +198,15 @@ useEffect(() => {
                 {item.songs.map((innerItem, key) =>
                   innerItem.name.length > 0 ? (
                     <tr key={innerItem.src}>
-                      <td onClick={() => playMusic(innerItem, item)
-                          }>{innerItem.name}</td>
+                      <td onClick={() => playMusic(innerItem, item)}>
+                        {innerItem.name}
+                      </td>
                       <td>
+                        <button
+                          onClick={() => handleDelete(innerItem, item.playlist)}
+                        >
+                          Delete
+                        </button>
                       </td>
                     </tr>
                   ) : (
