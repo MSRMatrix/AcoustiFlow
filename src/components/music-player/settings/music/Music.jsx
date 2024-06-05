@@ -19,14 +19,25 @@ const Music = ({ src, setSrc }) => {
     setSrc(newSrc);
     setTimeout(() => { 
         const title = document.querySelector("iframe").title.split(",").join("")
+        const isMobile = /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+        if(isMobile){
+          setTimeout(() => {
+            const newTitle = {
+              name: title,
+              src: newSrc.src,
+            };
+            setSrc(newTitle);
+            e.target.reset()
+            return
+          }, 1000);
+        }
+
         const newTitle = {
             name: title,
             src: newSrc.src,
           };
           setSrc(newTitle);
-          console.log(src.src);
-          
-    }, 2000);
+    }, 1000);
     e.target.reset()
   };
 
