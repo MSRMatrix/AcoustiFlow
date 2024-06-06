@@ -4,6 +4,7 @@ import { newestList } from "../../functions/NewestList";
 import DisplayTable from "../../MusicContext/DisplayTable";
 import Storage from "../../MusicContext/Storage";
 import { displayStorage } from "../../functions/DisplayStorage";
+import { isMobile } from "react-device-detect";
 
 const Music = ({ src, setSrc, setCurrentSongIndex }) => {
   const { displayTable, setDisplayTable } = useContext(DisplayTable);
@@ -19,7 +20,6 @@ const Music = ({ src, setSrc, setCurrentSongIndex }) => {
     setSrc(newSrc);
     setTimeout(() => { 
         const title = document.querySelector("iframe").title.split(",").join("")
-        const isMobile = /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
         if(isMobile){
           setTimeout(() => {
             const newTitle = {
@@ -29,7 +29,7 @@ const Music = ({ src, setSrc, setCurrentSongIndex }) => {
             setSrc(newTitle);
             e.target.reset()
             return
-          }, 1000);
+          }, 7000);
         }
 
         const newTitle = {
