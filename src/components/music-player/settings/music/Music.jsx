@@ -20,12 +20,15 @@ const Music = ({ src, setSrc, setCurrentSongIndex }) => {
     setSrc(newSrc);
     setTimeout(() => { 
         let title = document.querySelector("iframe").title.split(",").join("")
+
+
+        if(isMobile){
+          setTimeout(() => {
 if(title === "YouTube video player"){
       title = "Unkown Title"
     }
 
-        if(isMobile){
-          setTimeout(() => {
+
             const newTitle = {
               name: title,
               src: newSrc.src,
