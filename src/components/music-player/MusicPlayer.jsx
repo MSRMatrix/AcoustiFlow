@@ -6,7 +6,6 @@ import { NavLink } from "react-router-dom";
 import DisplayTable from "./MusicContext/DisplayTable";
 
 const MusicPlayer = () => {
-  const { musicContext, setMusicContext } = useContext(DisplayTable);
   const [playing, setIsPlaying] = useState(true);
   const [volume, setVolume] = useState(0.2);
   const [loop, setLoop] = useState(false);
@@ -33,8 +32,8 @@ const MusicPlayer = () => {
     if (!src.src || src.src.length === 0) {
       return "";
     }
-    if (Array.isArray(src.src[0])) {
-      return src.src[currentSongIndex] ? src.src[currentSongIndex][0] : "";
+    if (Array.isArray(src.src)) {
+      return src.src[currentSongIndex] || "";
     }
     return src.src;
   };
@@ -43,11 +42,11 @@ const MusicPlayer = () => {
     if (!src.name || src.name.length === 0) {
       return "";
     }
-    if (Array.isArray(src.name[0])) {
-      return src.name[currentSongIndex] ? src.name[currentSongIndex][0] : "";
+    if (Array.isArray(src.name)) {
+      return src.name[currentSongIndex] || "";
     }
     return src.name;
-  };
+};
 
   return (
     <>

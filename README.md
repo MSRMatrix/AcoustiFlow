@@ -8,5 +8,6 @@ Mp3 Player Ideen:
 -Seite muss aktualisierbar sein
 -Email Function mit einem Cooldown von 1 Stunde einbauen
 -Verschieben von Liedern muss ermöglicht werden
+-Laufendes Lied muss in irgendeiner Farbe leuchten
 
 Mp4 Player Ideen:

@@ -2,18 +2,24 @@ import { useContext, useEffect } from "react";
 import "./dialog.css";
 import { newestList } from "../../functions/NewestList";
 import DisplayTable from "../../MusicContext/DisplayTable";
+import { displayStorage } from "../../functions/DisplayStorage";
+import Storage from "../../MusicContext/Storage";
+import PlaylistContext from "../../MusicContext/PlaylistContext";
 
-const PlaylistChanger = ({ setIsOpen, src, setSrc, takeMusic }) => {
+const PlaylistChanger = ({ setIsOpen, src, setSrc, takeMusic, updateSrc }) => {
   const {displayTable, setDisplayTable} = useContext(DisplayTable)
+  const { storage, setStorage } = useContext(Storage);
+  const {playlistContext, setPlaylistContext} = useContext(PlaylistContext)
   const newStorage = Object.entries(localStorage);
   let allLists;
   let defaultList;
 
-  if (newStorage) {
+ if (newStorage) {
     const newList = newStorage.map((item) => item[0]);
-    allLists = newList.filter((item) => item !== "your-music");
-    defaultList = newList.filter((item) => item === "your-music");
+    allLists = newList.filter((item) => item !== playlistContext);
+    defaultList = newList.filter((item) => item === playlistContext);
   }
+
 
   const addToNewPlaylist = (playlist) => {
     const random = Object.values(takeMusic);
@@ -33,7 +39,9 @@ const PlaylistChanger = ({ setIsOpen, src, setSrc, takeMusic }) => {
       random[1].trim();
 
      localStorage.setItem(playlist, newData); 
-    return newestList(setDisplayTable)
+     displayStorage(setStorage);
+     newestList(setDisplayTable)
+     return updateSrc()
     }
     const newData =
       localStorage.getItem(playlist) +
@@ -42,18 +50,21 @@ const PlaylistChanger = ({ setIsOpen, src, setSrc, takeMusic }) => {
       random[1].trim();
 
       localStorage.setItem(playlist, newData); 
-   return newestList(setDisplayTable)
+    displayStorage(setStorage);  
+    newestList(setDisplayTable)
+    return updateSrc()
   };
 
   useEffect(() =>{
     newestList(setDisplayTable)
   },[])
-
+console.log(allLists);
+    
   return (
     <dialog open>
       <div className="playlist-changer">
         Zur welchen Playlist soll dein Lied hinzugefügt werden?
-        {allLists.map((item, key) => (
+        {allLists && allLists.map((item, key) => (
           <button onClick={() => addToNewPlaylist(item)} key={key}>
             {item}
           </button>

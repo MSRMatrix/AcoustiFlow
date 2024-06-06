@@ -5,13 +5,14 @@ import { newestList } from "../../../functions/NewestList";
 import DisplayTable from "../../../MusicContext/DisplayTable";
 import { displayStorage } from "../../../functions/DisplayStorage";
 import Storage from "../../../MusicContext/Storage";
+import PlaylistContext from "../../../MusicContext/PlaylistContext";
 
 const Table = ({ src, setSrc }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [takeMusic, setTakeMusic] = useState([]);
   const { displayTable, setDisplayTable } = useContext(DisplayTable);
   const { storage, setStorage } = useContext(Storage);
-
+  const {playlistContext, setPlaylistContext} = useContext(PlaylistContext)
   const handleDelete = (item, playlist) => {
     const storedData = localStorage.getItem(playlist);
     if (storedData) {
@@ -33,6 +34,9 @@ const Table = ({ src, setSrc }) => {
       displayStorage(setStorage);
       newestList(setDisplayTable);
     }
+    if (playlist === src.playlist) {
+      updateSrc();
+    }
   };
 
   const listFunction = (list) => {
@@ -46,6 +50,9 @@ const Table = ({ src, setSrc }) => {
   const deletePlaylist = (playlist) => {
     if (confirm(`Möchten Sie die Playlist "${playlist}" löschen?`)) {
       localStorage.removeItem(playlist);
+      if (playlist === src.playlist) {
+        setSrc([]);
+      }
       alert(`Die Playlist "${playlist}" wurde erfolgreich gelöscht.`);
       newestList(setDisplayTable);
     } else {
@@ -79,7 +86,7 @@ const Table = ({ src, setSrc }) => {
 
   const playMusic = (music, list) => {
     console.log(music);
-    setSrc([])
+    setSrc([]);
     if (list) {
       const playlistName = list.playlist;
       const songs = list.songs;
@@ -101,7 +108,6 @@ const Table = ({ src, setSrc }) => {
         src: updatedList.songs.map((item) => item.src.split(",")),
       });
     } else {
-      
       const playlistName = "your-music";
       const songs = storage;
       const musicIndex = songs.findIndex((item) => item === music);
@@ -124,6 +130,21 @@ const Table = ({ src, setSrc }) => {
     }
   };
 
+  const updateSrc = () => {
+    const list = localStorage.getItem(src.playlist).split(", ");
+    const names = [];
+    const url = [];
+    for (let i = 0; i < list.length; i += 2) {
+      names.push(list[i]);
+      url.push(list[i + 1]);
+    }
+    setSrc({
+      playlist: src.playlist,
+      name: names,
+      src: url,
+    });
+  };
+
   useEffect(() => {
     displayStorage(setStorage);
     newestList(setDisplayTable);
@@ -143,12 +164,17 @@ const Table = ({ src, setSrc }) => {
               <tr key={index}>
                 <td onClick={() => playMusic(item)}>{item.name}</td>
                 <td>
-                  <button onClick={() => handleDelete(item, item.playlist)}>
+                  <button
+                    onClick={() =>
+                      handleDelete(item, (item.playlist = "your-music"))
+                    }
+                  >
                     Löschen
                   </button>
                   <button
                     onClick={() => {
-                      setTakeMusic(item);
+                      setTakeMusic(item)
+                      setPlaylistContext(item.playlist = "your-music");
                       setIsOpen(true);
                     }}
                   >
@@ -171,6 +197,7 @@ const Table = ({ src, setSrc }) => {
           setIsOpen={setIsOpen}
           src={src}
           setSrc={setSrc}
+          updateSrc={updateSrc}
         />
       )}
 
@@ -206,6 +233,15 @@ const Table = ({ src, setSrc }) => {
                           onClick={() => handleDelete(innerItem, item.playlist)}
                         >
                           Delete
+                        </button>
+                        <button
+                          onClick={() => {
+                            setTakeMusic(innerItem)
+                            setPlaylistContext(item.playlist)
+                            setIsOpen(true);
+                          }}
+                        >
+                          Verschieben
                         </button>
                       </td>
                     </tr>
