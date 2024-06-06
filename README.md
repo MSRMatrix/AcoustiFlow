@@ -9,5 +9,7 @@ Mp3 Player Ideen:
 -Email Function mit einem Cooldown von 1 Stunde einbauen
 -Verschieben von Liedern muss ermöglicht werden
 -Laufendes Lied muss in irgendeiner Farbe leuchten
+-Frontend Anti-Hackschutz(Backend ist nicht verfügbar)
+-Ausgewählte Playlist nach oben verschieben
 
 Mp4 Player Ideen:

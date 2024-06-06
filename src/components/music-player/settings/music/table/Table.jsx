@@ -13,6 +13,7 @@ const Table = ({ src, setSrc }) => {
   const { displayTable, setDisplayTable } = useContext(DisplayTable);
   const { storage, setStorage } = useContext(Storage);
   const {playlistContext, setPlaylistContext} = useContext(PlaylistContext)
+  
   const handleDelete = (item, playlist) => {
     const storedData = localStorage.getItem(playlist);
     if (storedData) {
@@ -40,11 +41,14 @@ const Table = ({ src, setSrc }) => {
   };
 
   const listFunction = (list) => {
-    setSrc({
+    setSrc([]);
+    setTimeout(() => {
+     setSrc({
       playlist: list.playlist,
       name: list.songs.map((item) => item.name.split(",")),
       src: list.songs.map((item) => item.src.split(",")),
-    });
+    }); 
+    }, 1000);
   };
 
   const deletePlaylist = (playlist) => {
@@ -61,7 +65,9 @@ const Table = ({ src, setSrc }) => {
   };
 
   const randomSequence = (list) => {
-    const arrayList = list.songs.map((item) => ({
+    setSrc([]);
+    
+      const arrayList = list.songs.map((item) => ({
       name: item.name,
       src: item.src,
     }));
@@ -77,20 +83,23 @@ const Table = ({ src, setSrc }) => {
     const shuffledArray = shuffleArray(arrayList);
     const name = shuffledArray.map((item) => item.name.split(","));
     const srcUrls = shuffledArray.map((item) => item.src.split(","));
+    setTimeout(() => {
     setSrc({
       playlist: list.playlist,
       name: name,
       src: srcUrls,
     });
+    }, 1000);
+    
   };
 
   const playMusic = (music, list) => {
-    console.log(music);
     setSrc([]);
+    
     if (list) {
       const playlistName = list.playlist;
       const songs = list.songs;
-      const musicIndex = songs.findIndex((item) => item === music);
+      const musicIndex = songs.findIndex((item) => item.name === music.name);
       if (musicIndex === -1) {
         console.error("Selected music not found in the list");
         return;
@@ -102,15 +111,18 @@ const Table = ({ src, setSrc }) => {
         playlist: playlistName,
         songs: arrayList,
       };
+
+      setTimeout(() => {
       return setSrc({
         playlist: list.playlist,
-        name: updatedList.songs.map((item) => item.name.split(",")),
-        src: updatedList.songs.map((item) => item.src.split(",")),
+        name: updatedList.songs.map((item) => item.name),
+        src: updatedList.songs.map((item) => item.src),
       });
+    }, 1000);
     } else {
       const playlistName = "your-music";
       const songs = storage;
-      const musicIndex = songs.findIndex((item) => item === music);
+      const musicIndex = songs.findIndex((item) => item.name === music.name);
       if (musicIndex === -1) {
         console.error("Selected music not found in the list");
         return;
@@ -122,13 +134,15 @@ const Table = ({ src, setSrc }) => {
         playlist: playlistName,
         songs: arrayList,
       };
+      setTimeout(() => {
       return setSrc({
         playlist: playlistName,
-        name: updatedList.songs.map((item) => item.name.split(",")),
-        src: updatedList.songs.map((item) => item.src.split(",")),
-      });
+        name: updatedList.songs.map((item) => item.name),
+        src: updatedList.songs.map((item) => item.src),
+      })}, 1000);
     }
-  };
+  }
+  ;
 
   const updateSrc = () => {
     const list = localStorage.getItem(src.playlist).split(", ");

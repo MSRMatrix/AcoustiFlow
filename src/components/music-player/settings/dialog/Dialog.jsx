@@ -41,7 +41,10 @@ const PlaylistChanger = ({ setIsOpen, src, setSrc, takeMusic, updateSrc }) => {
      localStorage.setItem(playlist, newData); 
      displayStorage(setStorage);
      newestList(setDisplayTable)
-     return updateSrc()
+     if(src.playlist === playlist){
+      return updateSrc()
+     }
+     return
     }
     const newData =
       localStorage.getItem(playlist) +
@@ -52,7 +55,10 @@ const PlaylistChanger = ({ setIsOpen, src, setSrc, takeMusic, updateSrc }) => {
       localStorage.setItem(playlist, newData); 
     displayStorage(setStorage);  
     newestList(setDisplayTable)
-    return updateSrc()
+    if(src.playlist === playlist){
+      return updateSrc()
+     }
+     return
   };
 
   useEffect(() =>{
