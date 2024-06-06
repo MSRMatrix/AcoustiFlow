@@ -12,47 +12,44 @@ const Music = ({ src, setSrc, setCurrentSongIndex }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let title
-    
+  
     const newSrc = {
       src: e.target.elements.src.value,
     };
     setSrc(newSrc);
-    setTimeout(() => { 
-       title = document.querySelector("iframe").title.split(",").join("")
-
-        if(isMobile){
-          setTimeout(() => {
-            const newTitle = {
-              name: title,
-              src: newSrc.src,
-            };
-            setSrc(newTitle);
-            e.target.reset()
-            return
-          }, 1000);
-        }
-
-        const newTitle = {
-            name: title,
-            src: newSrc.src,
-          };
-          setSrc(newTitle);
-    }, 1000);
-    
-    if(title === "YouTube video player"){
-      setTimeout(() => {
-
-        const newTitle = {
-          name: document.querySelector("iframe").title.split(",").join(""),
-          src: newSrc.src,
-        };
-        setSrc(newTitle);
-      }, 3000);
+  
+    let title = "YouTube video player";
+  
+    // Function to handle setting the title once the iframe is loaded
+    const handleIframeLoad = () => {
+      title = document.querySelector("iframe").title.split(",").join("");
+      const newTitle = {
+        name: title,
+        src: newSrc.src,
+      };
+      setSrc(newTitle);
+      e.target.reset();
+    };
+  
+    // Add event listener to the iframe to handle its load event
+    const iframe = document.querySelector("iframe");
+    if (iframe) {
+      iframe.onload = handleIframeLoad;
     }
-
-    e.target.reset()
+  
+    // If on a mobile device, wait for additional time before setting the title
+    if (isMobile) {
+      setTimeout(() => {
+        if (title === "YouTube video player") {
+          handleIframeLoad();
+        }
+      }, 3000);
+    } else {
+      // For non-mobile devices, use the handleIframeLoad function directly
+      handleIframeLoad();
+    }
   };
+  
 
   const handleSaveMusic = () => {
     const storage = localStorage.getItem("your-music");
