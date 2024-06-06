@@ -11,5 +11,6 @@ Mp3 Player Ideen:
 -Laufendes Lied muss in irgendeiner Farbe leuchten
 -Frontend Anti-Hackschutz(Backend ist nicht verfügbar)
 -Ausgewählte Playlist nach oben verschieben
+-Mobile Version hat einen Fehler mit dem Title bei dem aller ersten Rendern
 
 Mp4 Player Ideen:

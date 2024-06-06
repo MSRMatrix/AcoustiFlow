@@ -52,7 +52,8 @@ const MusicPlayer = () => {
     <>
       {src.playlist ? <p>The Playlist: {src.playlist}</p> : <></>}
       <div className="player-container">
-        <ReactPlayer
+        <div className="test">
+          <ReactPlayer
           url={getCurrentUrl()}
           controls
           playing={playing}
@@ -61,8 +62,12 @@ const MusicPlayer = () => {
           muted={muted}
           playbackRate={playbackRate}
           onEnded={handleNextSong}
+          width={100}
+          height={100}
           progressInterval={1000} 
         />
+        </div>
+        
         <p>{getCurrentName()}</p>
         <button onClick={handleNextSong}>Weiter</button>
         <button onClick={handlePreviousSong}>Zurück</button>

@@ -6,15 +6,18 @@ import DisplayTable from "../../../MusicContext/DisplayTable";
 import { displayStorage } from "../../../functions/DisplayStorage";
 import Storage from "../../../MusicContext/Storage";
 import PlaylistContext from "../../../MusicContext/PlaylistContext";
+import ShowInput from "../../../MusicContext/ShowInput";
 
-const Table = ({ src, setSrc, setCurrentSongIndex }) => {
+const Table = ({ src, setSrc, setCurrentSongIndex}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [takeMusic, setTakeMusic] = useState([]);
   const { displayTable, setDisplayTable } = useContext(DisplayTable);
   const { storage, setStorage } = useContext(Storage);
   const {playlistContext, setPlaylistContext} = useContext(PlaylistContext)
+  const {showInput, setShowInput} = useContext(ShowInput)
   
   const handleDelete = (item, playlist) => {
+    setShowInput(false);
     const storedData = localStorage.getItem(playlist);
     if (storedData) {
       const parsedData = storedData.split(", ");
@@ -41,6 +44,7 @@ const Table = ({ src, setSrc, setCurrentSongIndex }) => {
   };
 
   const listFunction = (list) => {
+    setShowInput(false);
     setSrc([]);
     setTimeout(() => {
      setSrc({
@@ -52,6 +56,7 @@ const Table = ({ src, setSrc, setCurrentSongIndex }) => {
   };
 
   const deletePlaylist = (playlist) => {
+    setShowInput(false);
     if (confirm(`Möchten Sie die Playlist "${playlist}" löschen?`)) {
       localStorage.removeItem(playlist);
       if (playlist === src.playlist) {
@@ -66,7 +71,7 @@ const Table = ({ src, setSrc, setCurrentSongIndex }) => {
 
   const randomSequence = (list) => {
     setSrc([]);
-    
+    setShowInput(false);
       const arrayList = list.songs.map((item) => ({
       name: item.name,
       src: item.src,
@@ -96,7 +101,7 @@ const Table = ({ src, setSrc, setCurrentSongIndex }) => {
 
   const playMusic = (music, list) => {
     setSrc([]);
-    
+    setShowInput(false);
     if (list) {
       const playlistName = list.playlist;
       const songs = list.songs;
@@ -147,6 +152,7 @@ const Table = ({ src, setSrc, setCurrentSongIndex }) => {
   ;
 
   const updateSrc = () => {
+    setShowInput(false);
     const list = localStorage.getItem(src.playlist).split(", ");
     const names = [];
     const url = [];
