@@ -13,27 +13,30 @@ const Music = ({ src, setSrc, setCurrentSongIndex }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    
     const newSrc = {
       src: e.target.elements.src.value,
     };
     setSrc(newSrc);
     setTimeout(() => { 
-        const title = document.querySelector("iframe").title.split(",").join("")
-        if(isMobile){
-          setTimeout(() => {
-            const newTitle = {
-              name: title,
-              src: newSrc.src,
-            };
-            setSrc(newTitle);
-            e.target.reset()
-            return
-          }, 7000);
-        }
+        const title = document.querySelector("iframe")
 
+        if(!title){
+          return alert("Please type in a valid youtube link")
+        }
+        let test = title.split(",").join("")
+if(test === "YouTube video player" || test === undefined){
+  test = "Unknown"
+  setTimeout(() => {
+    const newTitle = {
+      name: test,
+      src: newSrc.src,
+    };
+    setSrc(newTitle);
+   return  e.target.reset()
+  }, 1000);
+}
         const newTitle = {
-            name: title,
+            name: test,
             src: newSrc.src,
           };
           setSrc(newTitle);
