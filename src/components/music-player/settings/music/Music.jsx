@@ -31,7 +31,6 @@ const Music = ({ src, setSrc, setCurrentSongIndex }) => {
             return
           }, 1000);
         }
-
         const newTitle = {
             name: title,
             src: newSrc.src,
