@@ -12,33 +12,42 @@ const Music = ({ src, setSrc, setCurrentSongIndex }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    
     const newSrc = {
       src: e.target.elements.src.value,
     };
     setSrc(newSrc);
-    setTimeout(() => { 
-        const title = document.querySelector("iframe").title.split(",").join("")
-        const isMobile = /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-        if(isMobile){
-          setTimeout(() => {
-            const newTitle = {
-              name: title,
-              src: newSrc.src,
-            };
-            setSrc(newTitle);
-            e.target.reset()
-            return
-          }, 1000);
-        }
-        const newTitle = {
-            name: title,
-            src: newSrc.src,
-          };
-          setSrc(newTitle);
-    }, 1000);
-    e.target.reset()
-  };
+    
+    const iframe = document.querySelector("iframe");
+    const isMobile = /Mobi|Android|iPhone|iPod|iPad|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+    if (isMobile) {
+        // Timeout für mobile Geräte
+        setTimeout(() => {
+            const title = iframe.title.split(",").join("");
+            if (title !== "YouTube video player") {
+                const newTitle = {
+                    name: title,
+                    src: newSrc.src,
+                };
+                setSrc(newTitle);
+                e.target.reset();
+            }
+        }, 1000);
+    } else {
+        // Wenn es sich nicht um ein mobiles Gerät handelt, wird auf den onload-Event gewartet
+        iframe.onload = () => {
+            const title = iframe.title.split(",").join("");
+            if (title !== "YouTube video player") {
+                const newTitle = {
+                    name: title,
+                    src: newSrc.src,
+                };
+                setSrc(newTitle);
+                e.target.reset();
+            }
+        };
+    }
+};
 
   const handleSaveMusic = () => {
     const storage = localStorage.getItem("your-music");
