@@ -21,7 +21,10 @@ const Music = ({ src, setSrc, setCurrentSongIndex }) => {
     setTimeout(() => { 
         const title = document.querySelector("iframe").title.split(",").join("")
 if(title === "YouTube video player"){
-      alert("title problem")
+  setTimeout(() => {
+    alert("title problem")
+  }, 10000);
+      
     }
 
         if(isMobile){
