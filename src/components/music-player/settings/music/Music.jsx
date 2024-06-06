@@ -19,12 +19,12 @@ const Music = ({ src, setSrc, setCurrentSongIndex }) => {
     };
     setSrc(newSrc);
     setTimeout(() => { 
-        const title = document.querySelector("iframe").title.split(",").join("")
+        let title = document.querySelector("iframe").title.split(",").join("")
 if(title === "YouTube video player"){
   setTimeout(() => {
+    title = document.querySelector("iframe").title.split(",").join("")
     alert("title problem")
-  }, 10000);
-      
+  }, 3000);  
     }
 
         if(isMobile){
