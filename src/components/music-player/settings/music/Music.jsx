@@ -12,44 +12,38 @@ const Music = ({ src, setSrc, setCurrentSongIndex }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
+    
+    
     const newSrc = {
       src: e.target.elements.src.value,
     };
     setSrc(newSrc);
-  
-    let title = "YouTube video player";
-  
-    // Function to handle setting the title once the iframe is loaded
-    const handleIframeLoad = () => {
-      title = document.querySelector("iframe").title.split(",").join("");
-      const newTitle = {
-        name: title,
-        src: newSrc.src,
-      };
-      setSrc(newTitle);
-      e.target.reset();
-    };
-  
-    // Add event listener to the iframe to handle its load event
-    const iframe = document.querySelector("iframe");
-    if (iframe) {
-      iframe.onload = handleIframeLoad;
+    setTimeout(() => { 
+        let title = document.querySelector("iframe").title.split(",").join("")
+if(title === "YouTube video player"){
+      title = "Unkown Title"
     }
-  
-    // If on a mobile device, wait for additional time before setting the title
-    if (isMobile) {
-      setTimeout(() => {
-        if (title === "YouTube video player") {
-          handleIframeLoad();
+
+        if(isMobile){
+          setTimeout(() => {
+            const newTitle = {
+              name: title,
+              src: newSrc.src,
+            };
+            setSrc(newTitle);
+            e.target.reset()
+            return
+          }, 1000);
         }
-      }, 3000);
-    } else {
-      // For non-mobile devices, use the handleIframeLoad function directly
-      handleIframeLoad();
-    }
+
+        const newTitle = {
+            name: title,
+            src: newSrc.src,
+          };
+          setSrc(newTitle);
+    }, 1000);
+    e.target.reset()
   };
-  
 
   const handleSaveMusic = () => {
     const storage = localStorage.getItem("your-music");
