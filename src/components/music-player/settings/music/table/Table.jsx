@@ -7,7 +7,7 @@ import { displayStorage } from "../../../functions/DisplayStorage";
 import Storage from "../../../MusicContext/Storage";
 import PlaylistContext from "../../../MusicContext/PlaylistContext";
 
-const Table = ({ src, setSrc }) => {
+const Table = ({ src, setSrc, setCurrentSongIndex }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [takeMusic, setTakeMusic] = useState([]);
   const { displayTable, setDisplayTable } = useContext(DisplayTable);
@@ -83,6 +83,7 @@ const Table = ({ src, setSrc }) => {
     const shuffledArray = shuffleArray(arrayList);
     const name = shuffledArray.map((item) => item.name.split(","));
     const srcUrls = shuffledArray.map((item) => item.src.split(","));
+    setCurrentSongIndex(0)
     setTimeout(() => {
     setSrc({
       playlist: list.playlist,
@@ -111,7 +112,7 @@ const Table = ({ src, setSrc }) => {
         playlist: playlistName,
         songs: arrayList,
       };
-
+      setCurrentSongIndex(0)
       setTimeout(() => {
       return setSrc({
         playlist: list.playlist,
@@ -134,6 +135,7 @@ const Table = ({ src, setSrc }) => {
         playlist: playlistName,
         songs: arrayList,
       };
+      setCurrentSongIndex(0)
       setTimeout(() => {
       return setSrc({
         playlist: playlistName,

@@ -68,6 +68,7 @@ const MusicPlayer = () => {
         <button onClick={handlePreviousSong}>Zurück</button>
       </div>
       <Settings
+      setCurrentSongIndex={setCurrentSongIndex}
         playing={playing}
         setIsPlaying={setIsPlaying}
         volume={volume}

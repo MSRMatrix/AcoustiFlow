@@ -5,7 +5,7 @@ import DisplayTable from "../../MusicContext/DisplayTable";
 import Storage from "../../MusicContext/Storage";
 import { displayStorage } from "../../functions/DisplayStorage";
 
-const Music = ({ src, setSrc }) => {
+const Music = ({ src, setSrc, setCurrentSongIndex }) => {
   const { displayTable, setDisplayTable } = useContext(DisplayTable);
   const { storage, setStorage } = useContext(Storage);
 
@@ -117,7 +117,7 @@ const Music = ({ src, setSrc }) => {
     />
   </div>
 )}
-      <Table src={src} setSrc={setSrc} />
+      <Table setCurrentSongIndex={setCurrentSongIndex} src={src} setSrc={setSrc} />
 
       <form onSubmit={handleNewPlaylist}>
         <input type="text" placeholder="Neue Playlist erstellen" />
