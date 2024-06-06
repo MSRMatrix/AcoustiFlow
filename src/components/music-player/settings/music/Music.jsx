@@ -19,7 +19,7 @@ const Music = ({ src, setSrc, setCurrentSongIndex }) => {
     };
     setSrc(newSrc);
     setTimeout(() => { 
-        document.querySelector("iframe").title.split(",").join("")
+       title = document.querySelector("iframe").title.split(",").join("")
 
         if(isMobile){
           setTimeout(() => {
