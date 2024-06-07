@@ -13,7 +13,7 @@ const PlaybackRate = ({ playbackRate, setPlaybackRate }) => {
         <option value={0.2}>0.2</option>
         <option value={0.6}>0.6</option>
         <option value={1.0}>1.0</option>
-        <option value={1.4}>1.4</option>
+        <option value={1.5}>1.5</option>
         <option value={2.0}>2.0</option>
       </select>
     </>

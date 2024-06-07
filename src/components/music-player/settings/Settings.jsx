@@ -7,8 +7,6 @@ import ProgressBar from "./progress/ProgressBar";
 import Volume from "./volume/Volume";
 
 const Settings = ({
-  setCurrentSongIndex,
-
   playing,
   setIsPlaying,
 
@@ -35,7 +33,7 @@ const Settings = ({
       <PlaybackRate plackbackRate={plackbackRate} setPlaybackRate={setPlaybackRate} />
       <Volume muted={muted} volume={volume} setVolume={setVolume} />
       <ProgressBar />
-      <Music setCurrentSongIndex={setCurrentSongIndex} src={src} setSrc={setSrc} />
+      <Music src={src} setSrc={setSrc} />
     </>
   );
 };

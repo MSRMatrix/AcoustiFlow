@@ -7,14 +7,16 @@ import { displayStorage } from "../../../functions/DisplayStorage";
 import Storage from "../../../MusicContext/Storage";
 import PlaylistContext from "../../../MusicContext/PlaylistContext";
 import ShowInput from "../../../MusicContext/ShowInput";
+import CurrentSongIndex from "../../../MusicContext/CurrentSongIndex";
 
-const Table = ({ src, setSrc, setCurrentSongIndex}) => {
+const Table = ({ src, setSrc}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [takeMusic, setTakeMusic] = useState([]);
   const { displayTable, setDisplayTable } = useContext(DisplayTable);
   const { storage, setStorage } = useContext(Storage);
   const {playlistContext, setPlaylistContext} = useContext(PlaylistContext)
   const {showInput, setShowInput} = useContext(ShowInput)
+  const {currentSongIndex, setCurrentSongIndex} = useContext(CurrentSongIndex);
   
   const handleDelete = (item, playlist) => {
     setShowInput(false);
@@ -50,7 +52,7 @@ const Table = ({ src, setSrc, setCurrentSongIndex}) => {
      setSrc({
       playlist: list.playlist,
       name: list.songs.map((item) => item.name.split(",")),
-      src: list.songs.map((item) => item.src.split(",")),
+      src: list.songs.map((item) => item.src),
     }); 
     }, 1000);
   };
@@ -87,7 +89,9 @@ const Table = ({ src, setSrc, setCurrentSongIndex}) => {
 
     const shuffledArray = shuffleArray(arrayList);
     const name = shuffledArray.map((item) => item.name.split(","));
-    const srcUrls = shuffledArray.map((item) => item.src.split(","));
+    
+    
+    const srcUrls = shuffledArray.map((item) => item.src);
     setCurrentSongIndex(0)
     setTimeout(() => {
     setSrc({
@@ -140,6 +144,7 @@ const Table = ({ src, setSrc, setCurrentSongIndex}) => {
         playlist: playlistName,
         songs: arrayList,
       };
+      
       setCurrentSongIndex(0)
       setTimeout(() => {
       return setSrc({

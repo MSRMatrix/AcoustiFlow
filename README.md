@@ -13,4 +13,6 @@ Mp3 Player Ideen:
 -Ausgewählte Playlist nach oben verschieben
 -Mobile Version hat einen Fehler mit dem Title bei dem aller ersten Rendern
 
+-Stylingzeit
+
 Mp4 Player Ideen:

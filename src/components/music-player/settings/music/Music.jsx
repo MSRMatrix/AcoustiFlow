@@ -7,7 +7,7 @@ import { displayStorage } from "../../functions/DisplayStorage";
 import { isMobile } from "react-device-detect";
 import ShowInput from "../../MusicContext/ShowInput";
 
-const Music = ({ src, setSrc, setCurrentSongIndex }) => {
+const Music = ({ src, setSrc }) => {
   const { displayTable, setDisplayTable } = useContext(DisplayTable);
   const { storage, setStorage } = useContext(Storage);
   const {showInput, setShowInput} = useContext(ShowInput)
@@ -129,7 +129,6 @@ const Music = ({ src, setSrc, setCurrentSongIndex }) => {
         </div>
       )}
       <Table
-        setCurrentSongIndex={setCurrentSongIndex}
         src={src}
         setSrc={setSrc}
       />

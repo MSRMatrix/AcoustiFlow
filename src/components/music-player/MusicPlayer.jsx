@@ -3,7 +3,7 @@ import ReactPlayer from "react-player";
 import "./musicPlayer.css";
 import Settings from "./settings/Settings";
 import { NavLink } from "react-router-dom";
-import DisplayTable from "./MusicContext/DisplayTable";
+import CurrentSongIndex from "./MusicContext/CurrentSongIndex";
 
 const MusicPlayer = () => {
   const [playing, setIsPlaying] = useState(true);
@@ -16,7 +16,7 @@ const MusicPlayer = () => {
     band: "",
     src: []
   });
-  const [currentSongIndex, setCurrentSongIndex] = useState(0);
+  const {currentSongIndex, setCurrentSongIndex} = useContext(CurrentSongIndex);
 
   const handleNextSong = () => {
     setCurrentSongIndex((prevIndex) => (prevIndex + 1) % (src.src.length || 1));
@@ -47,11 +47,11 @@ const MusicPlayer = () => {
     }
     return src.name;
 };
-
   return (
     <>
-      {src.playlist ? <p>The Playlist: {src.playlist}</p> : <></>}
+      {src.playlist ? <p>The Playlist: {src.playlist}</p> : <></>} 
       <div className="player-container">
+        <button onClick={handleNextSong}>Weiter</button>
         <div className="test">
           <ReactPlayer
           url={getCurrentUrl()}
@@ -69,11 +69,10 @@ const MusicPlayer = () => {
         </div>
         
         <p>{getCurrentName()}</p>
-        <button onClick={handleNextSong}>Weiter</button>
+        
         <button onClick={handlePreviousSong}>Zurück</button>
       </div>
       <Settings
-      setCurrentSongIndex={setCurrentSongIndex}
         playing={playing}
         setIsPlaying={setIsPlaying}
         volume={volume}
