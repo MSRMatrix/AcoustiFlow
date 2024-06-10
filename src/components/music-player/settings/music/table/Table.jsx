@@ -8,16 +8,26 @@ import Storage from "../../../MusicContext/Storage";
 import PlaylistContext from "../../../MusicContext/PlaylistContext";
 import ShowInput from "../../../MusicContext/ShowInput";
 import CurrentSongIndex from "../../../MusicContext/CurrentSongIndex";
+import { showCurrentPlaylist } from "../../../functions/ShowCurrentPlaylist";
+import CurrentList from "../../../MusicContext/CurrentList";
 
-const Table = ({ src, setSrc}) => {
+const Table = ({ src, setSrc }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [takeMusic, setTakeMusic] = useState([]);
   const { displayTable, setDisplayTable } = useContext(DisplayTable);
   const { storage, setStorage } = useContext(Storage);
-  const {playlistContext, setPlaylistContext} = useContext(PlaylistContext)
-  const {showInput, setShowInput} = useContext(ShowInput)
-  const {currentSongIndex, setCurrentSongIndex} = useContext(CurrentSongIndex);
-  
+  const { playlistContext, setPlaylistContext } = useContext(PlaylistContext);
+  const { showInput, setShowInput } = useContext(ShowInput);
+  const { currentSongIndex, setCurrentSongIndex } = useContext(CurrentSongIndex);
+  const { currentList, setCurrentList } = useContext(CurrentList);
+
+  const updateAllLists = (playlist) => {
+    displayStorage(setStorage);
+    newestList(setDisplayTable, playlist); 
+    showCurrentPlaylist(setCurrentList, playlist);
+  };
+
+
   const handleDelete = (item, playlist) => {
     setShowInput(false);
     const storedData = localStorage.getItem(playlist);
@@ -28,8 +38,7 @@ const Table = ({ src, setSrc}) => {
         if (parsedData.length <= 2) {
           localStorage.setItem(playlist, "");
           setStorage([]);
-          displayStorage(setStorage);
-          newestList(setDisplayTable);
+          updateAllLists();
           return;
         }
         if (parsedData[i] !== item.name || parsedData[i + 1] !== item.src) {
@@ -37,24 +46,23 @@ const Table = ({ src, setSrc}) => {
         }
       }
       localStorage.setItem(playlist, updatedData.join(", "));
-      displayStorage(setStorage);
-      newestList(setDisplayTable);
+      updateAllLists();
     }
     if (playlist === src.playlist) {
       updateSrc();
     }
   };
 
-  const listFunction = (list) => {
+  const listFunction = async (list) => {
     setShowInput(false);
     setSrc([]);
-    setTimeout(() => {
-     setSrc({
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    setSrc({
       playlist: list.playlist,
       name: list.songs.map((item) => item.name.split(",")),
       src: list.songs.map((item) => item.src),
-    }); 
-    }, 1000);
+    });
+    updateAllLists(list.playlist);
   };
 
   const deletePlaylist = (playlist) => {
@@ -65,16 +73,16 @@ const Table = ({ src, setSrc}) => {
         setSrc([]);
       }
       alert(`Die Playlist "${playlist}" wurde erfolgreich gelöscht.`);
-      newestList(setDisplayTable);
+      updateAllLists();
     } else {
       alert(`Die Löschung der Playlist "${playlist}" wurde abgebrochen.`);
     }
   };
 
-  const randomSequence = (list) => {
+  const randomSequence = async (list) => {
     setSrc([]);
     setShowInput(false);
-      const arrayList = list.songs.map((item) => ({
+    const arrayList = list.songs.map((item) => ({
       name: item.name,
       src: item.src,
     }));
@@ -89,21 +97,18 @@ const Table = ({ src, setSrc}) => {
 
     const shuffledArray = shuffleArray(arrayList);
     const name = shuffledArray.map((item) => item.name.split(","));
-    
-    
     const srcUrls = shuffledArray.map((item) => item.src);
-    setCurrentSongIndex(0)
-    setTimeout(() => {
+    setCurrentSongIndex(0);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     setSrc({
       playlist: list.playlist,
       name: name,
       src: srcUrls,
     });
-    }, 1000);
-    
+    updateAllLists(list.playlist);
   };
 
-  const playMusic = (music, list) => {
+  const playMusic = async (music, list) => {
     setSrc([]);
     setShowInput(false);
     if (list) {
@@ -114,21 +119,20 @@ const Table = ({ src, setSrc}) => {
         console.error("Selected music not found in the list");
         return;
       }
-      const arrayList = songs
-        .slice(musicIndex)
-        .concat(songs.slice(0, musicIndex));
+      const arrayList = songs.slice(musicIndex).concat(songs.slice(0, musicIndex));
       const updatedList = {
         playlist: playlistName,
         songs: arrayList,
       };
-      setCurrentSongIndex(0)
-      setTimeout(() => {
-      return setSrc({
+      setCurrentSongIndex(0);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      setSrc({
         playlist: list.playlist,
         name: updatedList.songs.map((item) => item.name),
         src: updatedList.songs.map((item) => item.src),
       });
-    }, 1000);
+
+      updateAllLists(list.playlist);
     } else {
       const playlistName = "your-music";
       const songs = storage;
@@ -137,24 +141,21 @@ const Table = ({ src, setSrc}) => {
         console.error("Selected music not found in the list");
         return;
       }
-      const arrayList = songs
-        .slice(musicIndex)
-        .concat(songs.slice(0, musicIndex));
+      const arrayList = songs.slice(musicIndex).concat(songs.slice(0, musicIndex));
       const updatedList = {
         playlist: playlistName,
         songs: arrayList,
       };
-      
-      setCurrentSongIndex(0)
-      setTimeout(() => {
-      return setSrc({
+      setCurrentSongIndex(0);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      setSrc({
         playlist: playlistName,
         name: updatedList.songs.map((item) => item.name),
         src: updatedList.songs.map((item) => item.src),
-      })}, 1000);
+      });
+      updateAllLists(playlistName);
     }
-  }
-  ;
+  };
 
   const updateSrc = () => {
     setShowInput(false);
@@ -170,54 +171,68 @@ const Table = ({ src, setSrc}) => {
       name: names,
       src: url,
     });
+    updateAllLists(src.playlist);
   };
 
   useEffect(() => {
-    displayStorage(setStorage);
-    newestList(setDisplayTable);
+    updateAllLists();  
   }, []);
+
   return (
     <>
-      <table className="default-table">
-        <thead>
-          <tr>
-            <th>Song</th>
-            <th>Aktionen</th>
-          </tr>
-        </thead>
-        <tbody>
-          {storage.length > 0 ? (
-            storage.map((item, index) => (
-              <tr key={index}>
-                <td onClick={() => playMusic(item)}>{item.name}</td>
-                <td>
-                  <button
-                    onClick={() =>
-                      handleDelete(item, (item.playlist = "your-music"))
-                    }
-                  >
-                    Löschen
-                  </button>
-                  <button
-                    onClick={() => {
-                      setTakeMusic(item)
-                      setPlaylistContext(item.playlist = "your-music");
-                      setIsOpen(true);
-                    }}
-                  >
-                    Verschieben
-                  </button>
-                </td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="3">Du hast noch keine Daten gespeichert!</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-
+      {currentList.length > 0 ? (
+        currentList.map((item) => (
+          <div key={item.playlist} className="current-list">
+            <h2>Current Playlist: {item.playlist}</h2>
+            <button onClick={() => deletePlaylist(item.playlist)}>
+              Playlist löschen
+            </button>
+            <button onClick={() => listFunction(item)}>
+              Playlist abspielen
+            </button>
+            <button onClick={() => randomSequence(item)}>
+              Zufällige Reihenfolge
+            </button>
+            <table>
+              <thead>
+                <tr>
+                  <th>Song</th>
+                  <th>Aktionen</th>
+                </tr>
+              </thead>
+              <tbody>
+                {item.songs.map((innerItem, key) =>
+                  innerItem.name.length > 0 ? (
+                    <tr key={innerItem.src} style={{background: src && src.name && src.name[currentSongIndex] === innerItem.name && src.src && src.src[currentSongIndex] === innerItem.src || src && src.name && Array.isArray(src.name[currentSongIndex]) && src.name[currentSongIndex].join(", ") === innerItem.name && src.src && src.src[currentSongIndex] === innerItem.src ? "red": ""}}>
+                      <td onClick={() => playMusic(innerItem, item)}>
+                        {innerItem.name}
+                      </td>
+                      <td>
+                        <button onClick={() => handleDelete(innerItem, item.playlist)}>
+                          Delete
+                        </button>
+                        <button
+                          onClick={() => {
+                            setTakeMusic(innerItem);
+                            setPlaylistContext(item.playlist);
+                            setIsOpen(true);
+                          }}
+                        >
+                          Verschieben
+                        </button>
+                      </td>
+                    </tr>
+                  ) : (
+                    <tr key={key}>Keine Daten eingetragen</tr>
+                  )
+                )}
+              </tbody>
+            </table>
+          </div>
+        ))
+      ) : (
+        <p>Sie haben noch keine Liste angelegt!</p>
+      )}
       {isOpen && (
         <PlaylistChanger
           takeMusic={takeMusic}
@@ -256,15 +271,13 @@ const Table = ({ src, setSrc}) => {
                         {innerItem.name}
                       </td>
                       <td>
-                        <button
-                          onClick={() => handleDelete(innerItem, item.playlist)}
-                        >
+                        <button onClick={() => handleDelete(innerItem, item.playlist)}>
                           Delete
                         </button>
                         <button
                           onClick={() => {
-                            setTakeMusic(innerItem)
-                            setPlaylistContext(item.playlist)
+                            setTakeMusic(innerItem);
+                            setPlaylistContext(item.playlist);
                             setIsOpen(true);
                           }}
                         >

@@ -10,6 +10,7 @@ import Storage from './components/music-player/MusicContext/Storage'
 import PlaylistContext from './components/music-player/MusicContext/PlaylistContext'
 import ShowInput from './components/music-player/MusicContext/ShowInput'
 import CurrentSongIndex from './components/music-player/MusicContext/CurrentSongIndex'
+import CurrentList from './components/music-player/MusicContext/CurrentList'
 
 
 const router = createBrowserRouter ([
@@ -37,8 +38,10 @@ function App() {
   const [playlistContext, setPlaylistContext] = useState([])
   const [showInput, setShowInput] = useState(false)
   const [currentSongIndex, setCurrentSongIndex] = useState(0)
+  const [currentList, setCurrentList] = useState(0)
   return (
     <>
+    <CurrentList.Provider value={{currentList, setCurrentList}}>
     <CurrentSongIndex.Provider value={{currentSongIndex, setCurrentSongIndex}}>
     <ShowInput.Provider value={{showInput, setShowInput}}>
     <PlaylistContext.Provider value={{playlistContext, setPlaylistContext}}>
@@ -50,6 +53,7 @@ function App() {
     </PlaylistContext.Provider>
     </ShowInput.Provider>
     </CurrentSongIndex.Provider>
+    </CurrentList.Provider>
     </>
   )
 }

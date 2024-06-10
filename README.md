@@ -7,12 +7,9 @@ Mp3 Player Ideen:
 -Eine Bar einbauen um zu zeigen wie lange die Musik läuft und wie lange es noch läuft
 -Seite muss aktualisierbar sein
 -Email Function mit einem Cooldown von 1 Stunde einbauen
--Verschieben von Liedern muss ermöglicht werden
--Laufendes Lied muss in irgendeiner Farbe leuchten
--Frontend Anti-Hackschutz(Backend ist nicht verfügbar)
--Ausgewählte Playlist nach oben verschieben
+-Verschieben von Liedern muss ermöglicht werden(Index)
 -Mobile Version hat einen Fehler mit dem Title bei dem aller ersten Rendern
-
+-Lauter und leiser Button komplett erneuern
 -Stylingzeit
 
 Mp4 Player Ideen:

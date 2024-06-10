@@ -6,3 +6,8 @@
     width: 100px;
     height: max-content;
 }
+
+.current-list{
+    background-color: aqua;
+    border: 2px black solid;
+}

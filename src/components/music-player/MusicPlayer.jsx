@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 import "./musicPlayer.css";
 import Settings from "./settings/Settings";
@@ -11,6 +11,7 @@ const MusicPlayer = () => {
   const [loop, setLoop] = useState(false);
   const [muted, setMuted] = useState(false);
   const [playbackRate, setPlaybackRate] = useState(1);
+  const [cooldown, setCooldown] = useState(true)
   const [src, setSrc] = useState({
     name: "",
     band: "",
@@ -47,6 +48,7 @@ const MusicPlayer = () => {
     }
     return src.name;
 };
+
   return (
     <>
       {src.playlist ? <p>The Playlist: {src.playlist}</p> : <></>} 
@@ -67,9 +69,7 @@ const MusicPlayer = () => {
           progressInterval={1000} 
         />
         </div>
-        
         <p>{getCurrentName()}</p>
-        
         <button onClick={handlePreviousSong}>Zurück</button>
       </div>
       <Settings
