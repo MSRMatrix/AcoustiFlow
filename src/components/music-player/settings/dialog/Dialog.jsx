@@ -73,8 +73,6 @@ const PlaylistChanger = ({ setIsOpen, src, setSrc, updateSrc}) => {
     showCurrentPlaylist(setCurrentList, currentPlaylist)
     setShowInput(false);
   },[])
-    console.log(currentPlaylist);
-    
   return (
     <dialog open>
       <div className="playlist-changer">

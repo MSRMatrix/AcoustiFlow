@@ -19,7 +19,7 @@ const Music = ({ src, setSrc }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setCurrentList([])
-    showCurrentPlaylist(setCurrentList, currentList)
+    showCurrentPlaylist(setCurrentList, currentList[0].playlist)
     const newSrc = {
       src: e.target.elements.src.value,
     };
@@ -76,8 +76,8 @@ const Music = ({ src, setSrc }) => {
   const handleDeleteMusic = () => {
     setSrc([]);
     setShowInput(false);
-    newestList(setDisplayTable, currentList);
-    showCurrentPlaylist(setCurrentList, currentList)
+    newestList(setDisplayTable, currentList[0].playlist);
+    showCurrentPlaylist(setCurrentList, currentList[0].playlist)
     console.log(`Dieses Lied wurde entfernt!`);
   };
 
@@ -95,15 +95,18 @@ const Music = ({ src, setSrc }) => {
     }
     if (newList) {
       localStorage.setItem(newList, "");
-      newestList(setDisplayTable, currentList);
-      showCurrentPlaylist(setCurrentList, currentList)
+      
     }
     e.target.reset();
+    newestList(setDisplayTable, currentList[0].playlist);
+      showCurrentPlaylist(setCurrentList, currentList[0].playlist)
     alert("Neue Playlist erstellt!");
+
   };
 
   useEffect(() => {
-    newestList(setDisplayTable, currentList);
+    newestList(setDisplayTable, currentList.playlist);
+    showCurrentPlaylist(setCurrentList, currentList.playlist)
   }, []);
 
   return (

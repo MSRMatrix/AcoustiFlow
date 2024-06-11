@@ -67,10 +67,11 @@ const Table = ({ src, setSrc }) => {
     if (confirm(`Möchten Sie die Playlist "${playlist}" löschen?`)) {
       localStorage.removeItem(playlist);
       if (playlist === src.playlist) {
+        updateAllLists(playlist);
         setSrc([]);
       }
       alert(`Die Playlist "${playlist}" wurde erfolgreich gelöscht.`);
-      updateAllLists();
+      updateAllLists(src.playlist);
     } else {
       alert(`Die Löschung der Playlist "${playlist}" wurde abgebrochen.`);
     }
