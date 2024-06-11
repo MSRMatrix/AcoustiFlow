@@ -35,11 +35,14 @@ const Music = ({ src, setSrc }) => {
         }, 1000);
         
       }
-      const newTitle = {
+      else{
+        const newTitle = {
         name: title,
         src: newSrc.src,
       };
       setSrc(newTitle);
+      }
+      
     }, 1000);
   }
 
