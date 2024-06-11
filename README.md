@@ -12,3 +12,4 @@ Mp3 Player Ideen:
 -Lauter und leiser Button komplett erneuern
 -Anzeige dafür wie lange schon ein Lied läuft und wie lange es dauert
 -Stylingzeit
+-Icon für den Tab und einen richtigen Namen

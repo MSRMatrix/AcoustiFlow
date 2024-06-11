@@ -19,7 +19,6 @@ const Music = ({ src, setSrc }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setCurrentList([])
-    showCurrentPlaylist(setCurrentList, currentList[0].playlist)
     const newSrc = {
       src: e.target.elements.src.value,
     };
