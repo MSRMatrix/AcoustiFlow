@@ -48,6 +48,7 @@ const MusicPlayer = () => {
     }
     return src.name;
 };
+console.log(currentSongIndex <= 0);
 
   return (
     <>

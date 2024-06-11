@@ -8,10 +8,11 @@ import ShowInput from "../../../MusicContext/ShowInput";
 import CurrentSongIndex from "../../../MusicContext/CurrentSongIndex";
 import { showCurrentPlaylist } from "../../../functions/ShowCurrentPlaylist";
 import CurrentList from "../../../MusicContext/CurrentList";
+import TakeMusic from "../../../MusicContext/TakeMusic";
 
 const Table = ({ src, setSrc }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [takeMusic, setTakeMusic] = useState([]);
+  const {takeMusic, setTakeMusic} = useContext(TakeMusic);
   const { displayTable, setDisplayTable } = useContext(DisplayTable);
   
   const { playlistContext, setPlaylistContext } = useContext(PlaylistContext);
@@ -210,7 +211,6 @@ const Table = ({ src, setSrc }) => {
       )}
       {isOpen && (
         <PlaylistChanger
-          takeMusic={takeMusic}
           setIsOpen={setIsOpen}
           src={src}
           setSrc={setSrc}

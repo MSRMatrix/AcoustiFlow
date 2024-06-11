@@ -8,6 +8,7 @@ import PlaylistContext from './components/music-player/MusicContext/PlaylistCont
 import ShowInput from './components/music-player/MusicContext/ShowInput'
 import CurrentSongIndex from './components/music-player/MusicContext/CurrentSongIndex'
 import CurrentList from './components/music-player/MusicContext/CurrentList'
+import TakeMusic from './components/music-player/MusicContext/TakeMusic'
 
 
 const router = createBrowserRouter ([
@@ -27,8 +28,10 @@ function App() {
   const [showInput, setShowInput] = useState(false)
   const [currentSongIndex, setCurrentSongIndex] = useState(0)
   const [currentList, setCurrentList] = useState(0)
+  const [takeMusic, setTakeMusic] = useState([]);
   return (
     <>
+    <TakeMusic.Provider value={{takeMusic, setTakeMusic}}>
     <CurrentList.Provider value={{currentList, setCurrentList}}>
     <CurrentSongIndex.Provider value={{currentSongIndex, setCurrentSongIndex}}>
     <ShowInput.Provider value={{showInput, setShowInput}}>
@@ -40,6 +43,7 @@ function App() {
     </ShowInput.Provider>
     </CurrentSongIndex.Provider>
     </CurrentList.Provider>
+    </TakeMusic.Provider>
     </>
   )
 }

@@ -4,13 +4,22 @@ import { newestList } from "../../functions/NewestList";
 import DisplayTable from "../../MusicContext/DisplayTable";
 import { isMobile } from "react-device-detect";
 import ShowInput from "../../MusicContext/ShowInput";
+import TakeMusic from "../../MusicContext/TakeMusic";
+import { PlaylistChanger } from "../dialog/Dialog";
+import CurrentList from "../../MusicContext/CurrentList";
+import { showCurrentPlaylist } from "../../functions/ShowCurrentPlaylist";
 
 const Music = ({ src, setSrc }) => {
   const { displayTable, setDisplayTable } = useContext(DisplayTable);
   const {showInput, setShowInput} = useContext(ShowInput)
+  const {takeMusic, setTakeMusic} = useContext(TakeMusic);
+  const { currentList, setCurrentList } = useContext(CurrentList);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setCurrentList([])
+    showCurrentPlaylist(setCurrentList, currentList)
     const newSrc = {
       src: e.target.elements.src.value,
     };
@@ -33,7 +42,6 @@ const Music = ({ src, setSrc }) => {
         setSrc(music);
         return  
         }, 1000);
-        
       }
       else{
         const newTitle = {
@@ -47,30 +55,24 @@ const Music = ({ src, setSrc }) => {
   }
 
   const handleSaveMusic = () => {
-    setShowInput(false);
+    
     const storage = localStorage.getItem("your-music");
-    const newData = `${src.name}, ${src.src}`;
+    const newData = {
+      name: src.name, 
+      src: src.src
+    }
     if (!src.name || !src.src) {
       alert("Diese Felder dürfen nicht leer sein!");
       return;
     }
     if (storage) {
-      const existingData = storage.split(", ").map((item) => item.trim());
-      if (existingData.includes(src.src)) {
-        alert("Dieses Lied existiert schon!");
-        setSrc([]);
-        
-        return;
-      }
-      const updatedData = `${storage}, ${newData.trim()}`;
-      localStorage.setItem("your-music", updatedData);
-    } else {
-      localStorage.setItem("your-music", newData);
-    }
+      
+      setTakeMusic(newData)
     newestList(setDisplayTable);
+    setShowInput(false);
     setSrc([]);
-  };
-
+  }
+  }
   const handleDeleteMusic = () => {
     setSrc([]);
     setShowInput(false);
@@ -102,7 +104,13 @@ const Music = ({ src, setSrc }) => {
   }, []);
 
   return (
-    <>
+    <> {isOpen && (
+        <PlaylistChanger
+          setIsOpen={setIsOpen}
+          src={src}
+          setSrc={setSrc}
+        />
+      )}
       <form onSubmit={handleSubmit}>
         <input
           type="url"
@@ -116,7 +124,7 @@ const Music = ({ src, setSrc }) => {
       {showInput && (
         <div>
           <p>Möchten Sie dieses Lied speichern?</p>
-          <button onClick={handleSaveMusic}>Ja</button>
+          <button onClick={() => {handleSaveMusic(), setIsOpen(true)}}>Ja</button>
 
           <button onClick={handleDeleteMusic}>Nein</button>
           <input
@@ -130,7 +138,7 @@ const Music = ({ src, setSrc }) => {
         src={src}
         setSrc={setSrc}
       />
-
+ 
       <form onSubmit={handleNewPlaylist}>
         <input type="text" placeholder="Neue Playlist erstellen" />
         <button type="submit">Erstellen</button>

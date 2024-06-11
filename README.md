@@ -9,6 +9,6 @@ Mp3 Player Ideen:
 -Email Function mit einem Cooldown von 1 Stunde einbauen
 -Lied wechseln Button braucht Cooldown
 -Verschieben von Liedern muss ermöglicht werden(Index)
--Mobile Version hat einen Fehler mit dem Title bei dem aller ersten Rendern
 -Lauter und leiser Button komplett erneuern
+-Anzeige dafür wie lange schon ein Lied läuft und wie lange es dauert
 -Stylingzeit
