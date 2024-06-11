@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 import "./musicPlayer.css";
 import Settings from "./settings/Settings";
-import { NavLink } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import CurrentSongIndex from "./MusicContext/CurrentSongIndex";
 
 const MusicPlayer = () => {
@@ -87,6 +87,7 @@ const MusicPlayer = () => {
         setSrc={setSrc}
       />
       <NavLink to="/import-export">Daten exportieren oder importieren</NavLink>
+      <Outlet />
     </>
   );
 };

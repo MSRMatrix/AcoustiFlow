@@ -2,51 +2,34 @@ import { useState, useEffect, useContext } from "react";
 import Table from "./table/Table";
 import { newestList } from "../../functions/NewestList";
 import DisplayTable from "../../MusicContext/DisplayTable";
-import Storage from "../../MusicContext/Storage";
-import { displayStorage } from "../../functions/DisplayStorage";
 import { isMobile } from "react-device-detect";
 import ShowInput from "../../MusicContext/ShowInput";
 
 const Music = ({ src, setSrc }) => {
   const { displayTable, setDisplayTable } = useContext(DisplayTable);
-  const { storage, setStorage } = useContext(Storage);
   const {showInput, setShowInput} = useContext(ShowInput)
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const newSrc = {
       src: e.target.elements.src.value,
     };
-    setSrc(newSrc);
+      setSrc(newSrc);
+      titleFixer(newSrc)
+    e.target.reset();
+    setShowInput(true)
+  };
+
+  const titleFixer = (newSrc) => {
     setTimeout(() => {
       let title = document.querySelector("iframe").title.split(",").join("");
-
-      if (isMobile) {
-        setTimeout(() => {
-          if (title === "YouTube video player") {
-            title = "Unkown Title";
-          }
-
-          const newTitle = {
-            name: title,
-            src: newSrc.src,
-          };
-          setSrc(newTitle);
-          e.target.reset();
-          return;
-        }, 1000);
-      }
-
       const newTitle = {
         name: title,
         src: newSrc.src,
       };
       setSrc(newTitle);
     }, 1000);
-    e.target.reset();
-    setShowInput(true)
-  };
+  }
 
   const handleSaveMusic = () => {
     setShowInput(false);
@@ -69,7 +52,7 @@ const Music = ({ src, setSrc }) => {
     } else {
       localStorage.setItem("your-music", newData);
     }
-    displayStorage(setStorage);
+    newestList(setDisplayTable);
     setSrc([]);
   };
 

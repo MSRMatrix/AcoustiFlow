@@ -1,11 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import DisplayTable from "../MusicContext/DisplayTable";
-import Storage from "../MusicContext/Storage";
 
 const ExportImport = () => {
   const {displayTable, setDisplayTable} = useContext(DisplayTable)
-  const {storage, setStorage} = useContext(Storage)
 
 
   const [reload, setReload] = useState(false)
@@ -54,7 +52,6 @@ const ExportImport = () => {
   const deleteStorage = () => {
     if(confirm("Möchtest du alle Daten löschen?")){
       localStorage.clear()
-      setStorage([])
       setDisplayTable([])
       alert("Daten erfolgreich gelöscht!")
       setReload(true)
@@ -78,7 +75,7 @@ const ExportImport = () => {
     <h2>Daten löschen</h2>
      {localStorage.length > 0 ? <button onClick={deleteStorage}>Löschen</button> : <p>Keine Daten zum löschen</p>}
 
-     <NavLink to="/music-player">Zurück</NavLink>
+     <NavLink to="/">Zurück</NavLink>
     </>
   );
 };

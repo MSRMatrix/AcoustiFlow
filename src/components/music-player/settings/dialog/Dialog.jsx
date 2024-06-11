@@ -2,14 +2,11 @@ import { useContext, useEffect } from "react";
 import "./dialog.css";
 import { newestList } from "../../functions/NewestList";
 import DisplayTable from "../../MusicContext/DisplayTable";
-import { displayStorage } from "../../functions/DisplayStorage";
-import Storage from "../../MusicContext/Storage";
 import PlaylistContext from "../../MusicContext/PlaylistContext";
 import ShowInput from "../../MusicContext/ShowInput";
 
 const PlaylistChanger = ({ setIsOpen, src, setSrc, takeMusic, updateSrc}) => {
   const {displayTable, setDisplayTable} = useContext(DisplayTable)
-  const { storage, setStorage } = useContext(Storage);
   const {playlistContext, setPlaylistContext} = useContext(PlaylistContext)
   const {showInput, setShowInput} = useContext(ShowInput)
   const newStorage = Object.entries(localStorage);
@@ -42,7 +39,6 @@ const PlaylistChanger = ({ setIsOpen, src, setSrc, takeMusic, updateSrc}) => {
       random[1].trim();
 
      localStorage.setItem(playlist, newData); 
-     displayStorage(setStorage);
      newestList(setDisplayTable)
      if(src.playlist === playlist){
       return updateSrc()
@@ -56,7 +52,6 @@ const PlaylistChanger = ({ setIsOpen, src, setSrc, takeMusic, updateSrc}) => {
       random[1].trim();
 
       localStorage.setItem(playlist, newData); 
-    displayStorage(setStorage);  
     newestList(setDisplayTable)
     if(src.playlist === playlist){
       return updateSrc()

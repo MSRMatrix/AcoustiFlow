@@ -3,8 +3,6 @@ import "./table.css";
 import { PlaylistChanger } from "../../dialog/Dialog";
 import { newestList } from "../../../functions/NewestList";
 import DisplayTable from "../../../MusicContext/DisplayTable";
-import { displayStorage } from "../../../functions/DisplayStorage";
-import Storage from "../../../MusicContext/Storage";
 import PlaylistContext from "../../../MusicContext/PlaylistContext";
 import ShowInput from "../../../MusicContext/ShowInput";
 import CurrentSongIndex from "../../../MusicContext/CurrentSongIndex";
@@ -15,14 +13,13 @@ const Table = ({ src, setSrc }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [takeMusic, setTakeMusic] = useState([]);
   const { displayTable, setDisplayTable } = useContext(DisplayTable);
-  const { storage, setStorage } = useContext(Storage);
+  
   const { playlistContext, setPlaylistContext } = useContext(PlaylistContext);
   const { showInput, setShowInput } = useContext(ShowInput);
   const { currentSongIndex, setCurrentSongIndex } = useContext(CurrentSongIndex);
   const { currentList, setCurrentList } = useContext(CurrentList);
 
   const updateAllLists = (playlist) => {
-    displayStorage(setStorage);
     newestList(setDisplayTable, playlist); 
     showCurrentPlaylist(setCurrentList, playlist);
   };
@@ -37,7 +34,6 @@ const Table = ({ src, setSrc }) => {
       for (let i = 0; i < parsedData.length; i += 2) {
         if (parsedData.length <= 2) {
           localStorage.setItem(playlist, "");
-          setStorage([]);
           updateAllLists();
           return;
         }
@@ -133,27 +129,6 @@ const Table = ({ src, setSrc }) => {
       });
 
       updateAllLists(list.playlist);
-    } else {
-      const playlistName = "your-music";
-      const songs = storage;
-      const musicIndex = songs.findIndex((item) => item.name === music.name);
-      if (musicIndex === -1) {
-        console.error("Selected music not found in the list");
-        return;
-      }
-      const arrayList = songs.slice(musicIndex).concat(songs.slice(0, musicIndex));
-      const updatedList = {
-        playlist: playlistName,
-        songs: arrayList,
-      };
-      setCurrentSongIndex(0);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      setSrc({
-        playlist: playlistName,
-        name: updatedList.songs.map((item) => item.name),
-        src: updatedList.songs.map((item) => item.src),
-      });
-      updateAllLists(playlistName);
     }
   };
 
