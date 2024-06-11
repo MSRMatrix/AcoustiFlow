@@ -23,7 +23,7 @@ const Music = ({ src, setSrc }) => {
   const titleFixer = (newSrc) => {
     setTimeout(() => {
       const title = document.querySelector("iframe").title.split(",").join("");
-      if(title === "Youtube media player"){
+      if(title === "YouTube video player"){
         setTimeout(() => {
         const newTitle = document.querySelector("iframe").title.split(",").join("");
         const music = {
