@@ -55,7 +55,6 @@ const Music = ({ src, setSrc }) => {
 
   const handleSaveMusic = () => {
     
-    const storage = localStorage.getItem("your-music");
     const newData = {
       name: src.name, 
       src: src.src
@@ -64,14 +63,13 @@ const Music = ({ src, setSrc }) => {
       alert("Diese Felder dürfen nicht leer sein!");
       return;
     }
-    if (storage) {
-      
       setTakeMusic(newData)
     newestList(setDisplayTable);
     setShowInput(false);
     setSrc([]);
-  }
-  }
+  } 
+
+
   const handleDeleteMusic = () => {
     setSrc([]);
     setShowInput(false);

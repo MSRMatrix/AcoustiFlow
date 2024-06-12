@@ -48,8 +48,6 @@ const MusicPlayer = () => {
     }
     return src.name;
 };
-console.log(currentSongIndex <= 0);
-
   return (
     <>
       {src.playlist ? <p>The Playlist: {src.playlist}</p> : <></>} 

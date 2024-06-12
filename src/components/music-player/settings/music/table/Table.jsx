@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import "./table.css";
-import { PlaylistChanger } from "../../dialog/Dialog";
+import { EditName, PlaylistChanger } from "../../dialog/Dialog";
 import { newestList } from "../../../functions/NewestList";
 import DisplayTable from "../../../MusicContext/DisplayTable";
 import PlaylistContext from "../../../MusicContext/PlaylistContext";
@@ -12,19 +12,20 @@ import TakeMusic from "../../../MusicContext/TakeMusic";
 
 const Table = ({ src, setSrc }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const {takeMusic, setTakeMusic} = useContext(TakeMusic);
+  const [openEditWindow, setOpenEditWindow] = useState(false);
+  const { takeMusic, setTakeMusic } = useContext(TakeMusic);
   const { displayTable, setDisplayTable } = useContext(DisplayTable);
-  
+
   const { playlistContext, setPlaylistContext } = useContext(PlaylistContext);
   const { showInput, setShowInput } = useContext(ShowInput);
-  const { currentSongIndex, setCurrentSongIndex } = useContext(CurrentSongIndex);
+  const { currentSongIndex, setCurrentSongIndex } =
+    useContext(CurrentSongIndex);
   const { currentList, setCurrentList } = useContext(CurrentList);
 
   const updateAllLists = (playlist) => {
-    newestList(setDisplayTable, playlist); 
+    newestList(setDisplayTable, playlist);
     showCurrentPlaylist(setCurrentList, playlist);
   };
-
 
   const handleDelete = (item, playlist) => {
     setShowInput(false);
@@ -35,7 +36,7 @@ const Table = ({ src, setSrc }) => {
       for (let i = 0; i < parsedData.length; i += 2) {
         if (parsedData.length <= 2) {
           localStorage.setItem(playlist, "");
-          updateAllLists();
+          updateAllLists(playMusic);
           return;
         }
         if (parsedData[i] !== item.name || parsedData[i + 1] !== item.src) {
@@ -43,7 +44,7 @@ const Table = ({ src, setSrc }) => {
         }
       }
       localStorage.setItem(playlist, updatedData.join(", "));
-      updateAllLists();
+      updateAllLists(playMusic);
     }
     if (playlist === src.playlist) {
       updateSrc();
@@ -117,7 +118,9 @@ const Table = ({ src, setSrc }) => {
         console.error("Selected music not found in the list");
         return;
       }
-      const arrayList = songs.slice(musicIndex).concat(songs.slice(0, musicIndex));
+      const arrayList = songs
+        .slice(musicIndex)
+        .concat(songs.slice(0, musicIndex));
       const updatedList = {
         playlist: playlistName,
         songs: arrayList,
@@ -152,7 +155,7 @@ const Table = ({ src, setSrc }) => {
   };
 
   useEffect(() => {
-    updateAllLists();  
+    updateAllLists();
   }, []);
 
   return (
@@ -180,12 +183,33 @@ const Table = ({ src, setSrc }) => {
               <tbody>
                 {item.songs.map((innerItem, key) =>
                   innerItem.name.length > 0 ? (
-                    <tr key={innerItem.src} style={{background: src && src.name && src.name[currentSongIndex] === innerItem.name && src.src && src.src[currentSongIndex] === innerItem.src || src && src.name && Array.isArray(src.name[currentSongIndex]) && src.name[currentSongIndex].join(", ") === innerItem.name && src.src && src.src[currentSongIndex] === innerItem.src ? "red": ""}}>
+                    <tr
+                      key={innerItem.src}
+                      style={{
+                        background:
+                          (src &&
+                            src.name &&
+                            src.name[currentSongIndex] === innerItem.name &&
+                            src.src &&
+                            src.src[currentSongIndex] === innerItem.src) ||
+                          (src &&
+                            src.name &&
+                            Array.isArray(src.name[currentSongIndex]) &&
+                            src.name[currentSongIndex].join(", ") ===
+                              innerItem.name &&
+                            src.src &&
+                            src.src[currentSongIndex] === innerItem.src)
+                            ? "red"
+                            : "",
+                      }}
+                    >
                       <td onClick={() => playMusic(innerItem, item)}>
                         {innerItem.name}
                       </td>
                       <td>
-                        <button onClick={() => handleDelete(innerItem, item.playlist)}>
+                        <button
+                          onClick={() => handleDelete(innerItem, item.playlist)}
+                        >
                           Delete
                         </button>
                         <button
@@ -197,6 +221,7 @@ const Table = ({ src, setSrc }) => {
                         >
                           Verschieben
                         </button>
+                        <button onClick={() => {setOpenEditWindow(true); setTakeMusic({playlist: item.playlist ,name: innerItem.name, src: innerItem.src});}}>Rename</button>
                       </td>
                     </tr>
                   ) : (
@@ -216,6 +241,16 @@ const Table = ({ src, setSrc }) => {
           src={src}
           setSrc={setSrc}
           updateSrc={updateSrc}
+        />
+      )}
+      {openEditWindow && (
+        <EditName
+          setOpenEditWindow={setOpenEditWindow}
+          src={src}
+          setSrc={setSrc}
+          updateSrc={updateSrc}
+          takeMusic={takeMusic}
+          updateAllLists={updateAllLists}
         />
       )}
 
@@ -247,7 +282,9 @@ const Table = ({ src, setSrc }) => {
                         {innerItem.name}
                       </td>
                       <td>
-                        <button onClick={() => handleDelete(innerItem, item.playlist)}>
+                        <button
+                          onClick={() => handleDelete(innerItem, item.playlist)}
+                        >
                           Delete
                         </button>
                         <button
@@ -259,6 +296,7 @@ const Table = ({ src, setSrc }) => {
                         >
                           Verschieben
                         </button>
+                        <button onClick={() => {setOpenEditWindow(true); setTakeMusic({playlist: item.playlist ,name: innerItem.name, src: innerItem.src});}}>Rename</button>
                       </td>
                     </tr>
                   ) : (
