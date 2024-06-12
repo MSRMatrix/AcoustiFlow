@@ -95,8 +95,14 @@ const Music = ({ src, setSrc }) => {
       
     }
     e.target.reset();
-    newestList(setDisplayTable, currentList[0].playlist);
-      showCurrentPlaylist(setCurrentList, currentList[0].playlist)
+    if(currentList.length >= 1){
+      newestList(setDisplayTable, currentList[0].playlist);
+      showCurrentPlaylist(setCurrentList, currentList[0].playlist)  
+    }
+    else{
+      newestList(setDisplayTable);
+    }
+    
     alert("Neue Playlist erstellt!");
 
   };

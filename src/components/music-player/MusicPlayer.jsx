@@ -19,6 +19,11 @@ const MusicPlayer = () => {
   });
   const {currentSongIndex, setCurrentSongIndex} = useContext(CurrentSongIndex);
 
+
+  if(localStorage.length < 1){
+    localStorage.setItem("default-list", "")
+  }
+  
   const handleNextSong = () => {
     setCurrentSongIndex((prevIndex) => (prevIndex + 1) % (src.src.length || 1));
   };

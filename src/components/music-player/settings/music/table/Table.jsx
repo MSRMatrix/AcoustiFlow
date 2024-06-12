@@ -233,7 +233,7 @@ const Table = ({ src, setSrc }) => {
           </div>
         ))
       ) : (
-        <p>Sie haben noch keine Liste angelegt!</p>
+        <></>
       )}
       {isOpen && (
         <PlaylistChanger
@@ -308,7 +308,7 @@ const Table = ({ src, setSrc }) => {
           </div>
         ))
       ) : (
-        <p>Sie haben noch keine Liste angelegt!</p>
+        <p>No Playlist there!</p>
       )}
     </>
   );
