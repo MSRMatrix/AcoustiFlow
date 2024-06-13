@@ -123,6 +123,10 @@ const EditName = ({ setOpenEditWindow, takeMusic, updateSrc, updateAllLists, src
       return alert("inputs are empty")
     }
 
+    if(storedData.includes(item.url)){
+      return alert("Music already exists!")
+    }
+
     if (storedData) {
       const parsedData = storedData.split(", ");
       
@@ -168,4 +172,56 @@ const EditName = ({ setOpenEditWindow, takeMusic, updateSrc, updateAllLists, src
   );
 };
 
-export { PlaylistChanger, EditName };
+const ChangePlaylist = ({setOpenChangePlaylistName, updateAllLists}) => {
+  const { currentList, setCurrentList } = useContext(CurrentList);
+  const { takeMusic, setTakeMusic } = useContext(TakeMusic);
+  const { displayTable, setDisplayTable } = useContext(DisplayTable);
+  const currentPlaylist = currentList[0]?.playlist;
+  const renamePlaylist = (e) => {
+    e.preventDefault()
+
+    const oldList = localStorage.getItem(takeMusic);
+  
+    const formObject = new FormData(e.target);
+    const formData = {};
+    formObject.forEach((value, key) => {
+      formData[key] = value;
+    });
+    const newName = formData.playlist
+    if(localStorage.getItem(newName)){
+       return alert(`${newName} already exists!`)
+     }
+    
+     if (oldList === null) {
+       console.error(`Playlist "${takeMusic}" does not exist.`);
+       return;
+     }
+  
+     localStorage.setItem(newName, oldList);
+     localStorage.removeItem(takeMusic);
+     alert("Playlist was renamed!")
+     if(takeMusic === currentPlaylist){
+       updateAllLists(newName);
+     }
+     setOpenChangePlaylistName(false)
+     newestList(setDisplayTable, currentPlaylist);
+    showCurrentPlaylist(setCurrentList, currentPlaylist);
+  }
+
+
+  return(
+  <dialog open>
+  <form action="" onSubmit={renamePlaylist}>
+        <legend>New Playlistname</legend>
+        <input defaultValue={takeMusic} name="playlist" type="text" required/>
+        <button onSubmit type="submit">
+          Change
+        </button>
+      </form>
+
+      <button onClick={() => setOpenChangePlaylistName(false)}>close</button>
+  </dialog>
+)
+}
+
+export { PlaylistChanger, EditName, ChangePlaylist };

@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import "./table.css";
-import { EditName, PlaylistChanger } from "../../dialog/Dialog";
+import { ChangePlaylist, EditName, PlaylistChanger } from "../../dialog/Dialog";
 import { newestList } from "../../../functions/NewestList";
 import DisplayTable from "../../../MusicContext/DisplayTable";
 import PlaylistContext from "../../../MusicContext/PlaylistContext";
@@ -13,6 +13,7 @@ import TakeMusic from "../../../MusicContext/TakeMusic";
 const Table = ({ src, setSrc }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [openEditWindow, setOpenEditWindow] = useState(false);
+  const [openChangePlaylistName, setOpenChangePlaylistName] = useState(false);
   const { takeMusic, setTakeMusic } = useContext(TakeMusic);
   const { displayTable, setDisplayTable } = useContext(DisplayTable);
 
@@ -153,7 +154,7 @@ const Table = ({ src, setSrc }) => {
     });
     updateAllLists(src.playlist);
   };
-
+  
   useEffect(() => {
     updateAllLists();
   }, []);
@@ -163,7 +164,7 @@ const Table = ({ src, setSrc }) => {
       {currentList.length > 0 ? (
         currentList.map((item) => (
           <div key={item.playlist} className="current-list">
-            <h2>Current Playlist: {item.playlist}</h2>
+            <h2>Current Playlist: {item.playlist}</h2><button onClick={() => {setOpenChangePlaylistName(true), setTakeMusic(item.playlist)}}>Change Name</button>
             <button onClick={() => deletePlaylist(item.playlist)}>
               Playlist löschen
             </button>
@@ -253,10 +254,16 @@ const Table = ({ src, setSrc }) => {
           updateAllLists={updateAllLists}
         />
       )}
+{openChangePlaylistName && (
+        <ChangePlaylist
+        setOpenChangePlaylistName={setOpenChangePlaylistName}
+        updateAllLists={updateAllLists}
+        />
+      )}
 
       {displayTable.length > 0 ? (
         displayTable.map((item) => (
-          <div key={item.playlist}>
+          <div key={item.playlist}><button onClick={() => {setOpenChangePlaylistName(true), setTakeMusic(item.playlist)}}>Change Name</button>
             <h2>{item.playlist}</h2>
             <button onClick={() => deletePlaylist(item.playlist)}>
               Playlist löschen
