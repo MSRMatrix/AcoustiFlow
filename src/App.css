@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Honk&family=Nabla&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@100..800&display=swap');
+
+h3{
+    font-family: "Nabla", system-ui;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings:
+      "EDPT" 100,
+      "EHLT" 12;
+  }
+
+*{
+  font-family: "Playpen Sans", cursive;
+  font-optical-sizing: auto;
+  font-style: normal; 
+}

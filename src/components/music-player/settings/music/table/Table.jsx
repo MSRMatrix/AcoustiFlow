@@ -154,7 +154,7 @@ const Table = ({ src, setSrc }) => {
     });
     updateAllLists(src.playlist);
   };
-  
+
   useEffect(() => {
     updateAllLists();
   }, []);
@@ -164,21 +164,28 @@ const Table = ({ src, setSrc }) => {
       {currentList.length > 0 ? (
         currentList.map((item) => (
           <div key={item.playlist} className="current-list">
-            <h2>Current Playlist: {item.playlist}</h2><button onClick={() => {setOpenChangePlaylistName(true), setTakeMusic(item.playlist)}}>Change Name</button>
+            <h2>Current Playlist: {item.playlist}</h2>
+            <button
+              onClick={() => {
+                setOpenChangePlaylistName(true), setTakeMusic(item.playlist);
+              }}
+            >
+              Change Name
+            </button>
             <button onClick={() => deletePlaylist(item.playlist)}>
-              Playlist löschen
+              Delete List
             </button>
             <button onClick={() => listFunction(item)}>
-              Playlist abspielen
+              Play
             </button>
             <button onClick={() => randomSequence(item)}>
-              Zufällige Reihenfolge
+              Random
             </button>
             <table>
               <thead>
                 <tr>
                   <th>Song</th>
-                  <th>Aktionen</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -222,7 +229,18 @@ const Table = ({ src, setSrc }) => {
                         >
                           Verschieben
                         </button>
-                        <button onClick={() => {setOpenEditWindow(true); setTakeMusic({playlist: item.playlist ,name: innerItem.name, src: innerItem.src});}}>Rename</button>
+                        <button
+                          onClick={() => {
+                            setOpenEditWindow(true);
+                            setTakeMusic({
+                              playlist: item.playlist,
+                              name: innerItem.name,
+                              src: innerItem.src,
+                            });
+                          }}
+                        >
+                          Rename
+                        </button>
                       </td>
                     </tr>
                   ) : (
@@ -254,31 +272,38 @@ const Table = ({ src, setSrc }) => {
           updateAllLists={updateAllLists}
         />
       )}
-{openChangePlaylistName && (
+      {openChangePlaylistName && (
         <ChangePlaylist
-        setOpenChangePlaylistName={setOpenChangePlaylistName}
-        updateAllLists={updateAllLists}
+          setOpenChangePlaylistName={setOpenChangePlaylistName}
+          updateAllLists={updateAllLists}
         />
       )}
 
       {displayTable.length > 0 ? (
         displayTable.map((item) => (
-          <div key={item.playlist}><button onClick={() => {setOpenChangePlaylistName(true), setTakeMusic(item.playlist)}}>Change Name</button>
+          <div key={item.playlist}>
             <h2>{item.playlist}</h2>
+            <button
+              onClick={() => {
+                setOpenChangePlaylistName(true), setTakeMusic(item.playlist);
+              }}
+            >
+              Change Name
+            </button>
             <button onClick={() => deletePlaylist(item.playlist)}>
-              Playlist löschen
+              Delete Playlist
             </button>
             <button onClick={() => listFunction(item)}>
-              Playlist abspielen
+              Play
             </button>
             <button onClick={() => randomSequence(item)}>
-              Zufällige Reihenfolge
+              Random 
             </button>
             <table>
               <thead>
                 <tr>
                   <th>Song</th>
-                  <th>Aktionen</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -303,7 +328,18 @@ const Table = ({ src, setSrc }) => {
                         >
                           Verschieben
                         </button>
-                        <button onClick={() => {setOpenEditWindow(true); setTakeMusic({playlist: item.playlist ,name: innerItem.name, src: innerItem.src});}}>Rename</button>
+                        <button
+                          onClick={() => {
+                            setOpenEditWindow(true);
+                            setTakeMusic({
+                              playlist: item.playlist,
+                              name: innerItem.name,
+                              src: innerItem.src,
+                            });
+                          }}
+                        >
+                          Rename
+                        </button>
                       </td>
                     </tr>
                   ) : (

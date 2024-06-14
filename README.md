@@ -9,6 +9,4 @@ Mp3 Player Ideen:
 -Lied wechseln Button braucht Cooldown
 -Verschieben von Liedern muss ermöglicht werden(Index)
 -Lauter und leiser Button komplett erneuern
--Anzeige dafür wie lange schon ein Lied läuft und wie lange es dauert
 -Stylingzeit
--Icon für den Tab und einen richtigen Namen

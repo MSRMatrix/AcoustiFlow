@@ -199,13 +199,19 @@ const ChangePlaylist = ({setOpenChangePlaylistName, updateAllLists}) => {
   
      localStorage.setItem(newName, oldList);
      localStorage.removeItem(takeMusic);
+     console.log(currentPlaylist);
+     console.log(takeMusic);
+     
      alert("Playlist was renamed!")
      if(takeMusic === currentPlaylist){
        updateAllLists(newName);
      }
-     setOpenChangePlaylistName(false)
-     newestList(setDisplayTable, currentPlaylist);
+     else{
+      newestList(setDisplayTable, currentPlaylist);
     showCurrentPlaylist(setCurrentList, currentPlaylist);
+     }
+     setOpenChangePlaylistName(false)
+     
   }
 
 

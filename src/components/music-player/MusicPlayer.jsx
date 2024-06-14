@@ -4,6 +4,7 @@ import "./musicPlayer.css";
 import Settings from "./settings/Settings";
 import { NavLink, Outlet } from "react-router-dom";
 import CurrentSongIndex from "./MusicContext/CurrentSongIndex";
+import CurrentList from "./MusicContext/CurrentList";
 
 const MusicPlayer = () => {
   const [playing, setIsPlaying] = useState(true);
@@ -18,7 +19,7 @@ const MusicPlayer = () => {
     src: []
   });
   const {currentSongIndex, setCurrentSongIndex} = useContext(CurrentSongIndex);
-
+  const { currentList, setCurrentList } = useContext(CurrentList);
 
   if(localStorage.length < 1){
     localStorage.setItem("default-list", "")
@@ -55,10 +56,12 @@ const MusicPlayer = () => {
 };
   return (
     <>
-      {src.playlist ? <p>The Playlist: {src.playlist}</p> : <></>} 
+      
       <div className="player-container">
-        <button onClick={handleNextSong}>Weiter</button>
+        <button onClick={handlePreviousSong}><i className="fa-solid fa-backward-step"></i></button>
+        
         <div className="test">
+          {currentList ? <h3>{currentList[0]?.playlist}</h3> : <></>} 
           <ReactPlayer
           url={getCurrentUrl()}
           controls
@@ -72,9 +75,10 @@ const MusicPlayer = () => {
           height={100}
           progressInterval={1000} 
         />
-        </div>
         <p>{getCurrentName()}</p>
-        <button onClick={handlePreviousSong}>Zurück</button>
+        </div>
+        <button onClick={handleNextSong}><i className="fa-solid fa-forward-step"></i></button>
+        
       </div>
       <Settings
         playing={playing}

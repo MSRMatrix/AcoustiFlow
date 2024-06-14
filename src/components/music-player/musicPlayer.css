@@ -1,10 +1,53 @@
-.player-container{
-    border: 2px red solid;
-    height: 500px;
-    width: fit-content;
-    border-radius: 200px;
+/* musicPlayer.css */
+.player-container {
+    display: flex;
+    align-items: center;
+    background-color: #282c34;
+    padding: 20px;
+    border-radius: 10px;
+    color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: fit-content;
+    margin: 20px auto;
+    margin-bottom: 0px;
+}
+
+ button {
+    background: #61dafb;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    color: #282c34;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 10px;
+    transition: background 0.3s;
+}
+
+ button:hover {
+    background: #21a1f1;
+}
+
+.test {
+    width: max-content;
+    margin: 20px 0;
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
+}
+
+p {
+    font-size: 14px;
+    margin: 10px 0;
+}
+
+.nav-link {
+    color: #61dafb;
+    text-decoration: none;
+    margin-top: 20px;
+}
+
+.nav-link:hover {
+    text-decoration: underline;
 }

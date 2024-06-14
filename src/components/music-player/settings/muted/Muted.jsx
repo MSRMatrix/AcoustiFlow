@@ -5,7 +5,7 @@ const Muted = ({muted, setMuted}) => {
     }
     return(
         <>
-        <button onClick={mutedFunction}>{muted ? "Unmuted" : "Muted"}</button>
+        <button onClick={mutedFunction}>{!muted ? <i className="fa-solid fa-volume-high"></i> : <i className="fa-solid fa-volume-xmark"></i>}</button>
         </>
     )
 }

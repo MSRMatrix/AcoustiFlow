@@ -1,14 +1,19 @@
-const Loop = ({loop, setLoop}) => {
+import React from "react";
+import "./loop.css";
 
+const Loop = ({ loop, setLoop }) => {
     const loopFunction = () => {
-        setLoop((prevMode) => !prevMode)
-    }
-    
-    return(
+        setLoop((prevMode) => !prevMode);
+    };
+
+    return (
         <>
-        <button onClick={loopFunction}>{loop ? "Stop loop" : "Loop"}</button>
+            <button className="loop-button" onClick={loopFunction}>
+                {loop && <div className="stop-shuffle">/</div>}
+                <i className="fa-solid fa-shuffle"></i>
+            </button>
         </>
-    )
-}
+    );
+};
 
 export default Loop;

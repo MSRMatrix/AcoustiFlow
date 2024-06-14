@@ -53,7 +53,7 @@ const Volume = ({ volume, setVolume, muted }) => {
         onMouseUp={stopVolumeChange}
         onMouseLeave={stopVolumeChange}
       >
-        leiser
+        <i className="fa-solid fa-minus"></i>
       </button>
       <button 
         disabled={volume >= 1} 
@@ -61,7 +61,7 @@ const Volume = ({ volume, setVolume, muted }) => {
         onMouseUp={stopVolumeChange}
         onMouseLeave={stopVolumeChange}
       >
-        lauter
+        <i className="fa-solid fa-plus"></i>
       </button>
       <p>
         Lautstärke: {!muted ? (volume * 100).toFixed(0) : 0}%
