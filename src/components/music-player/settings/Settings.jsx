@@ -2,7 +2,6 @@ import "./settings.css"
 import Loop from "./loop/Loop";
 import Music from "./music/Music";
 import Muted from "./muted/Muted";
-import PlaybackRate from "./playbackRate/PlaybackRate";
 import Playing from "./playing/Playing";
 import ProgressBar from "./progress/ProgressBar";
 import Volume from "./volume/Volume";
@@ -20,21 +19,23 @@ const Settings = ({
   muted,
   setMuted,
 
-  plackbackRate,
-  setPlaybackRate,
-
   src,
   setSrc,
+
+  time,
+  duration
 }) => {
   return (
     <>
+    <div className="timeline">
+    <ProgressBar time={time} duration={duration}/>   
+    </div>
     <div className="settings-box">
      <Playing playing={playing} setIsPlaying={setIsPlaying} src={src} setSrc={setSrc}/>
       <Loop loop={loop} setLoop={setLoop} />
       <Muted muted={muted} setMuted={setMuted} />
-      <PlaybackRate plackbackRate={plackbackRate} setPlaybackRate={setPlaybackRate} />
       <Volume muted={muted} volume={volume} setVolume={setVolume} />
-      <ProgressBar /> 
+      
     </div>
       
       <Music src={src} setSrc={setSrc} />

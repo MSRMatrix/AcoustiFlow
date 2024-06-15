@@ -179,7 +179,7 @@ const Table = ({ src, setSrc }) => {
               Play
             </button>
             <button onClick={() => randomSequence(item)}>
-              Random
+            <i className="fa-solid fa-shuffle"></i>
             </button>
             <table>
               <thead>
@@ -297,7 +297,7 @@ const Table = ({ src, setSrc }) => {
               Play
             </button>
             <button onClick={() => randomSequence(item)}>
-              Random 
+              <i className="fa-solid fa-shuffle"></i>
             </button>
             <table>
               <thead>

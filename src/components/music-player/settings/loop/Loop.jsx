@@ -10,7 +10,7 @@ const Loop = ({ loop, setLoop }) => {
         <>
             <button className="loop-button" onClick={loopFunction}>
                 {loop && <div className="stop-shuffle">/</div>}
-                <i className="fa-solid fa-shuffle"></i>
+                <i className="fa-solid fa-repeat"></i>
             </button>
         </>
     );

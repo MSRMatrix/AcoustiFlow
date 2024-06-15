@@ -5,6 +5,7 @@ import Settings from "./settings/Settings";
 import { NavLink, Outlet } from "react-router-dom";
 import CurrentSongIndex from "./MusicContext/CurrentSongIndex";
 import CurrentList from "./MusicContext/CurrentList";
+import { handleDuration, handleProgress } from "./functions/Time";
 
 const MusicPlayer = () => {
   const [playing, setIsPlaying] = useState(true);
@@ -13,6 +14,10 @@ const MusicPlayer = () => {
   const [muted, setMuted] = useState(false);
   const [playbackRate, setPlaybackRate] = useState(1);
   const [cooldown, setCooldown] = useState(true)
+  const [duration, setDuration] = useState(0);
+  const [time, setTime] = useState({seconds:"00",
+    minutes:"00"});
+  const [fullTime, setFullTime] = useState(); 
   const [src, setSrc] = useState({
     name: "",
     band: "",
@@ -24,7 +29,7 @@ const MusicPlayer = () => {
   if(localStorage.length < 1){
     localStorage.setItem("default-list", "")
   }
-  
+
   const handleNextSong = () => {
     setCurrentSongIndex((prevIndex) => (prevIndex + 1) % (src.src.length || 1));
   };
@@ -54,29 +59,54 @@ const MusicPlayer = () => {
     }
     return src.name;
 };
+
+const slowerRate = () => {
+  if (playbackRate <= 0.2) {
+    console.log(`Can't get lower!`);
+    return;
+  }
+  const newRate = (playbackRate - 0.2).toFixed(1);
+  setPlaybackRate(parseFloat(newRate));
+};
+
+const fasterRate = () => {
+  if (playbackRate >= 2) {
+    console.log(`Can't get higher!`);
+    return;
+  }
+  const newRate = (playbackRate + 0.2).toFixed(1);
+  setPlaybackRate(parseFloat(newRate));
+};
+
   return (
     <>
-      
       <div className="player-container">
         <button onClick={handlePreviousSong}><i className="fa-solid fa-backward-step"></i></button>
-        
+        <button disabled={playbackRate <= 0.2 ? true : false} onClick={slowerRate}><i className="fa-solid fa-backward"></i></button>
         <div className="test">
-          {currentList ? <h3>{currentList[0]?.playlist}</h3> : <></>} 
+          {currentList[0]?.playlist ? <h3>{currentList[0]?.playlist}</h3> : <h3>No Playlist</h3>} 
           <ReactPlayer
           url={getCurrentUrl()}
           controls
+          width={"100px"}
+          height={"100px"}
           playing={playing}
           volume={volume}
           loop={loop}
           muted={muted}
           playbackRate={playbackRate}
           onEnded={handleNextSong}
-          width={100}
-          height={100}
-          progressInterval={1000} 
+          onDuration={handleDuration(setDuration)}
+          onProgress={handleProgress(setTime)}
+          progressInterval={500}
+          onPlay={() => console.log(`Startet`)
+          }
+          onPause={() => console.log(`Paused`)
+          }
         />
         <p>{getCurrentName()}</p>
         </div>
+        <button disabled={playbackRate >= 2 ? true : false} onClick={fasterRate}><i className="fa-solid fa-forward"></i></button>
         <button onClick={handleNextSong}><i className="fa-solid fa-forward-step"></i></button>
         
       </div>
@@ -89,10 +119,10 @@ const MusicPlayer = () => {
         setLoop={setLoop}
         muted={muted}
         setMuted={setMuted}
-        playbackRate={playbackRate}
-        setPlaybackRate={setPlaybackRate}
         src={src}
         setSrc={setSrc}
+        time={time}
+        duration={duration}
       />
       <NavLink to="/import-export">Daten exportieren oder importieren</NavLink>
       <Outlet />
