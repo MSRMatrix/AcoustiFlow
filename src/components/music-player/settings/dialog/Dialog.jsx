@@ -114,40 +114,36 @@ const EditName = ({ setOpenEditWindow, takeMusic, updateSrc, updateAllLists, src
     });
 
     const playlist = oldMusic.playlist;
-    const item = formData;
-    delete item.playlist;
-
     const storedData = localStorage.getItem(playlist);
-    
-    if(!item.name || !item.url){
-      return alert("inputs are empty")
-    }
 
-    if(storedData.includes(item.url)){
-      return alert("Music already exists!")
-    }
+    if (formData.url === takeMusic.src) {
+      const updatedData = storedData.replace(oldMusic.name, formData.name);
+      localStorage.setItem(playlist, updatedData);
+    } else {
+      if (storedData.includes(formData.url)) {
+        return alert("URL already exists!");
+      }
 
-    if (storedData) {
       const parsedData = storedData.split(", ");
-      
       const nameIndex = parsedData.indexOf(oldMusic.name);
       const srcIndex = parsedData.indexOf(oldMusic.src);
 
       if (nameIndex !== -1 && srcIndex !== -1 && nameIndex + 1 === srcIndex) {
-        parsedData.splice(nameIndex, 2, item.name, item.url);
+        parsedData.splice(nameIndex, 2, formData.name, formData.url);
       } else {
         console.log("Alte Musikdaten wurden nicht wie erwartet gefunden.");
       }
 
       localStorage.setItem(playlist, parsedData.join(", "));
-      updateAllLists();
-      newestList(setDisplayTable, currentPlaylist);
-    showCurrentPlaylist(setCurrentList, currentPlaylist);
-      if (playlist === src.playlist) {
-        updateSrc();
-      }
-      setOpenEditWindow(false)
     }
+
+    updateAllLists();
+    newestList(setDisplayTable, currentPlaylist);
+    showCurrentPlaylist(setCurrentList, currentPlaylist);
+    if (playlist === src.playlist) {
+      updateSrc();
+    }
+    setOpenEditWindow(false);
   };
 
   useEffect(() => {
@@ -159,18 +155,17 @@ const EditName = ({ setOpenEditWindow, takeMusic, updateSrc, updateAllLists, src
     <dialog open>
       <form action="" onSubmit={changeMusic}>
         <legend>Name</legend>
-        <input defaultValue={takeMusic.name} name="name" type="text" required/>
+        <input defaultValue={takeMusic.name} name="name" type="text" required />
         <legend>Url</legend>
-        <input defaultValue={takeMusic.src} name="url" type="url" required/>
-        <button onSubmit={changeMusic} type="submit">
-          Change
-        </button>
+        <input defaultValue={takeMusic.src} name="url" type="url" required />
+        <button type="submit">Change</button>
       </form>
 
       <button onClick={() => setOpenEditWindow(false)}>close</button>
     </dialog>
   );
 };
+
 
 const ChangePlaylist = ({setOpenChangePlaylistName, updateAllLists}) => {
   const { currentList, setCurrentList } = useContext(CurrentList);

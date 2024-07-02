@@ -24,10 +24,6 @@
     transition: background 0.3s;
 }
 
- button:hover {
-    background: #21a1f1;
-}
-
 .test {
     width: max-content;
     margin: 20px 0;
@@ -51,3 +47,33 @@ p {
 .nav-link:hover {
     text-decoration: underline;
 }
+
+.button-style {
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    color: white;
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+  
+  .button-style:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
+  }
+  
+  .button-style i {
+    font-size: 30px;
+    display: inline-block;
+    transform: perspective(100px) rotateY(20deg);
+    transition: transform 0.3s;
+  }
+  
+  .button-style:hover i {
+    transform: perspective(100px) rotateY(20deg) scale(1.1);
+  }

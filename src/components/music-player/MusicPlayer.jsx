@@ -81,8 +81,8 @@ const fasterRate = () => {
   return (
     <>
       <div className="player-container">
-        <button onClick={handlePreviousSong}><i className="fa-solid fa-backward-step"></i></button>
-        <button disabled={playbackRate <= 0.2 ? true : false} onClick={slowerRate}><i className="fa-solid fa-backward"></i></button>
+        <button className="button-style" onClick={handlePreviousSong}><i className="fa-solid fa-backward-step"></i></button>
+        <button className="button-style" disabled={playbackRate <= 0.2 ? true : false} onClick={slowerRate}><i className="fa-solid fa-backward"></i></button>
         <div className="test">
           {currentList[0]?.playlist ? <h3>{currentList[0]?.playlist}</h3> : <h3>No Playlist</h3>} 
           <ReactPlayer
@@ -106,8 +106,8 @@ const fasterRate = () => {
         />
         <p>{getCurrentName()}</p>
         </div>
-        <button disabled={playbackRate >= 2 ? true : false} onClick={fasterRate}><i className="fa-solid fa-forward"></i></button>
-        <button onClick={handleNextSong}><i className="fa-solid fa-forward-step"></i></button>
+        <button className="button-style" disabled={playbackRate >= 2 ? true : false} onClick={fasterRate}><i className="fa-solid fa-forward"></i></button>
+        <button className="button-style" onClick={handleNextSong}><i className="fa-solid fa-forward-step"></i></button>
         
       </div>
       <Settings
