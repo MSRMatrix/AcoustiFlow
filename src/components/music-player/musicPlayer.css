@@ -1,79 +1,78 @@
-/* musicPlayer.css */
 .player-container {
-    display: flex;
-    align-items: center;
-    background-color: #282c34;
-    padding: 20px;
-    border-radius: 10px;
-    color: #ffffff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    max-width: fit-content;
-    margin: 20px auto;
-    margin-bottom: 0px;
+  display: flex;
+  align-items: center;
+  background-color: #282c34;
+  padding: 20px;
+  border-radius: 10px;
+  color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: fit-content;
+  margin: 20px auto;
+  margin-bottom: 0px;
 }
 
- button {
-    background: #61dafb;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    color: #282c34;
-    font-size: 16px;
-    cursor: pointer;
-    margin: 10px;
-    transition: background 0.3s;
+button {
+  background: #61dafb;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  color: #282c34;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 10px;
+  transition: background 0.3s;
 }
 
 .test {
-    width: max-content;
-    margin: 20px 0;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
+  width: max-content;
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 p {
-    font-size: 14px;
-    margin: 10px 0;
+  font-size: 14px;
+  margin: 10px 0;
 }
 
 .nav-link {
-    color: #61dafb;
-    text-decoration: none;
-    margin-top: 20px;
+  color: #61dafb;
+  text-decoration: none;
+  margin-top: 20px;
 }
 
 .nav-link:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .button-style {
-    width: 30px;
-    height: 30px;
-    background-color: transparent;
-    color: white;
-    font-size: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    cursor: pointer;
-    transition: transform 0.3s;
-  }
-  
-  .button-style:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
-  }
-  
-  .button-style i {
-    font-size: 30px;
-    display: inline-block;
-    transform: perspective(100px) rotateY(20deg);
-    transition: transform 0.3s;
-  }
-  
-  .button-style:hover i {
-    transform: perspective(100px) rotateY(20deg) scale(1.1);
-  }
+  width: 30px;
+  height: 30px;
+  background-color: transparent;
+  color: white;
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.button-style:hover {
+  transform: scale(1.1);
+}
+
+.button-style i {
+  font-size: 30px;
+  display: inline-block;
+  transform: perspective(100px) rotateY(20deg);
+  transition: transform 0.3s;
+}
+
+.button-style:hover i {
+  transform: perspective(100px) rotateY(20deg) scale(1.1);
+  color: #a3a5a8;
+}
