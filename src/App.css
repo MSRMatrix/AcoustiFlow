@@ -12,7 +12,32 @@ h3{
   }
 
 *{
-  font-family: "Playpen Sans", cursive;
+  font-family: "Playpen Sans", "Arial";
   font-optical-sizing: auto;
   font-style: normal; 
+}
+
+.hover-text {
+  background-color: rgba(75, 31, 31, 0.8); 
+  color: #fff;
+  padding-left: 5px; 
+  padding-right: 5px; 
+  border-radius: 5px;
+  position: absolute;
+  display: none;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%); 
+  white-space: nowrap; 
+  z-index: 10;
+  
+}
+
+.show-text {
+  display: block;
+}
+
+.text-container{
+  position: relative;
+  
 }
