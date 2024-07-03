@@ -11,3 +11,9 @@
     background-color: aqua;
     border: 2px black solid;
 }
+
+.list-options{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}

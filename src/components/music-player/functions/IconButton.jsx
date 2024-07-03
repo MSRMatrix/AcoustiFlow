@@ -1,20 +1,21 @@
 import { useState } from "react";
 import TextForIcon from "./TextForIcon";
+import "./iconButton.css"
 
 const IconButton = ({ icon, onClick, disabled, text }) => {
   const [showText, setShowText] = useState("");
 
   return (
-    <div style={{ position: "relative" }}>
+    <div className="icon-button-container">
       <TextForIcon showText={showText} text={text} />
-      <button
+      <button 
         onMouseEnter={() => setShowText("show-text")}
         onMouseLeave={() => setShowText("")}
         className="button-style"
         onClick={onClick}
         disabled={disabled}
       >
-        <i className={icon}></i>
+        <i style={{color: disabled ? "gray" : ""}} className={icon}></i>
       </button>
     </div>
   );

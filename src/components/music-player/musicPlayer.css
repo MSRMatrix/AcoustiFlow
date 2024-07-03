@@ -12,7 +12,7 @@
 }
 
 button {
-  background: #61dafb;
+  background: #000102;
   border: none;
   border-radius: 5px;
   padding: 10px 20px;
@@ -74,5 +74,9 @@ p {
 
 .button-style:hover i {
   transform: perspective(100px) rotateY(20deg) scale(1.1);
-  color: #a3a5a8;
+   color: #2d41f5;
+}
+
+i{
+  color: #61dafb;
 }

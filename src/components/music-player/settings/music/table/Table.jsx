@@ -9,6 +9,7 @@ import CurrentSongIndex from "../../../MusicContext/CurrentSongIndex";
 import { showCurrentPlaylist } from "../../../functions/ShowCurrentPlaylist";
 import CurrentList from "../../../MusicContext/CurrentList";
 import TakeMusic from "../../../MusicContext/TakeMusic";
+import IconButton from "../../../functions/IconButton";
 
 const Table = ({ src, setSrc }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -165,22 +166,31 @@ const Table = ({ src, setSrc }) => {
         currentList.map((item) => (
           <div key={item.playlist} className="current-list">
             <h2>Current Playlist: {item.playlist}</h2>
-            <button
+            <h2>List options</h2>
+            <div className="list-options">
+            <IconButton
+              icon="fa-solid fa-pencil"
               onClick={() => {
                 setOpenChangePlaylistName(true), setTakeMusic(item.playlist);
               }}
-            >
-              Change Name
-            </button>
-            <button onClick={() => deletePlaylist(item.playlist)}>
-              Delete List
-            </button>
-            <button onClick={() => listFunction(item)}>
-              Play
-            </button>
-            <button onClick={() => randomSequence(item)}>
-            <i className="fa-solid fa-shuffle"></i>
-            </button>
+              text="Rename Playlist"
+            />
+            <IconButton
+              icon="fa-solid fa-trash"
+              onClick={() => deletePlaylist(item.playlist)}
+              text="Delete Playlist"
+            />
+            <IconButton
+              icon="fa-solid fa-play"
+              onClick={() => listFunction(item)}
+              text={`Play ${item.playlist} playlist`}
+            />
+            <IconButton
+              icon="fa-solid fa-shuffle"
+              onClick={() => randomSequence(item)}
+              text={`Shuffle ${item.playlist} playlist`}
+            />
+            </div>
             <table>
               <thead>
                 <tr>
@@ -215,21 +225,22 @@ const Table = ({ src, setSrc }) => {
                         {innerItem.name}
                       </td>
                       <td>
-                        <button
+                        <IconButton
+                          icon="fa-solid fa-square-minus"
                           onClick={() => handleDelete(innerItem, item.playlist)}
-                        >
-                          Delete
-                        </button>
-                        <button
+                          text="Delete"
+                        />
+                        <IconButton
+                          icon="fa-solid fa-arrow-turn-up"
                           onClick={() => {
                             setTakeMusic(innerItem);
                             setPlaylistContext(item.playlist);
                             setIsOpen(true);
                           }}
-                        >
-                          Verschieben
-                        </button>
-                        <button
+                          text="Move"
+                        />
+                        <IconButton
+                          icon="fa-solid fa-pencil"
                           onClick={() => {
                             setOpenEditWindow(true);
                             setTakeMusic({
@@ -238,9 +249,8 @@ const Table = ({ src, setSrc }) => {
                               src: innerItem.src,
                             });
                           }}
-                        >
-                          Rename
-                        </button>
+                          text="Rename"
+                        />
                       </td>
                     </tr>
                   ) : (
@@ -282,23 +292,32 @@ const Table = ({ src, setSrc }) => {
       {displayTable.length > 0 ? (
         displayTable.map((item) => (
           <div key={item.playlist}>
-            <h2>{item.playlist}</h2>
-            <button
+            <h2>List name: {item.playlist}</h2>
+            <h2>List options</h2>
+            <div className="list-options">
+            <IconButton
+              icon="fa-solid fa-pencil"
               onClick={() => {
                 setOpenChangePlaylistName(true), setTakeMusic(item.playlist);
               }}
-            >
-              Change Name
-            </button>
-            <button onClick={() => deletePlaylist(item.playlist)}>
-              Delete Playlist
-            </button>
-            <button onClick={() => listFunction(item)}>
-              Play
-            </button>
-            <button onClick={() => randomSequence(item)}>
-              <i className="fa-solid fa-shuffle"></i>
-            </button>
+              text="Rename Playlist"
+            />
+            <IconButton
+              icon="fa-solid fa-trash"
+              onClick={() => deletePlaylist(item.playlist)}
+              text="Delete Playlist"
+            />
+            <IconButton
+              icon="fa-solid fa-play"
+              onClick={() => listFunction(item)}
+              text={`Play ${item.playlist} playlist`}
+            />
+            <IconButton
+              icon="fa-solid fa-shuffle"
+              onClick={() => randomSequence(item)}
+              text={`Shuffle ${item.playlist} playlist`}
+            />
+            </div>
             <table>
               <thead>
                 <tr>
@@ -314,21 +333,22 @@ const Table = ({ src, setSrc }) => {
                         {innerItem.name}
                       </td>
                       <td>
-                        <button
+                        <IconButton
+                          icon="fa-solid fa-square-minus"
                           onClick={() => handleDelete(innerItem, item.playlist)}
-                        >
-                          Delete
-                        </button>
-                        <button
+                          text="Delete"
+                        />
+                        <IconButton
+                          icon="fa-solid fa-arrow-turn-up"
                           onClick={() => {
                             setTakeMusic(innerItem);
                             setPlaylistContext(item.playlist);
                             setIsOpen(true);
                           }}
-                        >
-                          Verschieben
-                        </button>
-                        <button
+                          text="Move"
+                        />
+                        <IconButton
+                          icon="fa-solid fa-pencil"
                           onClick={() => {
                             setOpenEditWindow(true);
                             setTakeMusic({
@@ -337,9 +357,8 @@ const Table = ({ src, setSrc }) => {
                               src: innerItem.src,
                             });
                           }}
-                        >
-                          Rename
-                        </button>
+                          text="Rename"
+                        />
                       </td>
                     </tr>
                   ) : (
