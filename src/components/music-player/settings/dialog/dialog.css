@@ -7,3 +7,7 @@
     width: max-content;
     height: max-content;
 }
+
+dialog{
+    z-index: 999999;
+}

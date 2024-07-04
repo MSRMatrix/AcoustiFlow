@@ -5,6 +5,7 @@ import Muted from "./muted/Muted";
 import Playing from "./playing/Playing";
 import ProgressBar from "./progress/ProgressBar";
 import Volume from "./volume/Volume";
+import StopList from "./stopList/StopList";
 
 const Settings = ({
   playing,
@@ -25,6 +26,7 @@ const Settings = ({
   time,
   duration
 }) => {
+  
   return (
     <>
     <div className="timeline">
@@ -32,6 +34,7 @@ const Settings = ({
     </div>
     <div className="settings-box">
      <Playing playing={playing} setIsPlaying={setIsPlaying} src={src} setSrc={setSrc}/>
+     <StopList src={src} setSrc={setSrc} />
       <Loop loop={loop} setLoop={setLoop} />
       <Muted muted={muted} setMuted={setMuted} />
       <Volume muted={muted} volume={volume} setVolume={setVolume} />

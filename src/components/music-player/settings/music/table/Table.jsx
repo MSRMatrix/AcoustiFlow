@@ -224,7 +224,7 @@ const Table = ({ src, setSrc }) => {
                       <td onClick={() => playMusic(innerItem, item)}>
                         {innerItem.name}
                       </td>
-                      <td>
+                      <td className="music-options">
                         <IconButton
                           icon="fa-solid fa-square-minus"
                           onClick={() => handleDelete(innerItem, item.playlist)}
@@ -332,7 +332,7 @@ const Table = ({ src, setSrc }) => {
                       <td onClick={() => playMusic(innerItem, item)}>
                         {innerItem.name}
                       </td>
-                      <td>
+                      <td className="music-options">
                         <IconButton
                           icon="fa-solid fa-square-minus"
                           onClick={() => handleDelete(innerItem, item.playlist)}

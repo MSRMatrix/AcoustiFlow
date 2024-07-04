@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import DisplayTable from "../MusicContext/DisplayTable";
+import IconButton from "../functions/IconButton";
 
 const ExportImport = () => {
   const {displayTable, setDisplayTable} = useContext(DisplayTable)
@@ -66,14 +67,24 @@ const ExportImport = () => {
   return (
     <>
       <h2>Alle Daten herunterladen</h2>
-      <button onClick={handleDownload}>Download Daten</button>
+      <IconButton
+                          icon="fa-solid fa-download"
+                          onClick={handleDownload}
+                          text="Download your Data"
+                        />
       <h2>Daten importieren</h2>
+      <i className="fa-solid fa-upload"></i>
       <input type="file" accept=".json" onChange={handleFileUpload} />
       <p>
         <b>Hinweis:</b> Der Import/Export wird in IE, Safari oder Opera Version 12 (und früher) nicht unterstützt.
       </p>
     <h2>Daten löschen</h2>
-     {localStorage.length > 0 ? <button onClick={deleteStorage}>Löschen</button> : <p>Keine Daten zum löschen</p>}
+    
+     {localStorage.length > 0 ? <IconButton
+                          icon="fa-solid fa-trash-can"
+                          onClick={deleteStorage}
+                          text="Delete"
+                        /> : <p>Keine Daten zum löschen</p>}
 
      <NavLink to="/">Zurück</NavLink>
     </>

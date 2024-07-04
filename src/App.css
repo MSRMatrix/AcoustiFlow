@@ -15,6 +15,9 @@ h3{
   font-family: "Playpen Sans", "Arial";
   font-optical-sizing: auto;
   font-style: normal; 
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 .hover-text {
@@ -39,5 +42,4 @@ h3{
 
 .text-container{
   position: relative;
-  
 }

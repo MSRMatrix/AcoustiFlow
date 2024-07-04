@@ -16,7 +16,7 @@ const MusicPlayer = () => {
   const [playbackRate, setPlaybackRate] = useState(1);
   const [duration, setDuration] = useState(0);
   const [time, setTime] = useState({ hours: "00", seconds: "00", minutes: "00" });
-  const [src, setSrc] = useState({ name: "", band: "", src: [] });
+  const [src, setSrc] = useState({ name: "", src: [] });
   const { currentSongIndex, setCurrentSongIndex } = useContext(CurrentSongIndex);
   const { currentList } = useContext(CurrentList);
 
@@ -79,7 +79,7 @@ const MusicPlayer = () => {
             onProgress={handleProgress(setTime)}
             progressInterval={500}
           />
-          <p>{getCurrentName()}</p>
+          <p>{getCurrentName().length >= 50 ? `${getCurrentName().slice(0,50)}...` : getCurrentName()}</p>
         </div>
         <IconButton
           icon="fa-solid fa-forward"

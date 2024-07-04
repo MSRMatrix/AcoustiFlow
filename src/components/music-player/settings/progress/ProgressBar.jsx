@@ -4,7 +4,7 @@ const ProgressBar = ({ time, duration }) => {
         {time && duration ? (
           <div>
             <p>
-              {time.hours}:{time.minutes}:{time.seconds} / {duration.hours}:{duration.minutes}:{duration.seconds - 1}
+              {time.hours}:{time.minutes}:{time.seconds} / {duration.hours}:{duration.minutes}:{duration.seconds.length >= 2 ? duration.seconds : `${duration.seconds}`}
             </p>
           </div>
         ) : (

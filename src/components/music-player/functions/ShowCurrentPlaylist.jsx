@@ -1,4 +1,7 @@
 export const showCurrentPlaylist = (setCurrentList, playlist) => {
+    if(!playlist){
+       return setCurrentList([])
+    }
     const playlists = Object.entries(localStorage)
     .filter((item) => item[0] === playlist)
     .map((item) => {
