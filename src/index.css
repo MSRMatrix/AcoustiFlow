@@ -6,6 +6,8 @@ html, body {
     justify-content: center;
     width: fit-content;
     margin-top: 10px; 
+    overflow: hidden;
+    overflow-y: auto;
 }
 
 
@@ -15,6 +17,7 @@ html, body {
         transform: scale(90%); 
         margin: 0;
         margin-bottom: -330px;
+        flex-shrink: 0;
         
     }
 }
