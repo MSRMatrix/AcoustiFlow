@@ -1,14 +1,14 @@
 .player-container {
   display: flex;
   align-items: center;
+  flex-direction: column;
   background-color: #282c34;
-  padding: 20px;
   border-radius: 10px;
   color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   max-width: fit-content;
   margin: 20px auto;
-  margin-bottom: 0px;
+  padding: 10px;
 }
 
 button {
@@ -24,12 +24,16 @@ button {
 }
 
 .test {
-  width: max-content;
-  margin: 20px 0;
   display: flex;
-  justify-content: center;
-  flex-direction: column;
   align-items: center;
+  background-color: #282c34;
+  border-radius: 10px;
+  color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: fit-content;
+  margin: 20px auto;
+  margin-bottom: 0px;
+  padding-bottom: 20px;
 }
 
 p {
