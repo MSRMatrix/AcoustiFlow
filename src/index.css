@@ -13,7 +13,6 @@ html, body {
     body {
         transform-origin: center top; 
         transform: scale(70%); 
-        zoom: 2;
         margin-bottom: -330px;
     }
 }
