@@ -12,7 +12,7 @@ html, body {
 @media (max-width: 920px) {
     body {
         transform-origin: center top; 
-        transform: scale(70%); 
+        transform: scale(80%); 
         margin-bottom: -330px;
     }
 }
