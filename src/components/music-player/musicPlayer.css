@@ -80,3 +80,13 @@ p {
 i{
   color: #61dafb;
 }
+
+.player{
+  width: 200px;
+  height: 200px;
+  transition: all 0.5s ease-in-out;
+}
+
+.player>*{
+  display: none;
+}

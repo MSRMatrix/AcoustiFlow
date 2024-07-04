@@ -30,7 +30,7 @@ const Settings = ({
   return (
     <>
     <div className="timeline">
-    <ProgressBar time={time} duration={duration}/>   
+    <ProgressBar src={src} time={time} duration={duration}/>   
     </div>
     <div className="settings-box">
      <Playing playing={playing} setIsPlaying={setIsPlaying} src={src} setSrc={setSrc}/>

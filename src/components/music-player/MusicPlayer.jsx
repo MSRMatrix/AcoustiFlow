@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 import "./musicPlayer.css";
 import Settings from "./settings/Settings";
@@ -7,6 +7,14 @@ import CurrentSongIndex from "./MusicContext/CurrentSongIndex";
 import CurrentList from "./MusicContext/CurrentList";
 import { handleDuration, handleProgress } from "./functions/Time";
 import IconButton from "./functions/IconButton";
+
+import firstPic from "/src/assets/first-pic.png"
+import secondPic from "/src/assets/second-pic.png"
+import thirdPic from "/src/assets/third-pic.png"
+import fourthPic from "/src/assets/fourth-pic.png"
+import fifthPic from "/src/assets/fifth-pic.png"
+import sixthPic from "/src/assets/sixth-pic.png"
+import noMusic from "/src/assets/no-music.png"
 
 const MusicPlayer = () => {
   const [playing, setIsPlaying] = useState(true);
@@ -19,6 +27,31 @@ const MusicPlayer = () => {
   const [src, setSrc] = useState({ name: "", src: [] });
   const { currentSongIndex, setCurrentSongIndex } = useContext(CurrentSongIndex);
   const { currentList } = useContext(CurrentList);
+  const pictureArray = [firstPic, secondPic, thirdPic, fourthPic, fifthPic, sixthPic];
+  const [currentPic, setCurrentPic] = useState([pictureArray[0]])
+
+  let count = 0;
+
+  
+  useEffect(() => {
+    let count = 0;
+
+    const changePicture = () => {
+      count = (count + 1) % pictureArray.length;
+      setTimeout(() => {
+       setCurrentPic(pictureArray[count]); 
+      }, 500);
+      
+    };
+
+    const intervalId = setInterval(changePicture, 10000);
+    return () => clearInterval(intervalId);
+  }, []);
+  
+  
+if(localStorage.length <= 0){
+    localStorage.setItem("default-list", "")
+  }
 
   const handleNextSong = () => {
     setCurrentSongIndex((prevIndex) => (prevIndex + 1) % (src.src.length || 1));
@@ -64,11 +97,17 @@ const MusicPlayer = () => {
         />
         <div className="test">
           {currentList[0]?.playlist ? <h3>{currentList[0]?.playlist}</h3> : <h3>No Playlist</h3>}
+          <div
+      className="player"
+      style={{
+        backgroundImage: `url(${src && src.src && src.src.length > 0 ? currentPic : noMusic})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
           <ReactPlayer
             url={getCurrentUrl()}
             controls
-            width={"100px"}
-            height={"100px"}
             playing={playing}
             volume={volume}
             loop={loop}
@@ -78,8 +117,9 @@ const MusicPlayer = () => {
             onDuration={handleDuration(setDuration)}
             onProgress={handleProgress(setTime)}
             progressInterval={500}
-          />
-          <p>{getCurrentName().length >= 50 ? `${getCurrentName().slice(0,50)}...` : getCurrentName()}</p>
+          />  
+          </div>
+          <p>{getCurrentName() ? getCurrentName().length >= 50 ? `${getCurrentName().slice(0,50)}...` : getCurrentName() : "No music choosed"}</p>
         </div>
         <IconButton
           icon="fa-solid fa-forward"
