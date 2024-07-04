@@ -32,12 +32,6 @@ const Settings = ({
     <div className="timeline">
     <ProgressBar src={src} time={time} duration={duration}/>   
     </div>
-    <div className="settings-box">
-     
-      <Volume muted={muted} volume={volume} setVolume={setVolume} />
-      
-    </div>
-      
       <Music src={src} setSrc={setSrc} />
     </>
   );
