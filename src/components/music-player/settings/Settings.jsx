@@ -30,12 +30,15 @@ const Settings = ({
   return (
     <>
     <div className="timeline">
+      <Playing playing={playing} setIsPlaying={setIsPlaying} src={src} setSrc={setSrc}/>
+      <StopList src={src} setSrc={setSrc} />
+      <Loop loop={loop} setLoop={setLoop} />
     <ProgressBar src={src} time={time} duration={duration}/>   
     </div>
     <div className="settings-box">
-     <Playing playing={playing} setIsPlaying={setIsPlaying} src={src} setSrc={setSrc}/>
-     <StopList src={src} setSrc={setSrc} />
-      <Loop loop={loop} setLoop={setLoop} />
+     
+     
+      
       <Muted muted={muted} setMuted={setMuted} />
       <Volume muted={muted} volume={volume} setVolume={setVolume} />
       
