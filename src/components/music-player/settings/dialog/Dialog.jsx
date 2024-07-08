@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useRef } from "react";
 import "./dialog.css";
 import { newestList } from "../../functions/NewestList";
 import DisplayTable from "../../MusicContext/DisplayTable";
@@ -9,6 +9,8 @@ import { showCurrentPlaylist } from "../../functions/ShowCurrentPlaylist";
 import CurrentList from "../../MusicContext/CurrentList";
 
 const PlaylistChanger = ({ setIsOpen, src, setSrc, updateSrc }) => {
+  const dialogRef = useRef(null);
+
   const { displayTable, setDisplayTable } = useContext(DisplayTable);
   const { playlistContext, setPlaylistContext } = useContext(PlaylistContext);
   const { showInput, setShowInput } = useContext(ShowInput);
@@ -73,9 +75,15 @@ const PlaylistChanger = ({ setIsOpen, src, setSrc, updateSrc }) => {
     newestList(setDisplayTable, currentPlaylist);
     showCurrentPlaylist(setCurrentList, currentPlaylist);
     setShowInput(false);
+    const dialog = dialogRef.current;
+    if (dialog) {
+      dialog.focus();
+      dialog.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
   }, []);
+
   return (
-    <dialog open>
+    <dialog ref={dialogRef} open>
       <div className="playlist-changer">
         Zur welchen Playlist soll "{takeMusic.name}" hinzugefügt werden?
         {allLists &&
@@ -86,7 +94,8 @@ const PlaylistChanger = ({ setIsOpen, src, setSrc, updateSrc }) => {
           ))}
         <button
           onClick={() => {
-            setIsOpen(false), newestList(setDisplayTable, currentPlaylist);
+            setIsOpen(false);
+            newestList(setDisplayTable, currentPlaylist);
             showCurrentPlaylist(setCurrentList, currentPlaylist);
           }}
         >
@@ -98,8 +107,9 @@ const PlaylistChanger = ({ setIsOpen, src, setSrc, updateSrc }) => {
 };
 
 
-
 const EditName = ({ setOpenEditWindow, takeMusic, updateSrc, updateAllLists, src }) => {
+  const dialogRef = useRef(null);
+
   const { displayTable, setDisplayTable } = useContext(DisplayTable);
   const { currentList, setCurrentList } = useContext(CurrentList);
   const currentPlaylist = currentList[0]?.playlist;
@@ -149,10 +159,15 @@ const EditName = ({ setOpenEditWindow, takeMusic, updateSrc, updateAllLists, src
   useEffect(() => {
     newestList(setDisplayTable, currentPlaylist);
     showCurrentPlaylist(setCurrentList, currentPlaylist);
+    const dialog = dialogRef.current;
+    if (dialog) {
+      dialog.focus();
+      dialog.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
   }, []);
 
   return (
-    <dialog open>
+    <dialog ref={dialogRef} open>
       <form action="" onSubmit={changeMusic}>
         <legend>Name</legend>
         <input defaultValue={takeMusic.name} name="name" type="text" required />
@@ -167,62 +182,70 @@ const EditName = ({ setOpenEditWindow, takeMusic, updateSrc, updateAllLists, src
 };
 
 
-const ChangePlaylist = ({setOpenChangePlaylistName, updateAllLists}) => {
+const ChangePlaylist = ({ setOpenChangePlaylistName, updateAllLists }) => {
+  const dialogRef = useRef(null);
+
   const { currentList, setCurrentList } = useContext(CurrentList);
   const { takeMusic, setTakeMusic } = useContext(TakeMusic);
   const { displayTable, setDisplayTable } = useContext(DisplayTable);
   const currentPlaylist = currentList[0]?.playlist;
+
   const renamePlaylist = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     const oldList = localStorage.getItem(takeMusic);
-  
+
     const formObject = new FormData(e.target);
     const formData = {};
     formObject.forEach((value, key) => {
       formData[key] = value;
     });
-    const newName = formData.playlist
-    if(localStorage.getItem(newName)){
-       return alert(`${newName} already exists!`)
-     }
-    
-     if (oldList === null) {
-       console.error(`Playlist "${takeMusic}" does not exist.`);
-       return;
-     }
-  
-     localStorage.setItem(newName, oldList);
-     localStorage.removeItem(takeMusic);
-     console.log(currentPlaylist);
-     console.log(takeMusic);
-     
-     alert("Playlist was renamed!")
-     if(takeMusic === currentPlaylist){
-       updateAllLists(newName);
-     }
-     else{
+    const newName = formData.playlist;
+    if (localStorage.getItem(newName)) {
+      return alert(`${newName} already exists!`);
+    }
+
+    if (oldList === null) {
+      console.error(`Playlist "${takeMusic}" does not exist.`);
+      return;
+    }
+
+    localStorage.setItem(newName, oldList);
+    localStorage.removeItem(takeMusic);
+    console.log(currentPlaylist);
+    console.log(takeMusic);
+
+    alert("Playlist was renamed!");
+    if (takeMusic === currentPlaylist) {
+      updateAllLists(newName);
+    } else {
       newestList(setDisplayTable, currentPlaylist);
-    showCurrentPlaylist(setCurrentList, currentPlaylist);
-     }
-     setOpenChangePlaylistName(false)
-     
-  }
+      showCurrentPlaylist(setCurrentList, currentPlaylist);
+    }
+    setOpenChangePlaylistName(false);
+  };
 
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (dialog) {
+      dialog.focus();
+      dialog.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, []);
 
-  return(
-  <dialog open>
-  <form action="" onSubmit={renamePlaylist}>
+  return (
+    <dialog ref={dialogRef} open>
+      <form action="" onSubmit={renamePlaylist}>
         <legend>New Playlistname</legend>
-        <input defaultValue={takeMusic} name="playlist" type="text" required/>
+        <input defaultValue={takeMusic} name="playlist" type="text" required />
         <button onSubmit type="submit">
           Change
         </button>
       </form>
 
       <button onClick={() => setOpenChangePlaylistName(false)}>close</button>
-  </dialog>
-)
-}
+    </dialog>
+  );
+};
 
 export { PlaylistChanger, EditName, ChangePlaylist };

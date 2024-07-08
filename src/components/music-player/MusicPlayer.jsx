@@ -158,8 +158,8 @@ const MusicPlayer = () => {
         <p>
          
           {getCurrentName()
-            ? getCurrentName().length >= 50
-              ? `${getCurrentName().slice(0, 50)}...`
+            ? getCurrentName().length >= 40
+              ? `${getCurrentName().slice(0, 40)}...`
               : getCurrentName()
             : "No music choosed"}
         </p> 

@@ -8,3 +8,4 @@ Mp3 Player Ideen:
 -Verschieben von Liedern muss ermöglicht werden(Index)
 -Stylingzeit
 -Einen Fehler anzeigen falls das Lied nicht funktioniert
+-Zeit des Liedes beliebig anpassen

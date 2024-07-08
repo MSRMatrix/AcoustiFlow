@@ -8,6 +8,7 @@ import TakeMusic from "../../MusicContext/TakeMusic";
 import { PlaylistChanger } from "../dialog/Dialog";
 import CurrentList from "../../MusicContext/CurrentList";
 import { showCurrentPlaylist } from "../../functions/ShowCurrentPlaylist";
+import "./music.css"
 
 const Music = ({ src, setSrc }) => {
   const { displayTable, setDisplayTable } = useContext(DisplayTable);
@@ -75,7 +76,7 @@ const Music = ({ src, setSrc }) => {
     setShowInput(false);
     newestList(setDisplayTable, currentList[0].playlist);
     showCurrentPlaylist(setCurrentList, currentList[0].playlist)
-    console.log(`Dieses Lied wurde entfernt!`);
+    console.log(`Song was removed!`);
   };
 
   const handleNewPlaylist = (e) => {
@@ -103,7 +104,7 @@ const Music = ({ src, setSrc }) => {
       newestList(setDisplayTable);
     }
     
-    alert("Neue Playlist erstellt!");
+    alert("New playlist created!");
 
   };
 
@@ -113,7 +114,7 @@ const Music = ({ src, setSrc }) => {
   }, []);
 
   return (
-    <> {isOpen && (
+    <div className="music-component-div"> {isOpen && (
         <PlaylistChanger
           setIsOpen={setIsOpen}
           src={src}
@@ -125,17 +126,17 @@ const Music = ({ src, setSrc }) => {
           type="url"
           name="src"
           required
-          placeholder="Link zu deinem Lieblingssong"
+          placeholder="Add new song"
         />
-        <button type="submit">Abspielen</button>
+        <button type="submit">Play</button>
       </form>
 
       {showInput && (
         <div>
-          <p>Möchten Sie dieses Lied speichern?</p>
-          <button onClick={() => {handleSaveMusic(), setIsOpen(true)}}>Ja</button>
+          <p>Do you want to save this song?</p>
+          <button onClick={() => {handleSaveMusic(), setIsOpen(true)}}>Yes</button>
 
-          <button onClick={handleDeleteMusic}>Nein</button>
+          <button onClick={handleDeleteMusic}>No</button>
           <input
             type="text"
             value={src.name}
@@ -149,10 +150,10 @@ const Music = ({ src, setSrc }) => {
       />
  
       <form onSubmit={handleNewPlaylist}>
-        <input type="text" placeholder="Neue Playlist erstellen" />
-        <button type="submit">Erstellen</button>
+        <input type="text" placeholder="New Playlist" />
+        <button type="submit">Create</button>
       </form>
-    </>
+    </div>
   );
 };
 

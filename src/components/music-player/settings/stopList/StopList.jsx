@@ -3,13 +3,16 @@ import TextForIcon from "../../functions/TextForIcon";
 import { newestList } from "../../functions/NewestList";
 import { showCurrentPlaylist } from "../../functions/ShowCurrentPlaylist";
 import CurrentList from "../../MusicContext/CurrentList";
+import DisplayTable from "../../MusicContext/DisplayTable";
 
 const StopList = ({src, setSrc}) => {
     const { currentList, setCurrentList } = useContext(CurrentList);
+    const { displayTable, setDisplayTable } = useContext(DisplayTable);
     const [showText, SetShowText] = useState()
     const stopFunction = () => {
         setSrc({ name: "", src: [] });
         showCurrentPlaylist(setCurrentList);
+        newestList(setDisplayTable)
     }
 
     return(

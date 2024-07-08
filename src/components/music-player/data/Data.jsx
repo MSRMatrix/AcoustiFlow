@@ -4,14 +4,13 @@ import DisplayTable from "../MusicContext/DisplayTable";
 import IconButton from "../functions/IconButton";
 
 const ExportImport = () => {
-  const {displayTable, setDisplayTable} = useContext(DisplayTable)
+  const { displayTable, setDisplayTable } = useContext(DisplayTable);
 
-
-  const [reload, setReload] = useState(false)
+  const [reload, setReload] = useState(false);
 
   useEffect(() => {
-    setReload(false)
-  },[reload])
+    setReload(false);
+  }, [reload]);
 
   const handleDownload = () => {
     const data = JSON.stringify(localStorage, null, 2);
@@ -37,8 +36,7 @@ const ExportImport = () => {
             localStorage.setItem(key, importedData[key]);
           });
           alert("Daten erfolgreich importiert!");
-          setReload(true)
-         
+          setReload(true);
         } else {
           alert("Die Datei enthält keine gültigen JSON-Daten.");
         }
@@ -46,47 +44,52 @@ const ExportImport = () => {
         alert("Fehler beim Importieren der Datei: " + error.message);
       }
     };
-    reader.readAsText(file); 
-    event.target.value = ""
+    reader.readAsText(file);
+    event.target.value = "";
   };
 
   const deleteStorage = () => {
-    if(confirm("Möchtest du alle Daten löschen?")){
-      localStorage.clear()
-      setDisplayTable([])
-      alert("Daten erfolgreich gelöscht!")
-      setReload(true)
-      
-      return
-    }else{
-      alert("Daten wurden nicht gelöscht!")
-      return
+    if (confirm("Möchtest du alle Daten löschen?")) {
+      localStorage.clear();
+      setDisplayTable([]);
+      alert("Daten erfolgreich gelöscht!");
+      setReload(true);
+
+      return;
+    } else {
+      alert("Daten wurden nicht gelöscht!");
+      return;
     }
-  }
+  };
 
   return (
     <>
       <h2>Alle Daten herunterladen</h2>
       <IconButton
-                          icon="fa-solid fa-download"
-                          onClick={handleDownload}
-                          text="Download your Data"
-                        />
+        icon="fa-solid fa-download"
+        onClick={handleDownload}
+        text="Download your Data"
+      />
       <h2>Daten importieren</h2>
       <i className="fa-solid fa-upload"></i>
       <input type="file" accept=".json" onChange={handleFileUpload} />
       <p>
-        <b>Hinweis:</b> Der Import/Export wird in IE, Safari oder Opera Version 12 (und früher) nicht unterstützt.
+        <b>Hinweis:</b> Der Import/Export wird in IE, Safari oder Opera Version
+        12 (und früher) nicht unterstützt.
       </p>
-    <h2>Daten löschen</h2>
-    
-     {localStorage.length > 0 ? <IconButton
-                          icon="fa-solid fa-trash-can"
-                          onClick={deleteStorage}
-                          text="Delete"
-                        /> : <p>Keine Daten zum löschen</p>}
+      <h2>Daten löschen</h2>
 
-     <NavLink to="/">Zurück</NavLink>
+      {localStorage.length > 0 ? (
+        <IconButton
+          icon="fa-solid fa-trash-can"
+          onClick={deleteStorage}
+          text="Delete"
+        />
+      ) : (
+        <p>Keine Daten zum löschen</p>
+      )}
+
+      <NavLink to="/">Zurück</NavLink>
     </>
   );
 };
