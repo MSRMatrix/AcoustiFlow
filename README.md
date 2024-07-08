@@ -9,3 +9,4 @@ Mp3 Player Ideen:
 -Stylingzeit
 -Einen Fehler anzeigen falls das Lied nicht funktioniert
 -Zeit des Liedes beliebig anpassen
+-Kleine Anzeigen rechts oder links einblenden um auf Löschvorgänge oder Änderungen hinzuweisen die dann nach Sekunden verblassen
