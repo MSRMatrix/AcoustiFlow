@@ -10,6 +10,7 @@ export const handleDuration = (setDuration) => (state) => {
 };
 
 export const handleProgress = (setTime) => (state) => {
+  if (!state) return;
   const seconds = Math.floor(state.playedSeconds % 60);
   const minutes = Math.floor((state.playedSeconds / 60) % 60);
   const hours = Math.floor(state.playedSeconds / 3600);

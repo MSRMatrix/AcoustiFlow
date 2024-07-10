@@ -24,13 +24,17 @@ const Settings = ({
   setSrc,
 
   time,
-  duration
+  setTime,
+
+  duration,
+
+  playerRef
 }) => {
   
   return (
     <>
     <div className="timeline">
-    <ProgressBar src={src} time={time} duration={duration}/>   
+    <ProgressBar src={src} time={time} setTime={setTime} duration={duration} playerRef={playerRef}/>   
     </div>
       <Music src={src} setSrc={setSrc} />
     </>

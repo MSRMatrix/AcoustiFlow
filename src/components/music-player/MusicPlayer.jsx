@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player";
 import "./musicPlayer.css";
 import Settings from "./settings/Settings";
@@ -22,6 +22,7 @@ import Muted from "./settings/muted/Muted";
 import Volume from "./settings/volume/Volume";
 
 const MusicPlayer = () => {
+  const playerRef = useRef(null)
   const [playing, setIsPlaying] = useState(true);
   const [volume, setVolume] = useState(0.2);
   const [loop, setLoop] = useState(false);
@@ -132,6 +133,7 @@ const MusicPlayer = () => {
               url={getCurrentUrl()}
               controls
               playing={playing}
+              played
               volume={volume}
               loop={loop}
               muted={muted}
@@ -139,6 +141,7 @@ const MusicPlayer = () => {
               onEnded={handleNextSong}
               onDuration={handleDuration(setDuration)}
               onProgress={handleProgress(setTime)}
+              ref={playerRef}
               progressInterval={500}
             />
           </div>
@@ -156,23 +159,25 @@ const MusicPlayer = () => {
           />
         </div>
         <p>
-         
           {getCurrentName()
             ? getCurrentName().length >= 40
               ? `${getCurrentName().slice(0, 40)}...`
               : getCurrentName()
             : "No music choosed"}
-        </p> 
+        </p>
         <div className="settings-box">
-            <Playing playing={playing} setIsPlaying={setIsPlaying} src={src} setSrc={setSrc}/>
-     <StopList src={src} setSrc={setSrc} />
-      <Loop loop={loop} setLoop={setLoop} />
-      <Muted muted={muted} setMuted={setMuted} />
-          </div>
+          <Playing
+            playing={playing}
+            setIsPlaying={setIsPlaying}
+            src={src}
+            setSrc={setSrc}
+          />
+          <StopList src={src} setSrc={setSrc} />
+          <Loop loop={loop} setLoop={setLoop} />
+          <Muted muted={muted} setMuted={setMuted} />
+        </div>
 
-               
-      <Volume muted={muted} volume={volume} setVolume={setVolume} />
-        
+        <Volume muted={muted} volume={volume} setVolume={setVolume} />
       </div>
       <Settings
         playing={playing}
@@ -186,7 +191,9 @@ const MusicPlayer = () => {
         src={src}
         setSrc={setSrc}
         time={time}
+        setTime={setTime}
         duration={duration}
+        playerRef={playerRef}
       />
       <NavLink to="/import-export">Daten exportieren oder importieren</NavLink>
       <Outlet />
