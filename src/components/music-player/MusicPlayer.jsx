@@ -47,6 +47,7 @@ const MusicPlayer = () => {
     sixthPic,
   ];
   const [currentPic, setCurrentPic] = useState([pictureArray[0]]);
+  const [cooldown, SetCoolDown] = useState(true);
 
   useEffect(() => {
     let count = 0;
@@ -68,12 +69,14 @@ const MusicPlayer = () => {
 
   const handleNextSong = () => {
     setCurrentSongIndex((prevIndex) => (prevIndex + 1) % (src.src.length || 1));
+    SetCoolDown(true)
   };
 
   const handlePreviousSong = () => {
     setCurrentSongIndex((prevIndex) =>
       prevIndex === 0 ? (src.src.length || 1) - 1 : prevIndex - 1
     );
+    SetCoolDown(true)
   };
 
   const getCurrentUrl = () => {
@@ -98,6 +101,17 @@ const MusicPlayer = () => {
     setPlaybackRate((prevRate) => parseFloat((prevRate + 0.2).toFixed(1)));
   };
 
+
+  if(cooldown && src.src && src.src.length > 0){
+    setTimeout(() => {
+      SetCoolDown(false)
+    }, 1000);
+  }
+
+  if(!cooldown && src.src && src.src.length <= 0){
+    SetCoolDown(true)
+  }
+
   return (
     <>
       <div className="player-container">
@@ -111,6 +125,7 @@ const MusicPlayer = () => {
             icon="fa-solid fa-backward-step"
             onClick={handlePreviousSong}
             text="Previous"
+            disabled={cooldown}
           />
           <IconButton
             icon="fa-solid fa-backward"
@@ -133,7 +148,6 @@ const MusicPlayer = () => {
               url={getCurrentUrl()}
               controls
               playing={playing}
-              played
               volume={volume}
               loop={loop}
               muted={muted}
@@ -156,6 +170,7 @@ const MusicPlayer = () => {
             icon="fa-solid fa-forward-step"
             onClick={handleNextSong}
             text="Next"
+            disabled={cooldown}
           />
         </div>
         <p>
@@ -177,7 +192,7 @@ const MusicPlayer = () => {
           <Muted muted={muted} setMuted={setMuted} />
         </div>
 
-        <Volume muted={muted} volume={volume} setVolume={setVolume} />
+        <Volume muted={muted} setMuted={setMuted} volume={volume} setVolume={setVolume} />
       </div>
       <Settings
         playing={playing}

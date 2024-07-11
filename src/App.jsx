@@ -19,7 +19,11 @@ const router = createBrowserRouter ([
   {
     path: "/import-export",
     element: <Data />
-  }
+  },
+  {
+    path: "*",
+    element: <MusicPlayer />
+  },
 ])
 
 function App() {

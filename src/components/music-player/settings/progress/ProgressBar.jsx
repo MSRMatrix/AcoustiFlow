@@ -20,12 +20,7 @@ const ProgressBar = ({ src, time, setTime, duration, playerRef }) => {
             {duration.seconds.length >= 2
               ? duration.seconds
               : `${duration.seconds}`}
-          </p>
-        </div>
-      ) : (
-        <p>No music played</p>
-      )}
-      <input
+          </p><input
   type="range"
   name="range"
   id="range"
@@ -43,6 +38,11 @@ const ProgressBar = ({ src, time, setTime, duration, playerRef }) => {
     changeTime({ playedSeconds: Number(e.target.value) });
   }}
 />
+        </div>
+      ) : (
+        <p>No music played</p>
+      )}
+      
     </>
   );
 };

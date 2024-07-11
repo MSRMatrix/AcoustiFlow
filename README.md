@@ -11,3 +11,4 @@ Mp3 Player Ideen:
 -Zeit des Liedes beliebig anpassen
 -Kleine Anzeigen rechts oder links einblenden um auf Löschvorgänge oder Änderungen hinzuweisen die dann nach Sekunden verblassen
 -Problem bei Anzeige wie lange das Lied läuft und noch laufen wird
+-Probleme um zu sagen wo das lied spielen und aufhören soll

@@ -1,22 +1,27 @@
 import { useState } from "react";
-import TextForIcon from "../../functions/TextForIcon";
+import IconButton from "../../functions/IconButton";
 
-const Playing = ({playing, setIsPlaying, src, setSrc}) => {
-    const [showText, SetShowText] = useState()
-    const playFunction = () => {
-        if(src.src){
-           setIsPlaying((prevMod) => !prevMod) 
-        }
+const Playing = ({ playing, setIsPlaying, src, setSrc }) => {
+  const [cooldown, setCooldown] = useState(false);
+
+  const playFunction = () => {
+    if (src.src && !cooldown) {
+      setIsPlaying((prevMod) => !prevMod);
+      setCooldown(true);
+      setTimeout(() => setCooldown(false), 200);
     }
+  };
 
-    return(
-        <>
-        <div className="text-container">
-        <TextForIcon showText={showText} text={!playing ? "Play" : "Pause"}/>
-        <button onMouseEnter={() => SetShowText("show-text")} onMouseLeave={() => SetShowText("")} className="button-style" onClick={playFunction}>{playing && src.src ? <i className="fa-solid fa-pause"></i> : <i className="fa-solid fa-play"></i>}</button>
-        </div>
-        </>
-    )
-}
+  return (
+    <div className="text-container">
+      <IconButton
+        icon={playing && src.src && src.src.length > 0 ? "fa-solid fa-pause" : "fa-solid fa-play"}
+        onClick={playFunction}
+        disabled={!src.src || src.src.length === 0 || cooldown}
+        text={!playing ? "Play" : "Pause"}
+      />
+    </div>
+  );
+};
 
 export default Playing;
