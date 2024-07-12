@@ -20,6 +20,7 @@ const Music = ({ src, setSrc }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setCurrentList([])
+    
     const newSrc = {
       src: e.target.elements.src.value,
     };
@@ -60,6 +61,7 @@ const Music = ({ src, setSrc }) => {
       name: src.name, 
       src: src.src
     }
+
     if (!src.name || !src.src) {
       alert("Diese Felder dürfen nicht leer sein!");
       return;
@@ -74,8 +76,8 @@ const Music = ({ src, setSrc }) => {
   const handleDeleteMusic = () => {
     setSrc([]);
     setShowInput(false);
-    newestList(setDisplayTable, currentList[0].playlist);
-    showCurrentPlaylist(setCurrentList, currentList[0].playlist)
+    newestList(setDisplayTable);
+    showCurrentPlaylist(setCurrentList)
     console.log(`Song was removed!`);
   };
 
@@ -127,6 +129,8 @@ const Music = ({ src, setSrc }) => {
           name="src"
           required
           placeholder="Add new song"
+          min={5}
+          maxLength={60}
         />
         <button type="submit">Play</button>
       </form>
@@ -134,14 +138,26 @@ const Music = ({ src, setSrc }) => {
       {showInput && (
         <div>
           <p>Do you want to save this song?</p>
-          <button onClick={() => {handleSaveMusic(), setIsOpen(true)}}>Yes</button>
+          <button onClick={() => {
+            if(src.name.length > 60){
+             return alert(`Name should be shorter or equal to 60!`)
+            }
+            handleSaveMusic(), 
+            setIsOpen(true)
+            }}>Yes</button>
 
           <button onClick={handleDeleteMusic}>No</button>
+          <div>
           <input
+          style={{boxShadow: src.name && src.name.length > 60 ? "0px 0px 10px 10px red" : "", transition:"0.5s ease-in-out"}}
             type="text"
             value={src.name}
             onChange={(e) => setSrc({ ...src, name: e.target.value })}
           />
+          {src.name && src.name.length > 60 ? <p style={{color:"red"}}>Name shoud be shorter or equal to 60!</p> : ""}
+          <p>{src.name && src.name.length}</p>  
+          </div>
+          
         </div>
       )}
       <Table

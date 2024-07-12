@@ -227,7 +227,9 @@ const Table = ({ src, setSrc }) => {
                           className="show-hidden-text"
                           onClick={() => playMusic(innerItem, item)}
                         >
-                          <p className="hidden-text">{innerItem.name}</p>
+                          <p className="hidden-text">{innerItem.name.length > 60
+                            ? `${innerItem.name.slice(0, 60)}...`
+                            : innerItem.name}</p>
                           {innerItem.name.length >= 40
                             ? `${innerItem.name.slice(0, 40)}...`
                             : innerItem.name}
@@ -345,7 +347,9 @@ const Table = ({ src, setSrc }) => {
                           className="show-hidden-text"
                           onClick={() => playMusic(innerItem, item)}
                         >
-                          <p className="hidden-text">{innerItem.name}</p>
+                          <p className="hidden-text">{innerItem.name.length > 60
+                            ? `${innerItem.name.slice(0, 60)}...`
+                            : innerItem.name}</p>
                           {innerItem.name.length >= 40
                             ? `${innerItem.name.slice(0, 40)}...`
                             : innerItem.name}

@@ -123,6 +123,10 @@ const EditName = ({ setOpenEditWindow, takeMusic, updateSrc, updateAllLists, src
       formData[key] = value;
     });
 
+    if(formData.name.length > 60){
+      return alert(`Name should be shorter or equal to 60!`)
+    }
+
     const playlist = oldMusic.playlist;
     const storedData = localStorage.getItem(playlist);
 
@@ -170,7 +174,7 @@ const EditName = ({ setOpenEditWindow, takeMusic, updateSrc, updateAllLists, src
     <dialog ref={dialogRef} open>
       <form action="" onSubmit={changeMusic}>
         <legend>Name</legend>
-        <input defaultValue={takeMusic.name} name="name" type="text" required />
+        <input defaultValue={takeMusic.name} name="name" type="text" max={60} min={5} required />
         <legend>Url</legend>
         <input defaultValue={takeMusic.src} name="url" type="url" required />
         <button type="submit">Change</button>

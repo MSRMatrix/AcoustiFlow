@@ -49,6 +49,8 @@
     border-radius: 5px;
     color: white;
     cursor: pointer;
+    width: 100%;
+    overflow-wrap: break-word; 
 }
 
 .show-hidden-text:hover .hidden-text{

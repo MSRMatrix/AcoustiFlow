@@ -1,25 +1,41 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./volume.css";
 
 const Volume = ({ volume: initialVolume, setVolume, muted, setMuted }) => {
   const [localVolume, setLocalVolume] = useState(initialVolume);
   const [savedVolume, setSavedVolume] = useState(null);
-  const [volumeDisable, setVolumeDisable] = useState(false);
 
   useEffect(() => {
     if (muted) {
-      setSavedVolume(localVolume);
+      if(localVolume <= 0){
+        setSavedVolume(0.1);
+      }
+      else{
+        setSavedVolume(localVolume);
+      }
       setLocalVolume(0);
-      setVolumeDisable(true)
     } else if (savedVolume!== null) {
       setLocalVolume(savedVolume);
       setSavedVolume(null);
-      setVolumeDisable(false)
     }
   }, [muted]);
 
+  useEffect(() => {
+    if(localVolume <= 0){
+      setMuted(true)
+    }
+    if(localVolume === 0 && muted && savedVolume === null || localVolume === 0 && muted && savedVolume <= 0.1){
+      setVolume(0.1)
+    }
+  },[localVolume, savedVolume])
+
+  console.log(`${savedVolume}`);
+  
+  
   const handleVolumeChange = (e) => {
     if(muted){
+    setLocalVolume(savedVolume)
+    setVolume(localVolume)
     setMuted(false)
     return setSavedVolume(0)
     }

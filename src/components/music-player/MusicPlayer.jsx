@@ -111,7 +111,7 @@ const MusicPlayer = () => {
   if(!cooldown && src.src && src.src.length <= 0){
     SetCoolDown(true)
   }
-
+  
   return (
     <>
       <div className="player-container">
@@ -173,10 +173,10 @@ const MusicPlayer = () => {
             disabled={cooldown}
           />
         </div>
-        <p>
+        <p className="title-from-current-music">
           {getCurrentName()
-            ? getCurrentName().length >= 40
-              ? `${getCurrentName().slice(0, 40)}...`
+            ? getCurrentName().length > 60
+              ? `${getCurrentName().slice(0, 60)}...`
               : getCurrentName()
             : "No music choosed"}
         </p>
@@ -189,7 +189,7 @@ const MusicPlayer = () => {
           />
           <StopList src={src} setSrc={setSrc} />
           <Loop loop={loop} setLoop={setLoop} />
-          <Muted muted={muted} setMuted={setMuted} />
+          <Muted muted={muted} setMuted={setMuted} volume={volume}/>
         </div>
 
         <Volume muted={muted} setMuted={setMuted} volume={volume} setVolume={setVolume} />

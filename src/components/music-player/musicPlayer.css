@@ -93,3 +93,11 @@ i{
 .player>*{
   display: none;
 }
+
+.title-from-current-music {
+  max-width: 70%;
+  word-wrap: break-word; /* Sicherstellt das Umbruch von langen Wörtern */
+  overflow-wrap: break-word; /* Für zusätzliche Kompatibilität */
+  white-space: normal; /* Stellt sicher, dass Zeilen normal umbrochen werden */
+  display: inline; /* Stellt sicher, dass max-width angewendet wird */
+}
