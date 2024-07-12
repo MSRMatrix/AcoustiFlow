@@ -29,9 +29,6 @@ const Volume = ({ volume: initialVolume, setVolume, muted, setMuted }) => {
     }
   },[localVolume, savedVolume])
 
-  console.log(`${savedVolume}`);
-  
-  
   const handleVolumeChange = (e) => {
     if(muted){
     setLocalVolume(savedVolume)
