@@ -102,13 +102,13 @@ const MusicPlayer = () => {
   };
 
 
-  if(cooldown && src.src && src.src.length > 0){
+  if(cooldown && src.src && src.src.length > 1){
     setTimeout(() => {
       SetCoolDown(false)
     }, 1000);
   }
 
-  if(!cooldown && src.src && src.src.length <= 0){
+  if(!cooldown && src.src && src.src.length <= 1){
     SetCoolDown(true)
   }
   
@@ -188,7 +188,7 @@ const MusicPlayer = () => {
             setSrc={setSrc}
           />
           <StopList src={src} setSrc={setSrc} />
-          <Loop loop={loop} setLoop={setLoop} />
+          <Loop loop={loop} setLoop={setLoop} src={src}/>
           <Muted muted={muted} setMuted={setMuted} volume={volume}/>
         </div>
 

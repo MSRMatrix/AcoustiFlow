@@ -10,7 +10,7 @@ import CurrentList from "../../MusicContext/CurrentList";
 import { showCurrentPlaylist } from "../../functions/ShowCurrentPlaylist";
 import "./music.css"
 
-const Music = ({ src, setSrc }) => {
+const Music = ({ src, setSrc, loop, setLoop }) => {
   const { displayTable, setDisplayTable } = useContext(DisplayTable);
   const {showInput, setShowInput} = useContext(ShowInput)
   const {takeMusic, setTakeMusic} = useContext(TakeMusic);
@@ -111,8 +111,8 @@ const Music = ({ src, setSrc }) => {
   };
 
   useEffect(() => {
-    newestList(setDisplayTable, currentList.playlist);
-    showCurrentPlaylist(setCurrentList, currentList.playlist)
+    newestList(setDisplayTable, src.playlist);
+    showCurrentPlaylist(setCurrentList, src.playlist)
   }, []);
 
   return (

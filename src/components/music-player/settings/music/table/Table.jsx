@@ -166,8 +166,22 @@ const Table = ({ src, setSrc }) => {
         const endIndex = Math.max(indexFromSong, indexFromSongName) + 1;
 
         storedData.splice(startIndex, endIndex - startIndex);
+        
+
+
 
         console.log(storedData);
+
+
+        const playingList = currentList[0]?.playlist
+        if(playlist === playingList){
+          newestList(setDisplayTable, playingList);
+         return showCurrentPlaylist(setCurrentList, playingList);
+        }
+        newestList(setDisplayTable, playingList);
+    showCurrentPlaylist(setCurrentList, playingList);
+
+        
     } else {
         console.error(`Song ${name} or ${src} not found in playlist ${playlist}`);
     }
@@ -175,7 +189,7 @@ const Table = ({ src, setSrc }) => {
 
 
   useEffect(() => {
-    updateAllLists();
+    updateAllLists(src.playlist);
   }, []);
 
   return (
@@ -280,6 +294,14 @@ const Table = ({ src, setSrc }) => {
                               });
                             }}
                             text="Rename"
+                          />
+                          <IconButton
+                            icon="fa-solid fa-arrow-right-arrow-left"
+                            onClick={() => {
+                              changeIndex(item.playlist, innerItem.name, innerItem.src)
+                            }}
+                            text="Change place"
+                            disabled={item.songs.length > 1 ? false : true}
                           />
                         </td>
                       </tr>
@@ -407,6 +429,7 @@ const Table = ({ src, setSrc }) => {
                               changeIndex(item.playlist, innerItem.name, innerItem.src)
                             }}
                             text="Change place"
+                            disabled={item.songs.length > 1 ? false : true}
                           />
                         </td>
                       </tr>
