@@ -27,7 +27,7 @@ const Volume = ({ volume: initialVolume, setVolume, muted, setMuted }) => {
     if(localVolume === 0 && muted && savedVolume === null || localVolume === 0 && muted && savedVolume <= 0.1){
       setVolume(0.1)
     }
-  },[localVolume, savedVolume])
+  },[localVolume && !muted, savedVolume && !muted])
 
   const handleVolumeChange = (e) => {
     if(muted){
