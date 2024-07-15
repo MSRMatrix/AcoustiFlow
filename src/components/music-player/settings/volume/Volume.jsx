@@ -3,26 +3,29 @@ import "./volume.css";
 
 const Volume = ({ volume: initialVolume, setVolume, muted, setMuted }) => {
   const [localVolume, setLocalVolume] = useState(initialVolume);
-  const [savedVolume, setSavedVolume] = useState(null);
+  const [savedVolume, setSavedVolume] = useState(0);
 
   useEffect(() => {
     if (muted) {
       if(localVolume <= 0){
-        setSavedVolume(0.1);
+        setSavedVolume(0.01);
       }
       else{
         setSavedVolume(localVolume);
       }
       setLocalVolume(0);
-    } else if (savedVolume!== null) {
+    } else if (savedVolume!== 0) {
       setLocalVolume(savedVolume);
-      setSavedVolume(null);
+      setSavedVolume(0);
     }
   }, [muted]);
 
   useEffect(() => {
-    if(localVolume === 0 && muted && savedVolume === null || localVolume === 0 && muted && savedVolume <= 0.1){
-      setVolume(0.1)
+    if(localVolume <= 0){
+      setMuted(true)
+    }
+    if(localVolume === 0 && muted && savedVolume <= 0.01){
+      setVolume(0.01)
     }
   },[localVolume, savedVolume])
 
