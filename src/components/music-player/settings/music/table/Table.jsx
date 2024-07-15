@@ -38,7 +38,7 @@ const Table = ({ src, setSrc }) => {
       for (let i = 0; i < parsedData.length; i += 2) {
         if (parsedData.length <= 2) {
           localStorage.setItem(playlist, "");
-          updateAllLists(playMusic);
+          updateAllLists(src.playlist);
           return;
         }
         if (parsedData[i] !== item.name || parsedData[i + 1] !== item.src) {
@@ -46,7 +46,7 @@ const Table = ({ src, setSrc }) => {
         }
       }
       localStorage.setItem(playlist, updatedData.join(", "));
-      updateAllLists(playMusic);
+      updateAllLists(src.playlist);
     }
     if (playlist === src.playlist) {
       updateSrc();
@@ -155,6 +155,24 @@ const Table = ({ src, setSrc }) => {
     });
     updateAllLists(src.playlist);
   };
+
+  const changeIndex = (playlist, name, src) => {
+    const storedData = localStorage.getItem(playlist).split(", ");
+    const indexFromSongName = storedData.indexOf(name);
+    const indexFromSong = storedData.indexOf(src);
+
+    if (indexFromSongName !== -1 && indexFromSong !== -1) {
+        const startIndex = Math.min(indexFromSong, indexFromSongName);
+        const endIndex = Math.max(indexFromSong, indexFromSongName) + 1;
+
+        storedData.splice(startIndex, endIndex - startIndex);
+
+        console.log(storedData);
+    } else {
+        console.error(`Song ${name} or ${src} not found in playlist ${playlist}`);
+    }
+}
+
 
   useEffect(() => {
     updateAllLists();
@@ -382,6 +400,13 @@ const Table = ({ src, setSrc }) => {
                               });
                             }}
                             text="Rename"
+                          />
+                          <IconButton
+                            icon="fa-solid fa-arrow-right-arrow-left"
+                            onClick={() => {
+                              changeIndex(item.playlist, innerItem.name, innerItem.src)
+                            }}
+                            text="Change place"
                           />
                         </td>
                       </tr>
