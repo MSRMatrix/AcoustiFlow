@@ -21,13 +21,10 @@ const Volume = ({ volume: initialVolume, setVolume, muted, setMuted }) => {
   }, [muted]);
 
   useEffect(() => {
-    if(localVolume <= 0){
-      setMuted(true)
-    }
     if(localVolume === 0 && muted && savedVolume === null || localVolume === 0 && muted && savedVolume <= 0.1){
       setVolume(0.1)
     }
-  },[localVolume && !muted, savedVolume && !muted])
+  },[localVolume, savedVolume])
 
   const handleVolumeChange = (e) => {
     if(muted){
