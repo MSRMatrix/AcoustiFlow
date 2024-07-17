@@ -1,15 +1,31 @@
 import { useContext, useEffect, useState } from "react";
-import "./table.css";
 import { ChangePlaylist, EditName, PlaylistChanger } from "../../dialog/Dialog";
 import { newestList } from "../../../functions/NewestList";
 import DisplayTable from "../../../MusicContext/DisplayTable";
-import PlaylistContext from "../../../MusicContext/PlaylistContext";
 import ShowInput from "../../../MusicContext/ShowInput";
 import CurrentSongIndex from "../../../MusicContext/CurrentSongIndex";
 import { showCurrentPlaylist } from "../../../functions/ShowCurrentPlaylist";
 import CurrentList from "../../../MusicContext/CurrentList";
 import TakeMusic from "../../../MusicContext/TakeMusic";
-import IconButton from "../../../functions/IconButton";
+import "./table.css";
+
+// Drag and Drop Import
+import {
+  closestCorners,
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  sortableKeyboardCoordinates,
+} from "@dnd-kit/sortable";
+import NotUsedTables from "./notUsedTables/NotUsedTables";
+import UsedTable from "./usedTable/UsedTable";
+// Drag and Drop Import
 
 const Table = ({ src, setSrc }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,7 +34,6 @@ const Table = ({ src, setSrc }) => {
   const { takeMusic, setTakeMusic } = useContext(TakeMusic);
   const { displayTable, setDisplayTable } = useContext(DisplayTable);
 
-  const { playlistContext, setPlaylistContext } = useContext(PlaylistContext);
   const { showInput, setShowInput } = useContext(ShowInput);
   const { currentSongIndex, setCurrentSongIndex } =
     useContext(CurrentSongIndex);
@@ -162,31 +177,46 @@ const Table = ({ src, setSrc }) => {
     const indexFromSong = storedData.indexOf(src);
 
     if (indexFromSongName !== -1 && indexFromSong !== -1) {
-        const startIndex = Math.min(indexFromSong, indexFromSongName);
-        const endIndex = Math.max(indexFromSong, indexFromSongName) + 1;
+      const startIndex = Math.min(indexFromSong, indexFromSongName);
+      const endIndex = Math.max(indexFromSong, indexFromSongName) + 1;
 
-        storedData.splice(startIndex, endIndex - startIndex);
-        
+      storedData.splice(startIndex, endIndex - startIndex);
 
+      console.log(storedData);
 
-
-        console.log(storedData);
-
-
-        const playingList = currentList[0]?.playlist
-        if(playlist === playingList){
-          newestList(setDisplayTable, playingList);
-         return showCurrentPlaylist(setCurrentList, playingList);
-        }
+      const playingList = currentList[0]?.playlist;
+      if (playlist === playingList) {
         newestList(setDisplayTable, playingList);
-    showCurrentPlaylist(setCurrentList, playingList);
-
-        
+        return showCurrentPlaylist(setCurrentList, playingList);
+      }
+      newestList(setDisplayTable, playingList);
+      showCurrentPlaylist(setCurrentList, playingList);
     } else {
-        console.error(`Song ${name} or ${src} not found in playlist ${playlist}`);
+      console.error(`Song ${name} or ${src} not found in playlist ${playlist}`);
     }
-}
+  };
 
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(TouchSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  const handleDragEnd = (event) => {
+    console.log(event);
+    const { active, over } = event;
+
+    if (active.id === over.id) return;
+    
+    
+    setDisplayTable((items) => {
+      const oldIndex = items.findIndex((item) => item.src === active.id);
+      const newIndex = items.findIndex((item) => item.src === over.id);
+      return arrayMove(items, oldIndex, newIndex);
+    });
+  };
 
   useEffect(() => {
     updateAllLists(src.playlist);
@@ -195,127 +225,19 @@ const Table = ({ src, setSrc }) => {
   return (
     <>
       <div className="list-in-use">
-        {currentList.length > 0 ? (
-          currentList.map((item) => (
-            <div key={item.playlist} className="current-list">
-              <h2>Current Playlist: {item.playlist}</h2>
-              <h2>List options</h2>
-              <div className="list-options">
-                <IconButton
-                  icon="fa-solid fa-pencil"
-                  onClick={() => {
-                    setOpenChangePlaylistName(true),
-                      setTakeMusic(item.playlist);
-                  }}
-                  text="Rename Playlist"
-                />
-                <IconButton
-                  icon="fa-solid fa-trash"
-                  onClick={() => deletePlaylist(item.playlist)}
-                  text="Delete Playlist"
-                />
-                <IconButton
-                  icon="fa-solid fa-play"
-                  onClick={() => listFunction(item)}
-                  text={`Play ${item.playlist} playlist`}
-                />
-                <IconButton
-                  icon="fa-solid fa-shuffle"
-                  onClick={() => randomSequence(item)}
-                  text={`Shuffle ${item.playlist} playlist`}
-                />
-              </div>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Song</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {item.songs.map((innerItem, key) =>
-                    innerItem.name.length > 0 ? (
-                      <tr
-                        key={innerItem.src}
-                        style={{
-                          background:
-                            (src &&
-                              src.name &&
-                              src.name[currentSongIndex] === innerItem.name &&
-                              src.src &&
-                              src.src[currentSongIndex] === innerItem.src) ||
-                            (src &&
-                              src.name &&
-                              Array.isArray(src.name[currentSongIndex]) &&
-                              src.name[currentSongIndex].join(", ") ===
-                                innerItem.name &&
-                              src.src &&
-                              src.src[currentSongIndex] === innerItem.src)
-                              ? "red"
-                              : "",
-                        }}
-                      >
-                        <td
-                          className="show-hidden-text"
-                          onClick={() => playMusic(innerItem, item)}
-                        >
-                          <p className="hidden-text">{innerItem.name.length > 60
-                            ? `${innerItem.name.slice(0, 60)}...`
-                            : innerItem.name}</p>
-                          {innerItem.name.length >= 40
-                            ? `${innerItem.name.slice(0, 40)}...`
-                            : innerItem.name}
-                        </td>
-                        <td className="music-options">
-                          <IconButton
-                            icon="fa-solid fa-square-minus"
-                            onClick={() =>
-                              handleDelete(innerItem, item.playlist)
-                            }
-                            text="Delete"
-                          />
-                          <IconButton
-                            icon="fa-solid fa-arrow-turn-up"
-                            onClick={() => {
-                              setTakeMusic(innerItem);
-                              setPlaylistContext(item.playlist);
-                              setIsOpen(true);
-                            }}
-                            text="Move"
-                          />
-                          <IconButton
-                            icon="fa-solid fa-pencil"
-                            onClick={() => {
-                              setOpenEditWindow(true);
-                              setTakeMusic({
-                                playlist: item.playlist,
-                                name: innerItem.name,
-                                src: innerItem.src,
-                              });
-                            }}
-                            text="Rename"
-                          />
-                          <IconButton
-                            icon="fa-solid fa-arrow-right-arrow-left"
-                            onClick={() => {
-                              changeIndex(item.playlist, innerItem.name, innerItem.src)
-                            }}
-                            text="Change place"
-                            disabled={item.songs.length > 1 ? false : true}
-                          />
-                        </td>
-                      </tr>
-                    ) : (
-                      <tr key={key}>Keine Daten eingetragen</tr>
-                    )
-                  )}
-                </tbody>
-              </table>
-            </div>
-          ))
-        ) : (
-          <></>
-        )}
+        <UsedTable
+          setOpenChangePlaylistName={setOpenChangePlaylistName}
+          setTakeMusic={setTakeMusic}
+          deletePlaylist={deletePlaylist}
+          listFunction={listFunction}
+          randomSequence={randomSequence}
+          src={src}
+          currentSongIndex={currentSongIndex}
+          playMusic={playMusic}
+          handleDelete={handleDelete}
+          setIsOpen={setIsOpen}
+          setOpenEditWindow={setOpenEditWindow}
+        />
         {isOpen && (
           <PlaylistChanger
             setIsOpen={setIsOpen}
@@ -341,110 +263,24 @@ const Table = ({ src, setSrc }) => {
           />
         )}
       </div>
-      <div className="not-used-playlists">
-        {displayTable.length > 0 ? (
-          displayTable.map((item) => (
-            <div key={item.playlist}>
-              <h2>List name: {item.playlist}</h2>
-              <h2>List options</h2>
-              <div className="list-options">
-                <IconButton
-                  icon="fa-solid fa-pencil"
-                  onClick={() => {
-                    setOpenChangePlaylistName(true),
-                      setTakeMusic(item.playlist);
-                  }}
-                  text="Rename Playlist"
-                />
-                <IconButton
-                  icon="fa-solid fa-trash"
-                  onClick={() => deletePlaylist(item.playlist)}
-                  text="Delete Playlist"
-                />
-                <IconButton
-                  icon="fa-solid fa-play"
-                  onClick={() => listFunction(item)}
-                  text={`Play ${item.playlist} playlist`}
-                />
-                <IconButton
-                  icon="fa-solid fa-shuffle"
-                  onClick={() => randomSequence(item)}
-                  text={`Shuffle ${item.playlist} playlist`}
-                />
-              </div>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Song</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {item.songs.map((innerItem, key) =>
-                    innerItem.name.length > 0 ? (
-                      <tr key={innerItem.src}>
-                        <td
-                          className="show-hidden-text"
-                          onClick={() => playMusic(innerItem, item)}
-                        >
-                          <p className="hidden-text">{innerItem.name.length > 60
-                            ? `${innerItem.name.slice(0, 60)}...`
-                            : innerItem.name}</p>
-                          {innerItem.name.length >= 40
-                            ? `${innerItem.name.slice(0, 40)}...`
-                            : innerItem.name}
-                        </td>
-                        <td className="music-options">
-                          <IconButton
-                            icon="fa-solid fa-square-minus"
-                            onClick={() =>
-                              handleDelete(innerItem, item.playlist)
-                            }
-                            text="Delete"
-                          />
-                          <IconButton
-                            icon="fa-solid fa-arrow-turn-up"
-                            onClick={() => {
-                              setTakeMusic(innerItem);
-                              setPlaylistContext(item.playlist);
-                              setIsOpen(true);
-                            }}
-                            text="Move"
-                          />
-                          <IconButton
-                            icon="fa-solid fa-pencil"
-                            onClick={() => {
-                              setOpenEditWindow(true);
-                              setTakeMusic({
-                                playlist: item.playlist,
-                                name: innerItem.name,
-                                src: innerItem.src,
-                              });
-                            }}
-                            text="Rename"
-                          />
-                          <IconButton
-                            icon="fa-solid fa-arrow-right-arrow-left"
-                            onClick={() => {
-                              changeIndex(item.playlist, innerItem.name, innerItem.src)
-                            }}
-                            text="Change place"
-                            disabled={item.songs.length > 1 ? false : true}
-                          />
-                        </td>
-                      </tr>
-                    ) : (
-                      <tr key={key}>Keine Daten eingetragen</tr>
-                    )
-                  )}
-                </tbody>
-              </table>
-            </div>
-          ))
-        ) : (
-          <p>No Playlist there!</p>
-        )}
-      </div>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCorners}
+        onDragEnd={handleDragEnd}
+      >
+        <NotUsedTables
+          setOpenChangePlaylistName={setOpenChangePlaylistName}
+          setTakeMusic={setTakeMusic}
+          deletePlaylist={deletePlaylist}
+          listFunction={listFunction}
+          randomSequence={randomSequence}
+          playMusic={playMusic}
+          handleDelete={handleDelete}
+          setIsOpen={setIsOpen}
+          setOpenEditWindow={setOpenEditWindow}
+          changeIndex={changeIndex}
+        />
+      </DndContext>
     </>
   );
 };
