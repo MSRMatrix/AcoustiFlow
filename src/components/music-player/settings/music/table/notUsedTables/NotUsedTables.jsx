@@ -18,8 +18,8 @@ const NotUsedTables = ({
   handleDelete,
   setIsOpen,
   setOpenEditWindow,
-  changeIndex,
   setDrag,
+  setListForDrop
 }) => {
   const { displayTable } = useContext(DisplayTable);
   const { setPlaylistContext } = useContext(PlaylistContext);
@@ -29,7 +29,7 @@ const NotUsedTables = ({
       <div className="not-used-playlists">
         {Array.isArray(displayTable) && displayTable.length > 0 ? (
           displayTable.map((item) => (
-            <div key={item.playlist}>
+            <div key={item.playlist} onMouseEnter={() => setListForDrop(item.playlist)} onMouseLeave={() => setListForDrop(null)} >
               <h2>List name: {item.playlist}</h2>
               <h2>List options</h2>
               <div className="list-options">
@@ -83,7 +83,7 @@ const NotUsedTables = ({
                           >
                             <td
                               className="show-hidden-text"
-                              onClick={() => playMusic(innerItem, item)}
+                              onClick={() => (playMusic(innerItem, item))}
                             >
                               <p className="hidden-text">
                                 {innerItem.name.length > 60
@@ -134,13 +134,6 @@ const NotUsedTables = ({
                               >
                                 <IconButton
                                   icon="fa-solid fa-arrow-right-arrow-left"
-                                  onClick={() => {
-                                    changeIndex(
-                                      item.playlist,
-                                      innerItem.name,
-                                      innerItem.src
-                                    );
-                                  }}
                                   text="Change place"
                                   disabled={
                                     innerItem.src.length < 1 ? true : false

@@ -40,6 +40,7 @@ const Table = ({ src, setSrc }) => {
   const { currentList, setCurrentList } = useContext(CurrentList);
 
   const [drag, setDrag] = useState(false)
+  const [listForDrop, setListForDrop] = useState(null)
 
   const updateAllLists = (playlist) => {
     newestList(setDisplayTable, playlist);
@@ -173,6 +174,8 @@ const Table = ({ src, setSrc }) => {
     updateAllLists(src.playlist);
   };
 
+  // Drag and Drop
+
   const changeIndex = (playlist, name, src) => {
     const storedData = localStorage.getItem(playlist).split(", ");
     const indexFromSongName = storedData.indexOf(name);
@@ -183,8 +186,6 @@ const Table = ({ src, setSrc }) => {
       const endIndex = Math.max(indexFromSong, indexFromSongName) + 1;
 
       storedData.splice(startIndex, endIndex - startIndex);
-
-      console.log(storedData);
 
       const playingList = currentList[0]?.playlist;
       if (playlist === playingList) {
@@ -207,20 +208,38 @@ const Table = ({ src, setSrc }) => {
   );
 
   const handleDragEnd = (event) => {
-    if(!drag){
+    if (!drag) {
       return;
     }
+  
     const { active, over } = event;
-
-    if (active.id === over.id) return;
+    if (!over || active.id === over.id) {
+      return;
+    }
+  
+    const playlistToUpdate = listForDrop; 
+  
+    const oldIndex = displayTable.findIndex(item => item.playlist === playlistToUpdate);
+    const oldSongIndex = displayTable[oldIndex].songs.findIndex(song => song.src === active.id.split("-").pop());
+  
+    const newIndex = displayTable.findIndex(item => item.playlist === playlistToUpdate);
+    const newSongIndex = displayTable[newIndex].songs.findIndex(song => song.src === over.id.split("-").pop());
+  
+    // changeIndex(playlistToUpdate, newIndex, oldIndex)
     
-    
-    setDisplayTable((items) => {
-      const oldIndex = items.findIndex((item) => item.src === active.id);
-      const newIndex = items.findIndex((item) => item.src === over.id);
-      return arrayMove(items, oldIndex, newIndex);
-    });
+    if (oldIndex !== -1 && newIndex !== -1 && oldSongIndex !== -1 && newSongIndex !== -1) {
+      setDisplayTable(items => {
+        const updatedItems = [...items];
+        updatedItems[oldIndex].songs = arrayMove(updatedItems[oldIndex].songs, oldSongIndex, newSongIndex);
+        return updatedItems;
+      });
+    }
+  
+    setDrag(false);
   };
+  
+  // Drag and Drop
+  
 
   useEffect(() => {
     updateAllLists(src.playlist);
@@ -269,6 +288,7 @@ const Table = ({ src, setSrc }) => {
       </div>
       {drag ? (
   <DndContext
+  autoScroll={false}
     sensors={sensors}
     collisionDetection={closestCorners}
     onDragEnd={handleDragEnd}
@@ -284,7 +304,7 @@ const Table = ({ src, setSrc }) => {
       handleDelete={handleDelete}
       setIsOpen={setIsOpen}
       setOpenEditWindow={setOpenEditWindow}
-      changeIndex={changeIndex}
+      setListForDrop={setListForDrop}
     />
   </DndContext>
 ) : (
@@ -299,7 +319,7 @@ const Table = ({ src, setSrc }) => {
       handleDelete={handleDelete}
       setIsOpen={setIsOpen}
       setOpenEditWindow={setOpenEditWindow}
-      changeIndex={changeIndex}
+      setListForDrop={setListForDrop}
     />
 )}
 

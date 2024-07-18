@@ -1,4 +1,4 @@
-export const newestList = (setAllPlaylists, playlist = null) => {
+export const newestList = (setDisplayTable, playlist = null) => {
     const playlists = Object.entries(localStorage)
       .filter((item) => !playlist || item[0] !== playlist)
       .map((item) => {
@@ -15,6 +15,6 @@ export const newestList = (setAllPlaylists, playlist = null) => {
         return { playlist: item[0], songs: songsArray };
       });
   
-    setAllPlaylists(playlists);
+      setDisplayTable(playlists);
   };
   
