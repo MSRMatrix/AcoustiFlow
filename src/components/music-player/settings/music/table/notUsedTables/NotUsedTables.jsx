@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import IconButton from "../../../../functions/IconButton";
 import DisplayTable from "../../../../MusicContext/DisplayTable";
 import {
@@ -6,6 +6,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import PlaylistContext from "../../../../MusicContext/PlaylistContext";
+import { SortableItem } from "../sortableItem/SortableItem";
 
 const NotUsedTables = ({
   setOpenChangePlaylistName,
@@ -18,14 +19,15 @@ const NotUsedTables = ({
   setIsOpen,
   setOpenEditWindow,
   changeIndex,
+  setDrag
 }) => {
-  const { displayTable, setDisplayTable } = useContext(DisplayTable);
-  const { playlistContext, setPlaylistContext } = useContext(PlaylistContext);
+  const { displayTable } = useContext(DisplayTable);
+  const { setPlaylistContext } = useContext(PlaylistContext);
 
   return (
     <div>
       <div className="not-used-playlists">
-        {displayTable.length > 0 ? (
+        {Array.isArray(displayTable) && displayTable.length > 0 ? (
           displayTable.map((item) => (
             <div key={item.playlist}>
               <h2>List name: {item.playlist}</h2>
@@ -34,8 +36,8 @@ const NotUsedTables = ({
                 <IconButton
                   icon="fa-solid fa-pencil"
                   onClick={() => {
-                    setOpenChangePlaylistName(true),
-                      setTakeMusic(item.playlist);
+                    setOpenChangePlaylistName(true);
+                    setTakeMusic(item.playlist);
                   }}
                   text="Rename Playlist"
                 />
@@ -48,13 +50,13 @@ const NotUsedTables = ({
                   icon="fa-solid fa-play"
                   onClick={() => listFunction(item)}
                   text={`Play ${item.playlist} playlist`}
-                  disabled={item.songs && item.songs.length < 1 ? true : false}
+                  disabled={item.songs && item.songs.length < 1}
                 />
                 <IconButton
                   icon="fa-solid fa-shuffle"
                   onClick={() => randomSequence(item)}
                   text={`Shuffle ${item.playlist} playlist`}
-                  disabled={item.songs && item.songs.length < 1 ? true : false}
+                  disabled={item.songs && item.songs.length < 1}
                 />
               </div>
 
@@ -66,74 +68,84 @@ const NotUsedTables = ({
                   </tr>
                 </thead>
                 <tbody>
-                  <SortableContext
-                    items={item.songs}
-                    strategy={verticalListSortingStrategy}
-                  >
-                    {item.songs.map((innerItem, key) =>
-                      innerItem.name.length > 0 ? (
-                        <tr key={innerItem.src}>
-                          <td
-                            className="show-hidden-text"
-                            onClick={() => playMusic(innerItem, item)}
-                          >
-                            <p className="hidden-text">
-                              {innerItem.name.length > 60
-                                ? `${innerItem.name.slice(0, 60)}...`
-                                : innerItem.name}
-                            </p>
-                            {innerItem.name.length >= 40
-                              ? `${innerItem.name.slice(0, 40)}...`
-                              : innerItem.name}
-                          </td>
-                          <td className="music-options">
-                            <IconButton
-                              icon="fa-solid fa-square-minus"
-                              onClick={() =>
-                                handleDelete(innerItem, item.playlist)
-                              }
-                              text="Delete"
-                            />
-                            <IconButton
-                              icon="fa-solid fa-arrow-turn-up"
-                              onClick={() => {
-                                setTakeMusic(innerItem);
-                                setPlaylistContext(item.playlist);
-                                setIsOpen(true);
-                              }}
-                              text="Move"
-                            />
-                            <IconButton
-                              icon="fa-solid fa-pencil"
-                              onClick={() => {
-                                setOpenEditWindow(true);
-                                setTakeMusic({
-                                  playlist: item.playlist,
-                                  name: innerItem.name,
-                                  src: innerItem.src,
-                                });
-                              }}
-                              text="Rename"
-                            />
-                            <IconButton
-                              icon="fa-solid fa-arrow-right-arrow-left"
-                              onClick={() => {
-                                changeIndex(
-                                  item.playlist,
-                                  innerItem.name,
-                                  innerItem.src
-                                );
-                              }}
-                              text="Change place"
-                              disabled={item.songs.length > 1 ? false : true}
-                            />
-                          </td>
-                        </tr>
-                      ) : (
-                        <tr key={key}>Keine Daten eingetragen</tr>
-                      )
-                    )}
-                  </SortableContext>
+                  {Array.isArray(item.songs) && item.songs.length > 0 ? (
+                    <SortableContext
+                      items={item.songs.map((song) => `${item.playlist}-${song.src}`)}
+                      strategy={verticalListSortingStrategy}
+                    >
+                      {item.songs.map((innerItem) =>
+                        innerItem.name.length > 0 ? (
+                          <SortableItem key={`${item.playlist}-${innerItem.src}`} id={`${item.playlist}-${innerItem.src}`}>
+                            <td
+                              className="show-hidden-text"
+                              onClick={() => playMusic(innerItem, item)}
+                            >
+                              <p className="hidden-text">
+                                {innerItem.name.length > 60
+                                  ? `${innerItem.name.slice(0, 60)}...`
+                                  : innerItem.name}
+                              </p>
+                              <p onMouseEnter={() => setDrag(false)}>{innerItem.name.length >= 40
+                                ? `${innerItem.name.slice(0, 40)}...`
+                                : innerItem.name}</p>
+                              
+                            </td>
+                            <td className="music-options">
+                              <IconButton
+                                icon="fa-solid fa-square-minus"
+                                onClick={() =>
+                                  handleDelete(innerItem, item.playlist)
+                                }
+                                text="Delete"
+                              />
+                              <IconButton
+                                icon="fa-solid fa-arrow-turn-up"
+                                onClick={() => {
+                                  setTakeMusic(innerItem);
+                                  setPlaylistContext(item.playlist);
+                                  setIsOpen(true);
+                                }}
+                                text="Move"
+                              />
+                              <IconButton
+                                icon="fa-solid fa-pencil"
+                                onClick={() => {
+                                  setOpenEditWindow(true);
+                                  setTakeMusic({
+                                    playlist: item.playlist,
+                                    name: innerItem.name,
+                                    src: innerItem.src,
+                                  });
+                                }}
+                                text="Rename"
+                              />
+                              <td onMouseEnter={() => setDrag(true)}
+                                onMouseLeave={() => setDrag(false)}>
+                              <IconButton
+                                icon="fa-solid fa-arrow-right-arrow-left"
+                                onClick={() => {
+                                  changeIndex(
+                                    item.playlist,
+                                    innerItem.name,
+                                    innerItem.src
+                                  );
+                                }}
+                                
+                                text="Change place"
+                                disabled={innerItem.src.length < 1 ? true : false}
+                              /></td>
+                            </td>
+                          </SortableItem>
+                        ) : (
+                          <tr  key={innerItem.src}>Keine Daten eingetragen</tr>
+                        )
+                      )}
+                    </SortableContext>
+                  ) : (
+                    <tr>
+                      <td colSpan="2">Keine Lieder in dieser Playlist</td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>

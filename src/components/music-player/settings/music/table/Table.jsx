@@ -39,6 +39,8 @@ const Table = ({ src, setSrc }) => {
     useContext(CurrentSongIndex);
   const { currentList, setCurrentList } = useContext(CurrentList);
 
+  const [drag, setDrag] = useState(false)
+
   const updateAllLists = (playlist) => {
     newestList(setDisplayTable, playlist);
     showCurrentPlaylist(setCurrentList, playlist);
@@ -205,7 +207,9 @@ const Table = ({ src, setSrc }) => {
   );
 
   const handleDragEnd = (event) => {
-    console.log(event);
+    if(!drag){
+      return;
+    }
     const { active, over } = event;
 
     if (active.id === over.id) return;
@@ -263,24 +267,42 @@ const Table = ({ src, setSrc }) => {
           />
         )}
       </div>
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCorners}
-        onDragEnd={handleDragEnd}
-      >
-        <NotUsedTables
-          setOpenChangePlaylistName={setOpenChangePlaylistName}
-          setTakeMusic={setTakeMusic}
-          deletePlaylist={deletePlaylist}
-          listFunction={listFunction}
-          randomSequence={randomSequence}
-          playMusic={playMusic}
-          handleDelete={handleDelete}
-          setIsOpen={setIsOpen}
-          setOpenEditWindow={setOpenEditWindow}
-          changeIndex={changeIndex}
-        />
-      </DndContext>
+      {drag ? (
+  <DndContext
+    sensors={sensors}
+    collisionDetection={closestCorners}
+    onDragEnd={handleDragEnd}
+  >
+    <NotUsedTables
+      setDrag={setDrag}
+      setOpenChangePlaylistName={setOpenChangePlaylistName}
+      setTakeMusic={setTakeMusic}
+      deletePlaylist={deletePlaylist}
+      listFunction={listFunction}
+      randomSequence={randomSequence}
+      playMusic={playMusic}
+      handleDelete={handleDelete}
+      setIsOpen={setIsOpen}
+      setOpenEditWindow={setOpenEditWindow}
+      changeIndex={changeIndex}
+    />
+  </DndContext>
+) : (
+    <NotUsedTables
+      setDrag={setDrag}
+      setOpenChangePlaylistName={setOpenChangePlaylistName}
+      setTakeMusic={setTakeMusic}
+      deletePlaylist={deletePlaylist}
+      listFunction={listFunction}
+      randomSequence={randomSequence}
+      playMusic={playMusic}
+      handleDelete={handleDelete}
+      setIsOpen={setIsOpen}
+      setOpenEditWindow={setOpenEditWindow}
+      changeIndex={changeIndex}
+    />
+)}
+
     </>
   );
 };
