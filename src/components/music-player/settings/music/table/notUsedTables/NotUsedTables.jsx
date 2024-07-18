@@ -19,7 +19,7 @@ const NotUsedTables = ({
   setIsOpen,
   setOpenEditWindow,
   changeIndex,
-  setDrag
+  setDrag,
 }) => {
   const { displayTable } = useContext(DisplayTable);
   const { setPlaylistContext } = useContext(PlaylistContext);
@@ -67,15 +67,20 @@ const NotUsedTables = ({
                     <th>Actions</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody onMouseEnter={() => setDrag(false)} onTouchEnd={() => setDrag(false)}>
                   {Array.isArray(item.songs) && item.songs.length > 0 ? (
                     <SortableContext
-                      items={item.songs.map((song) => `${item.playlist}-${song.src}`)}
+                      items={item.songs.map(
+                        (song) => `${item.playlist}-${song.src}`
+                      )}
                       strategy={verticalListSortingStrategy}
                     >
                       {item.songs.map((innerItem) =>
                         innerItem.name.length > 0 ? (
-                          <SortableItem key={`${item.playlist}-${innerItem.src}`} id={`${item.playlist}-${innerItem.src}`}>
+                          <SortableItem
+                            key={`${item.playlist}-${innerItem.src}`}
+                            id={`${item.playlist}-${innerItem.src}`}
+                          >
                             <td
                               className="show-hidden-text"
                               onClick={() => playMusic(innerItem, item)}
@@ -85,10 +90,11 @@ const NotUsedTables = ({
                                   ? `${innerItem.name.slice(0, 60)}...`
                                   : innerItem.name}
                               </p>
-                              <p onMouseEnter={() => setDrag(false)}>{innerItem.name.length >= 40
-                                ? `${innerItem.name.slice(0, 40)}...`
-                                : innerItem.name}</p>
-                              
+                              <p onMouseEnter={() => setDrag(false)}>
+                                {innerItem.name.length >= 40
+                                  ? `${innerItem.name.slice(0, 40)}...`
+                                  : innerItem.name}
+                              </p>
                             </td>
                             <td className="music-options">
                               <IconButton
@@ -119,25 +125,32 @@ const NotUsedTables = ({
                                 }}
                                 text="Rename"
                               />
-                              <td onMouseEnter={() => setDrag(true)}
-                                onMouseLeave={() => setDrag(false)}>
-                              <IconButton
-                                icon="fa-solid fa-arrow-right-arrow-left"
-                                onClick={() => {
-                                  changeIndex(
-                                    item.playlist,
-                                    innerItem.name,
-                                    innerItem.src
-                                  );
-                                }}
-                                
-                                text="Change place"
-                                disabled={innerItem.src.length < 1 ? true : false}
-                              /></td>
+                              <td
+                                onMouseEnter={() => setDrag(true)}
+                                onMouseLeave={() => setDrag(false)}
+                                onTouchStart={() => setDrag(true)}
+                                onTouchEnd={() => setDrag(false)}
+                                style={{ touchAction: "none" }}
+                              >
+                                <IconButton
+                                  icon="fa-solid fa-arrow-right-arrow-left"
+                                  onClick={() => {
+                                    changeIndex(
+                                      item.playlist,
+                                      innerItem.name,
+                                      innerItem.src
+                                    );
+                                  }}
+                                  text="Change place"
+                                  disabled={
+                                    innerItem.src.length < 1 ? true : false
+                                  }
+                                />
+                              </td>
                             </td>
                           </SortableItem>
                         ) : (
-                          <tr  key={innerItem.src}>Keine Daten eingetragen</tr>
+                          <tr key={innerItem.src}>Keine Daten eingetragen</tr>
                         )
                       )}
                     </SortableContext>
