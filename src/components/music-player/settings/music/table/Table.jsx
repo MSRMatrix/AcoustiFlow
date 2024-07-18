@@ -11,6 +11,7 @@ import "./table.css";
 
 // Drag and Drop Import
 import {
+  AutoScrollActivator,
   closestCorners,
   DndContext,
   KeyboardSensor,
@@ -206,6 +207,7 @@ const Table = ({ src, setSrc }) => {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
+  
 
   const handleDragEnd = (event) => {
     if (!drag) {
@@ -228,6 +230,7 @@ const Table = ({ src, setSrc }) => {
     // changeIndex(playlistToUpdate, newIndex, oldIndex)
     
     if (oldIndex !== -1 && newIndex !== -1 && oldSongIndex !== -1 && newSongIndex !== -1) {
+      
       setDisplayTable(items => {
         const updatedItems = [...items];
         updatedItems[oldIndex].songs = arrayMove(updatedItems[oldIndex].songs, oldSongIndex, newSongIndex);
@@ -286,9 +289,7 @@ const Table = ({ src, setSrc }) => {
           />
         )}
       </div>
-      {drag ? (
   <DndContext
-  autoScroll={false}
     sensors={sensors}
     collisionDetection={closestCorners}
     onDragEnd={handleDragEnd}
@@ -305,23 +306,9 @@ const Table = ({ src, setSrc }) => {
       setIsOpen={setIsOpen}
       setOpenEditWindow={setOpenEditWindow}
       setListForDrop={setListForDrop}
+      drag={drag}
     />
   </DndContext>
-) : (
-    <NotUsedTables
-      setDrag={setDrag}
-      setOpenChangePlaylistName={setOpenChangePlaylistName}
-      setTakeMusic={setTakeMusic}
-      deletePlaylist={deletePlaylist}
-      listFunction={listFunction}
-      randomSequence={randomSequence}
-      playMusic={playMusic}
-      handleDelete={handleDelete}
-      setIsOpen={setIsOpen}
-      setOpenEditWindow={setOpenEditWindow}
-      setListForDrop={setListForDrop}
-    />
-)}
 
     </>
   );
