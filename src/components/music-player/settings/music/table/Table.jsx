@@ -177,29 +177,6 @@ const Table = ({ src, setSrc }) => {
 
   // Drag and Drop
 
-  const changeIndex = (playlist, name, src) => {
-    const storedData = localStorage.getItem(playlist).split(", ");
-    const indexFromSongName = storedData.indexOf(name);
-    const indexFromSong = storedData.indexOf(src);
-
-    if (indexFromSongName !== -1 && indexFromSong !== -1) {
-      const startIndex = Math.min(indexFromSong, indexFromSongName);
-      const endIndex = Math.max(indexFromSong, indexFromSongName) + 1;
-
-      storedData.splice(startIndex, endIndex - startIndex);
-
-      const playingList = currentList[0]?.playlist;
-      if (playlist === playingList) {
-        newestList(setDisplayTable, playingList);
-        return showCurrentPlaylist(setCurrentList, playingList);
-      }
-      newestList(setDisplayTable, playingList);
-      showCurrentPlaylist(setCurrentList, playingList);
-    } else {
-      console.error(`Song ${name} or ${src} not found in playlist ${playlist}`);
-    }
-  };
-
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(TouchSensor),
@@ -220,6 +197,7 @@ const Table = ({ src, setSrc }) => {
     }
   
     const playlistToUpdate = listForDrop; 
+
   
     const oldIndex = displayTable.findIndex(item => item.playlist === playlistToUpdate);
     const oldSongIndex = displayTable[oldIndex].songs.findIndex(song => song.src === active.id.split("-").pop());
@@ -237,7 +215,14 @@ const Table = ({ src, setSrc }) => {
         return updatedItems;
       });
     }
-  
+    const updatedList = displayTable.filter((list) => list.playlist === playlistToUpdate)[0].songs.map((item) => `${item.name}, ${item.src}`).join(", ")
+    localStorage.setItem(playlistToUpdate, updatedList)
+    
+    console.log(displayTable);
+
+    // newestList(setDisplayTable, playingList);
+    //   showCurrentPlaylist(setCurrentList, playingList);
+    
     setDrag(false);
   };
   
@@ -289,7 +274,8 @@ const Table = ({ src, setSrc }) => {
           />
         )}
       </div>
-  <DndContext
+  <DndContext 
+  autoScroll={false}
     sensors={sensors}
     collisionDetection={closestCorners}
     onDragEnd={handleDragEnd}
