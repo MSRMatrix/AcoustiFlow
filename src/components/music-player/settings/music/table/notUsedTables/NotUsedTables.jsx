@@ -25,6 +25,28 @@ const NotUsedTables = ({
   const { displayTable } = useContext(DisplayTable);
   const { setPlaylistContext } = useContext(PlaylistContext);
 
+  // Zustand für lange Berührung
+  const [longPressItem, setLongPressItem] = useState(null);
+
+  let touchTimer = null;
+
+  const handleTouchStart = (item) => {
+    touchTimer = setTimeout(() => {
+      setLongPressItem(item);
+      alert(`Long press detected on ${item.name}`);
+    }, 500); // Zeit in Millisekunden für lange Berührung
+  };
+
+  const handleTouchEnd = () => {
+    clearTimeout(touchTimer);
+    setLongPressItem(null);
+  };
+
+  const handleTouchCancel = () => {
+    clearTimeout(touchTimer);
+    setLongPressItem(null);
+  };
+
   return (
     <div>
       <div className="not-used-playlists">
@@ -93,6 +115,10 @@ const NotUsedTables = ({
                               <td
                                 className="show-hidden-text"
                                 onClick={() => playMusic(innerItem, item)}
+                                onTouchStart={() => handleTouchStart(innerItem)}
+                                onTouchEnd={() => handleTouchEnd()}
+                                onTouchCancel={() => handleTouchCancel()}
+                                style={{ touchAction: "none" }}
                               >
                                 <p className="hidden-text">
                                   {innerItem.name.length > 60
@@ -174,6 +200,10 @@ const NotUsedTables = ({
                             <td
                               className="show-hidden-text"
                               onClick={() => playMusic(innerItem, item)}
+                              onTouchStart={() => handleTouchStart(innerItem)}
+                              onTouchEnd={() => handleTouchEnd()}
+                              onTouchCancel={() => handleTouchCancel()}
+                              style={{ touchAction: "none" }}
                             >
                               <p className="hidden-text">
                                 {innerItem.name.length > 60
@@ -215,20 +245,20 @@ const NotUsedTables = ({
                                 }}
                                 text="Rename"
                               />
-                           
-                            <td
-                              onMouseEnter={() => setDrag(true)}
-                              onMouseLeave={() => setDrag(false)}
-                              onTouchStart={() => setDrag(true)}
-                              onTouchEnd={() => setDrag(false)}
-                              style={{ touchAction: "none" }}
-                            >
-                              <IconButton
-                                icon="fa-solid fa-arrow-right-arrow-left"
-                                text="Change place"
-                                disabled={innerItem.src.length < 1}
-                              />
-                            </td> </td>
+                              <td
+                                onMouseEnter={() => setDrag(true)}
+                                onMouseLeave={() => setDrag(false)}
+                                onTouchStart={() => setDrag(true)}
+                                onTouchEnd={() => setDrag(false)}
+                                style={{ touchAction: "none" }}
+                              >
+                                <IconButton
+                                  icon="fa-solid fa-arrow-right-arrow-left"
+                                  text="Change place"
+                                  disabled={innerItem.src.length < 1}
+                                />
+                              </td>
+                            </td>
                           </tr>
                         ) : (
                           <tr key={innerItem.src}>
