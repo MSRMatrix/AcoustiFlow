@@ -38,7 +38,11 @@ const Music = ({ src, setSrc, loop, setLoop }) => {
     setTimeout(() => {
       if(!document.querySelector("iframe")?.title.split(",").join("")){
         setShowInput(false)
-        return alert("Please type in a valid url!")
+       setSrc({
+          name: "Unknown",
+          src: newSrc.src,
+        }) 
+        return
       }
       const title = document.querySelector("iframe").title.split(",").join("");
 
