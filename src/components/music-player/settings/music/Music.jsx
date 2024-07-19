@@ -19,20 +19,29 @@ const Music = ({ src, setSrc, loop, setLoop }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setSrc([])
     setCurrentList([])
     
-    const newSrc = {
+   setTimeout(() => {
+     const newSrc = {
       src: e.target.elements.src.value,
     };
       setSrc(newSrc);
       titleFixer(newSrc)
     e.target.reset();
     setShowInput(true)
+   }, 100); 
+   
   };
 
   const titleFixer = (newSrc) => {
     setTimeout(() => {
+      if(!document.querySelector("iframe")?.title.split(",").join("")){
+        setShowInput(false)
+        return alert("Please type in a valid url!")
+      }
       const title = document.querySelector("iframe").title.split(",").join("");
+
       if(title === "YouTube video player"){
         setTimeout(() => {
         const newTitle = document.querySelector("iframe").title.split(",").join("");
@@ -41,6 +50,8 @@ const Music = ({ src, setSrc, loop, setLoop }) => {
           src: newSrc.src,
         };
         setSrc(music);
+        newestList(setDisplayTable);
+        showCurrentPlaylist(setCurrentList)
         return  
         }, 1000);
       }
@@ -51,8 +62,10 @@ const Music = ({ src, setSrc, loop, setLoop }) => {
       };
       setSrc(newTitle);
       }
-      
+      newestList(setDisplayTable);
+      showCurrentPlaylist(setCurrentList)
     }, 1000);
+
   }
 
   const handleSaveMusic = () => {
@@ -130,7 +143,6 @@ const Music = ({ src, setSrc, loop, setLoop }) => {
           required
           placeholder="Add new song"
           min={5}
-          maxLength={60}
         />
         <button type="submit">Play</button>
       </form>

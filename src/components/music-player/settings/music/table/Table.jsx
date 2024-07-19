@@ -204,8 +204,6 @@ const Table = ({ src, setSrc }) => {
   
     const newIndex = displayTable.findIndex(item => item.playlist === playlistToUpdate);
     const newSongIndex = displayTable[newIndex].songs.findIndex(song => song.src === over.id.split("-").pop());
-  
-    // changeIndex(playlistToUpdate, newIndex, oldIndex)
     
     if (oldIndex !== -1 && newIndex !== -1 && oldSongIndex !== -1 && newSongIndex !== -1) {
       

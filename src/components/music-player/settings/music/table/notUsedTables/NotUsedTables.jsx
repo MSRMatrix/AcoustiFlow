@@ -25,28 +25,6 @@ const NotUsedTables = ({
   const { displayTable } = useContext(DisplayTable);
   const { setPlaylistContext } = useContext(PlaylistContext);
 
-  // Zustand für lange Berührung
-  const [longPressItem, setLongPressItem] = useState(null);
-
-  let touchTimer = null;
-
-  const handleTouchStart = (item) => {
-    touchTimer = setTimeout(() => {
-      setLongPressItem(item);
-      alert(`Long press detected on ${item.name}`);
-    }, 500); // Zeit in Millisekunden für lange Berührung
-  };
-
-  const handleTouchEnd = () => {
-    clearTimeout(touchTimer);
-    setLongPressItem(null);
-  };
-
-  const handleTouchCancel = () => {
-    clearTimeout(touchTimer);
-    setLongPressItem(null);
-  };
-
   return (
     <div>
       <div className="not-used-playlists">
@@ -112,14 +90,7 @@ const NotUsedTables = ({
                               key={`${item.playlist}-${innerItem.src}`}
                               id={`${item.playlist}-${innerItem.src}`}
                             >
-                              <td
-                                className="show-hidden-text"
-                                onClick={() => playMusic(innerItem, item)}
-                                onTouchStart={() => handleTouchStart(innerItem)}
-                                onTouchEnd={() => handleTouchEnd()}
-                                onTouchCancel={() => handleTouchCancel()}
-                                style={{ touchAction: "none" }}
-                              >
+                              <td className="show-hidden-text">
                                 <p className="hidden-text">
                                   {innerItem.name.length > 60
                                     ? `${innerItem.name.slice(0, 60)}...`
@@ -132,6 +103,11 @@ const NotUsedTables = ({
                                 </p>
                               </td>
                               <td className="music-options">
+                                <IconButton
+                                  icon="fa-solid fa-play"
+                                  onClick={() => playMusic(innerItem, item)}
+                                  text="Play"
+                                />
                                 <IconButton
                                   icon="fa-solid fa-square-minus"
                                   onClick={() =>
@@ -197,14 +173,7 @@ const NotUsedTables = ({
                       item.songs.map((innerItem) =>
                         innerItem.name.length > 0 ? (
                           <tr key={innerItem.src}>
-                            <td
-                              className="show-hidden-text"
-                              onClick={() => playMusic(innerItem, item)}
-                              onTouchStart={() => handleTouchStart(innerItem)}
-                              onTouchEnd={() => handleTouchEnd()}
-                              onTouchCancel={() => handleTouchCancel()}
-                              style={{ touchAction: "none" }}
-                            >
+                            <td className="show-hidden-text">
                               <p className="hidden-text">
                                 {innerItem.name.length > 60
                                   ? `${innerItem.name.slice(0, 60)}...`
@@ -217,6 +186,11 @@ const NotUsedTables = ({
                               </p>
                             </td>
                             <td className="music-options">
+                              <IconButton
+                                icon="fa-solid fa-play"
+                                onClick={() => playMusic(innerItem, item)}
+                                text="Play"
+                              />
                               <IconButton
                                 icon="fa-solid fa-square-minus"
                                 onClick={() =>
@@ -257,7 +231,7 @@ const NotUsedTables = ({
                                   text="Change place"
                                   disabled={innerItem.src.length < 1}
                                 />
-                              </td>
+                              </td>{" "}
                             </td>
                           </tr>
                         ) : (

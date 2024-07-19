@@ -48,7 +48,7 @@
     padding: 10px;
     border-radius: 5px;
     color: white;
-    cursor: pointer;
+    cursor: default;
     width: 100%;
     overflow-wrap: break-word; 
 }

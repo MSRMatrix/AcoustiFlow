@@ -82,7 +82,6 @@ const UsedTable = ({
                     >
                       <td
                         className="show-hidden-text"
-                        onClick={() => playMusic(innerItem, item)}
                       >
                         <p className="hidden-text">
                           {innerItem.name.length > 60
@@ -94,6 +93,23 @@ const UsedTable = ({
                           : innerItem.name}
                       </td>
                       <td className="music-options">
+                      <IconButton
+                                icon="fa-solid fa-play"
+                                onClick={() => playMusic(innerItem, item)}
+                                text="Play"
+                                disabled={(src &&
+                                  src.name &&
+                                  src.name[currentSongIndex] === innerItem.name &&
+                                  src.src &&
+                                  src.src[currentSongIndex] === innerItem.src) ||
+                                (src &&
+                                  src.name &&
+                                  Array.isArray(src.name[currentSongIndex]) &&
+                                  src.name[currentSongIndex].join(", ") ===
+                                    innerItem.name &&
+                                  src.src &&
+                                  src.src[currentSongIndex] === innerItem.src) ? true : false}
+                              />
                         <IconButton
                           icon="fa-solid fa-square-minus"
                           onClick={() => handleDelete(innerItem, item.playlist)}
