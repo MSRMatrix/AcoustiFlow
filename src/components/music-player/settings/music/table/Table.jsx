@@ -217,12 +217,6 @@ const Table = ({ src, setSrc }) => {
     }
     const updatedList = displayTable.filter((list) => list.playlist === playlistToUpdate)[0].songs.map((item) => `${item.name}, ${item.src}`).join(", ")
     localStorage.setItem(playlistToUpdate, updatedList)
-    
-    console.log(displayTable);
-
-    // newestList(setDisplayTable, playingList);
-    //   showCurrentPlaylist(setCurrentList, playingList);
-    
     setDrag(false);
   };
   
