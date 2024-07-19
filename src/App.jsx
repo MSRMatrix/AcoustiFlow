@@ -9,6 +9,7 @@ import ShowInput from './components/music-player/MusicContext/ShowInput'
 import CurrentSongIndex from './components/music-player/MusicContext/CurrentSongIndex'
 import CurrentList from './components/music-player/MusicContext/CurrentList'
 import TakeMusic from './components/music-player/MusicContext/TakeMusic'
+import Tutorial from './components/tutorial/Tutorial'
 
 
 const router = createBrowserRouter ([
@@ -20,6 +21,11 @@ const router = createBrowserRouter ([
     path: "/import-export",
     element: <Data />
   },
+  {
+    path: "/tutorial",
+    element: <Tutorial />
+  },
+  
   {
     path: "*",
     element: <MusicPlayer />

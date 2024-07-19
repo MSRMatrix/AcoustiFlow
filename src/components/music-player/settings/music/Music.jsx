@@ -105,6 +105,12 @@ const Music = ({ src, setSrc, loop, setLoop }) => {
     const list = Object.entries(localStorage).map((item) => item[0]);
     const checkIfThere = list.filter((item) => item === newList);
 
+
+    if(newList.includes("-")){
+      alert("Playlist names cannot contain dashes (-).");
+      e.target.reset();
+      return;
+    }
     if (checkIfThere.length >= 1) {
       alert("List already exists");
       e.target.reset();
