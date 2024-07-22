@@ -33,7 +33,7 @@ const NotUsedTables = ({
             <div
               key={item.playlist}
               onMouseEnter={() => setListForDrop(item.playlist)}
-              onMouseLeave={() => setListForDrop(null)}
+              onTouchStart={() => setListForDrop(item.playlist)}
             >
               <h2>List name: {item.playlist}</h2>
               <h2>List options</h2>
