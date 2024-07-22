@@ -72,7 +72,6 @@ const NotUsedTables = ({
                     <th>Actions</th>
                   </tr>
                 </thead>
-                {drag ? (
                   <tbody
                     onMouseEnter={() => setDrag(false)}
                     onTouchEnd={() => setDrag(false)}
@@ -86,10 +85,10 @@ const NotUsedTables = ({
                       >
                         {item.songs.map((innerItem) =>
                           innerItem.name.length > 0 ? (
-                            <SortableItem
-                              key={`${item.playlist}-${innerItem.src}`}
-                              id={`${item.playlist}-${innerItem.src}`}
-                            >
+                            <tr
+                            key={`${item.playlist}-${innerItem.src}`}
+                            id={`${item.playlist}-${innerItem.src}`}>
+                            
                               <td className="show-hidden-text">
                                 <p className="hidden-text">
                                   {innerItem.name.length > 60
@@ -136,6 +135,10 @@ const NotUsedTables = ({
                                   }}
                                   text="Rename"
                                 />
+                                <SortableItem
+                              key={`${item.playlist}-${innerItem.src}`}
+                              id={`${item.playlist}-${innerItem.src}`}
+                            >
                                 <td
                                   onMouseEnter={() => setDrag(true)}
                                   onMouseLeave={() => setDrag(false)}
@@ -150,9 +153,9 @@ const NotUsedTables = ({
                                       innerItem.src.length < 1 ? true : false
                                     }
                                   />
-                                </td>
+                                </td> </SortableItem>
                               </td>
-                            </SortableItem>
+                           </tr>
                           ) : (
                             <tr key={innerItem.src}>Keine Daten eingetragen</tr>
                           )
@@ -163,90 +166,9 @@ const NotUsedTables = ({
                         <td colSpan="2">Keine Lieder in dieser Playlist</td>
                       </tr>
                     )}
+              
                   </tbody>
-                ) : (
-                  <tbody
-                    onMouseEnter={() => setDrag(false)}
-                    onTouchEnd={() => setDrag(false)}
-                  >
-                    {Array.isArray(item.songs) && item.songs.length > 0 ? (
-                      item.songs.map((innerItem) =>
-                        innerItem.name.length > 0 ? (
-                          <tr key={innerItem.src}>
-                            <td className="show-hidden-text">
-                              <p className="hidden-text">
-                                {innerItem.name.length > 60
-                                  ? `${innerItem.name.slice(0, 60)}...`
-                                  : innerItem.name}
-                              </p>
-                              <p onMouseEnter={() => setDrag(false)}>
-                                {innerItem.name.length >= 40
-                                  ? `${innerItem.name.slice(0, 40)}...`
-                                  : innerItem.name}
-                              </p>
-                            </td>
-                            <td className="music-options">
-                              <IconButton
-                                icon="fa-solid fa-play"
-                                onClick={() => playMusic(innerItem, item)}
-                                text="Play"
-                              />
-                              <IconButton
-                                icon="fa-solid fa-square-minus"
-                                onClick={() =>
-                                  handleDelete(innerItem, item.playlist)
-                                }
-                                text="Delete"
-                              />
-                              <IconButton
-                                icon="fa-solid fa-arrow-turn-up"
-                                onClick={() => {
-                                  setTakeMusic(innerItem);
-                                  setPlaylistContext(item.playlist);
-                                  setIsOpen(true);
-                                }}
-                                text="Move"
-                              />
-                              <IconButton
-                                icon="fa-solid fa-pencil"
-                                onClick={() => {
-                                  setOpenEditWindow(true);
-                                  setTakeMusic({
-                                    playlist: item.playlist,
-                                    name: innerItem.name,
-                                    src: innerItem.src,
-                                  });
-                                }}
-                                text="Rename"
-                              />
-                              <td
-                                onMouseEnter={() => setDrag(true)}
-                                onMouseLeave={() => setDrag(false)}
-                                onTouchStart={() => setDrag(true)}
-                                onTouchEnd={() => setDrag(false)}
-                                style={{ touchAction: "none" }}
-                              >
-                                <IconButton
-                                  icon="fa-solid fa-arrow-right-arrow-left"
-                                  text="Change place"
-                                  disabled={innerItem.src.length < 1}
-                                />
-                              </td>{" "}
-                            </td>
-                          </tr>
-                        ) : (
-                          <tr key={innerItem.src}>
-                            <td colSpan="2">Keine Daten eingetragen</td>
-                          </tr>
-                        )
-                      )
-                    ) : (
-                      <tr>
-                        <td colSpan="2">Keine Lieder in dieser Playlist</td>
-                      </tr>
-                    )}
-                  </tbody>
-                )}
+                
               </table>
             </div>
           ))
