@@ -52,7 +52,7 @@ const UsedTable = ({
             </div>
             <table>
               <thead>
-                <tr>
+                <tr className="list-topics">
                   <th>Song</th>
                   <th>Actions</th>
                 </tr>
@@ -60,7 +60,7 @@ const UsedTable = ({
               <tbody>
                 {item.songs.map((innerItem, key) =>
                   innerItem.name.length > 0 ? (
-                    <tr
+                    <tr className="tr-class"
                       key={innerItem.src}
                       style={{
                         background:
@@ -76,8 +76,8 @@ const UsedTable = ({
                               innerItem.name &&
                             src.src &&
                             src.src[currentSongIndex] === innerItem.src)
-                            ? "red"
-                            : "",
+                            ? "#2d41f5"
+                            : "", borderRadius:"10px"
                       }}
                     >
                       <td
@@ -88,8 +88,8 @@ const UsedTable = ({
                             ? `${innerItem.name.slice(0, 60)}...`
                             : innerItem.name}
                         </p>
-                        {innerItem.name.length >= 40
-                          ? `${innerItem.name.slice(0, 40)}...`
+                        {innerItem.name.length >= 60
+                          ? `${innerItem.name.slice(0, 60)}...`
                           : innerItem.name}
                       </td>
                       <td className="music-options">

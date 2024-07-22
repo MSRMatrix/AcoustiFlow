@@ -199,7 +199,6 @@ const Table = ({ src, setSrc }) => {
     const playlistToUpdate = listForDrop; 
 
     const oldIndex = displayTable.findIndex(item => item.playlist === playlistToUpdate);
-    console.log(playlistToUpdate);
     
     const oldSongIndex = displayTable[oldIndex].songs.findIndex(song => song.src === active.id.split("-").slice(1).join("-"));
   

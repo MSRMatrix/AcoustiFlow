@@ -30,7 +30,7 @@ const NotUsedTables = ({
       <div className="not-used-playlists">
         {Array.isArray(displayTable) && displayTable.length > 0 ? (
           displayTable.map((item) => (
-            <div
+            <div className="not-used-list-div"
               key={item.playlist}
               onMouseEnter={() => setListForDrop(item.playlist)}
               onTouchStart={() => setListForDrop(item.playlist)}
@@ -67,7 +67,7 @@ const NotUsedTables = ({
 
               <table>
                 <thead>
-                  <tr>
+                  <tr className="list-topics">
                     <th>Song</th>
                     <th>Actions</th>
                   </tr>
@@ -85,7 +85,7 @@ const NotUsedTables = ({
                       >
                         {item.songs.map((innerItem) =>
                           innerItem.name.length > 0 ? (
-                            <tr
+                            <tr className="tr-class"
                             key={`${item.playlist}-${innerItem.src}`}
                             id={`${item.playlist}-${innerItem.src}`}>
                             
@@ -144,13 +144,13 @@ const NotUsedTables = ({
                                   onMouseLeave={() => setDrag(false)}
                                   onTouchStart={() => setDrag(true)}
                                   onTouchEnd={() => setDrag(false)}
-                                  style={{ touchAction: "none" }}
+                                  style={{ touchAction: "none"}}
                                 >
                                   <IconButton
-                                    icon="fa-solid fa-arrow-right-arrow-left"
+                                    icon="fa-solid fa-sort"
                                     text="Change place"
                                     disabled={
-                                      innerItem.src.length < 1 ? true : false
+                                      item.songs[1] === undefined ? true : false
                                     }
                                   />
                                 </td> </SortableItem>
