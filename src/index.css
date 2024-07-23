@@ -15,7 +15,7 @@ html, body {
 @media (max-width: 920px) {
     body {
         transform-origin: center top; 
-        transform: scale(90%); 
+       
         margin: 0;
         margin-bottom: -330px;
         flex-shrink: 0;
