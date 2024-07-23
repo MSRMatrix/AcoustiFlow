@@ -4,14 +4,13 @@
     justify-content: center;
     color: #ffffff;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     padding: 20px;
     margin: 20px auto;
 }
 
 .not-used-list-div{
     max-width: 620px;
-    min-width: fit-content;
+    min-width: 620px;
     background-color: #282c34;
     border-radius: 10px;
     color: #ffffff;
@@ -23,10 +22,8 @@
 .list-in-use{
     display: flex;
     justify-content: center;
-    background-color: #282c34;
     color: #ffffff;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     padding: 20px;
     margin: 20px auto;
 }
@@ -43,7 +40,7 @@
     max-width: 620px;
     min-width: 620px;
     border-radius: 10px;
-    padding: 10px;
+    padding: 20px;
     color: #ffffff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     margin: 20px auto;
@@ -66,12 +63,12 @@
 .tr-class{
     display: flex;
     align-items: center;
-    width: 100%;
 }
 
 .list-topics{
     display: flex;
     justify-content: space-around;
+    width: 570px;
 }
 
 .show-hidden-text{
