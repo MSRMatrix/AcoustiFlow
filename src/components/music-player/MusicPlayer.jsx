@@ -20,6 +20,7 @@ import StopList from "./settings/stopList/StopList";
 import Loop from "./settings/loop/Loop";
 import Muted from "./settings/muted/Muted";
 import Volume from "./settings/volume/Volume";
+import ProgressBar from "./settings/progress/ProgressBar";
 
 const MusicPlayer = () => {
   const playerRef = useRef(null)
@@ -48,6 +49,7 @@ const MusicPlayer = () => {
   ];
   const [currentPic, setCurrentPic] = useState([pictureArray[0]]);
   const [cooldown, SetCoolDown] = useState(true);
+  const [oldIndex, setOldIndex] = useState(null)
 
   useEffect(() => {
     let count = 0;
@@ -111,6 +113,19 @@ const MusicPlayer = () => {
   if(!cooldown && src.src && src.src.length <= 1){
     SetCoolDown(true)
   }
+
+  const currentIndexForUrl = () => {
+    const srcLength = src.src && src.src.length
+    const currentSong = currentList[0]?.songs.map((item) => item.src).findIndex((index) => index === getCurrentUrl()) + 1
+    if(isNaN(currentSong) && srcLength <= 0 || srcLength === undefined){
+      return 
+    }
+    return setOldIndex(`${currentSong}/${srcLength}`)
+  }
+
+  useEffect(() => {
+    currentIndexForUrl()
+  },[getCurrentUrl(), getCurrentName()])
   
   return (
     <>
@@ -173,13 +188,17 @@ const MusicPlayer = () => {
             disabled={cooldown}
           />
         </div>
+        <p>
+          {oldIndex}
+            
+        </p>
         <p className="title-from-current-music">
           {getCurrentName()
             ? getCurrentName().length > 60
               ? `${getCurrentName().slice(0, 60)}...`
               : getCurrentName()
-            : "No music choosed"}
-        </p>
+            : ""}
+        </p><ProgressBar src={src} time={time} setTime={setTime} duration={duration} playerRef={playerRef}/>  
         <div className="settings-box">
           <Playing
             playing={playing}
@@ -189,10 +208,13 @@ const MusicPlayer = () => {
           />
           <StopList src={src} setSrc={setSrc} />
           <Loop loop={loop} setLoop={setLoop} src={src}/>
-          <Muted muted={muted} setMuted={setMuted} volume={volume}/>
+         
         </div>
-
-        <Volume muted={muted} setMuted={setMuted} volume={volume} setVolume={setVolume} />
+        <div className="settings-box">
+        <Muted muted={muted} setMuted={setMuted} volume={volume}/>
+        <Volume muted={muted} setMuted={setMuted} volume={volume} setVolume={setVolume} />  
+        </div>
+        
       </div>
       <Settings
         playing={playing}

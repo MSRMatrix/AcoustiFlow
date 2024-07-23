@@ -8,7 +8,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   max-width: fit-content;
   margin: 20px auto;
-  padding: 100px;
+  padding-top: 10px;
 }
 
 button {
@@ -24,16 +24,14 @@ button {
 }
 
 .test {
+  padding-top: 10px;
   display: flex;
   align-items: center;
   background-color: #282c34;
   border-radius: 10px;
   color: #ffffff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   max-width: fit-content;
-  margin: 20px auto;
-  margin-bottom: 0px;
-  padding-bottom: 20px;
+
 }
 
 p {
@@ -96,9 +94,15 @@ i{
 }
 
 .title-from-current-music {
-  max-width: 70%;
   word-wrap: break-word;
   overflow-wrap: break-word; 
   white-space: normal;
-  display: inline; 
+  display: flex;
+  justify-content: center; 
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
