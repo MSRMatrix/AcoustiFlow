@@ -267,7 +267,6 @@ const Table = ({ src, setSrc }) => {
         )}
       </div>
   <DndContext 
-  autoScroll={false}
     sensors={sensors}
     collisionDetection={closestCorners}
     onDragEnd={handleDragEnd}
