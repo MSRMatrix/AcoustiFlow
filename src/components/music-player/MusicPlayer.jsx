@@ -23,7 +23,7 @@ import Volume from "./settings/volume/Volume";
 import ProgressBar from "./settings/progress/ProgressBar";
 
 const MusicPlayer = () => {
-  const playerRef = useRef(null)
+  const playerRef = useRef(null);
   const [playing, setIsPlaying] = useState(true);
   const [volume, setVolume] = useState(0.2);
   const [loop, setLoop] = useState(false);
@@ -49,7 +49,8 @@ const MusicPlayer = () => {
   ];
   const [currentPic, setCurrentPic] = useState([pictureArray[0]]);
   const [cooldown, SetCoolDown] = useState(true);
-  const [oldIndex, setOldIndex] = useState(null)
+  const [oldIndex, setOldIndex] = useState(null);
+  const [oldName, setOldName] = useState(null);
 
   useEffect(() => {
     let count = 0;
@@ -71,14 +72,14 @@ const MusicPlayer = () => {
 
   const handleNextSong = () => {
     setCurrentSongIndex((prevIndex) => (prevIndex + 1) % (src.src.length || 1));
-    SetCoolDown(true)
+    SetCoolDown(true);
   };
 
   const handlePreviousSong = () => {
     setCurrentSongIndex((prevIndex) =>
       prevIndex === 0 ? (src.src.length || 1) - 1 : prevIndex - 1
     );
-    SetCoolDown(true)
+    SetCoolDown(true);
   };
 
   const getCurrentUrl = () => {
@@ -103,30 +104,42 @@ const MusicPlayer = () => {
     setPlaybackRate((prevRate) => parseFloat((prevRate + 0.2).toFixed(1)));
   };
 
-
-  if(cooldown && src.src && src.src.length > 1){
+  if (cooldown && src.src && src.src.length > 1) {
     setTimeout(() => {
-      SetCoolDown(false)
+      SetCoolDown(false);
     }, 1000);
   }
 
-  if(!cooldown && src.src && src.src.length <= 1){
-    SetCoolDown(true)
-  }
-
-  const currentIndexForUrl = () => {
-    const srcLength = src.src && src.src.length
-    const currentSong = currentList[0]?.songs.map((item) => item.src).findIndex((index) => index === getCurrentUrl()) + 1
-    if(isNaN(currentSong) && srcLength <= 0 || srcLength === undefined){
-      return 
-    }
-    return setOldIndex(`${currentSong}/${srcLength}`)
+  if (!cooldown && src.src && src.src.length <= 1) {
+    SetCoolDown(true);
   }
 
   useEffect(() => {
-    currentIndexForUrl()
-  },[getCurrentUrl(), getCurrentName()])
-  
+    const srcLength = src.src && src.src.length;
+    let currentName;
+    if (Array.isArray(getCurrentName())) {
+      currentName = currentList[0]?.songs
+        .map((item) => item.name)
+        .filter((songName) => songName === getCurrentName()[0]);
+    }
+    if (typeof getCurrentName() === "string") {
+      currentName = currentList[0]?.songs
+        .map((item) => item.name)
+        .filter((songName) => songName === getCurrentName());
+    }
+
+    const currentSong =
+      currentList[0]?.songs
+        .map((item) => item.src)
+        .findIndex((index) => index === getCurrentUrl()) + 1;
+    if ((isNaN(currentSong) && srcLength <= 0) || srcLength === undefined) {
+      return;
+    }
+
+    setOldName(`${currentName}`);
+    return setOldIndex(`${currentSong}/${srcLength}`);
+  }, [getCurrentUrl(), getCurrentName()]);
+
   return (
     <>
       <div className="player-container">
@@ -188,17 +201,21 @@ const MusicPlayer = () => {
             disabled={cooldown}
           />
         </div>
-        <p>
-          {oldIndex}
-            
-        </p>
+        <p>{oldIndex}</p>
         <p className="title-from-current-music">
-          {getCurrentName()
-            ? getCurrentName().length > 60
-              ? `${getCurrentName().slice(0, 60)}...`
-              : getCurrentName()
+          {oldName
+            ? oldName.length > 60
+              ? `${oldName.slice(0, 60)}...`
+              : oldName
             : ""}
-        </p><ProgressBar src={src} time={time} setTime={setTime} duration={duration} playerRef={playerRef}/>  
+        </p>
+        <ProgressBar
+          src={src}
+          time={time}
+          setTime={setTime}
+          duration={duration}
+          playerRef={playerRef}
+        />
         <div className="settings-box">
           <Playing
             playing={playing}
@@ -207,14 +224,17 @@ const MusicPlayer = () => {
             setSrc={setSrc}
           />
           <StopList src={src} setSrc={setSrc} />
-          <Loop loop={loop} setLoop={setLoop} src={src}/>
-         
+          <Loop loop={loop} setLoop={setLoop} src={src} />
         </div>
         <div className="settings-box">
-        <Muted muted={muted} setMuted={setMuted} volume={volume}/>
-        <Volume muted={muted} setMuted={setMuted} volume={volume} setVolume={setVolume} />  
+          <Muted muted={muted} setMuted={setMuted} volume={volume} />
+          <Volume
+            muted={muted}
+            setMuted={setMuted}
+            volume={volume}
+            setVolume={setVolume}
+          />
         </div>
-        
       </div>
       <Settings
         playing={playing}
