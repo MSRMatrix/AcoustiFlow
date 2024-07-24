@@ -270,6 +270,7 @@ const Table = ({ src, setSrc }) => {
     sensors={sensors}
     collisionDetection={closestCorners}
     onDragEnd={handleDragEnd}
+    autoScroll={{enabled: true}}
   >
     <NotUsedTables
       setDrag={setDrag}

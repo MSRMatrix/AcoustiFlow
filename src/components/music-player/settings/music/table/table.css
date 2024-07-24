@@ -65,11 +65,6 @@
     align-items: center;
 }
 
-tr.dragging {
-    position: absolute; 
-    z-index: 1000; 
-  }
-
 .list-topics{
     display: flex;
     justify-content: space-around;
