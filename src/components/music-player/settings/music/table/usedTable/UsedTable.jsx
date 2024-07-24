@@ -20,7 +20,7 @@ const UsedTable = ({
   const { playlistContext, setPlaylistContext } = useContext(PlaylistContext);
 
   return (
-    <>
+    <div>
       {currentList.length > 0 ? (
         currentList.map((item) => (
           <div key={item.playlist} className="current-list">
@@ -60,7 +60,8 @@ const UsedTable = ({
               <tbody>
                 {item.songs.map((innerItem, key) =>
                   innerItem.name.length > 0 ? (
-                    <tr className="tr-class"
+                    <tr
+                      className="tr-class"
                       key={innerItem.src}
                       style={{
                         background:
@@ -77,12 +78,11 @@ const UsedTable = ({
                             src.src &&
                             src.src[currentSongIndex] === innerItem.src)
                             ? "#2d41f5"
-                            : "", borderRadius:"10px"
+                            : "",
+                        borderRadius: "10px",
                       }}
                     >
-                      <td
-                        className="show-hidden-text"
-                      >
+                      <td className="show-hidden-text">
                         <p className="hidden-text">
                           {innerItem.name.length > 60
                             ? `${innerItem.name.slice(0, 60)}...`
@@ -93,23 +93,27 @@ const UsedTable = ({
                           : innerItem.name}
                       </td>
                       <td className="music-options">
-                      <IconButton
-                                icon="fa-solid fa-play"
-                                onClick={() => playMusic(innerItem, item)}
-                                text="Play"
-                                disabled={(src &&
-                                  src.name &&
-                                  src.name[currentSongIndex] === innerItem.name &&
-                                  src.src &&
-                                  src.src[currentSongIndex] === innerItem.src) ||
-                                (src &&
-                                  src.name &&
-                                  Array.isArray(src.name[currentSongIndex]) &&
-                                  src.name[currentSongIndex].join(", ") ===
-                                    innerItem.name &&
-                                  src.src &&
-                                  src.src[currentSongIndex] === innerItem.src) ? true : false}
-                              />
+                        <IconButton
+                          icon="fa-solid fa-play"
+                          onClick={() => playMusic(innerItem, item)}
+                          text="Play"
+                          disabled={
+                            (src &&
+                              src.name &&
+                              src.name[currentSongIndex] === innerItem.name &&
+                              src.src &&
+                              src.src[currentSongIndex] === innerItem.src) ||
+                            (src &&
+                              src.name &&
+                              Array.isArray(src.name[currentSongIndex]) &&
+                              src.name[currentSongIndex].join(", ") ===
+                                innerItem.name &&
+                              src.src &&
+                              src.src[currentSongIndex] === innerItem.src)
+                              ? true
+                              : false
+                          }
+                        />
                         <IconButton
                           icon="fa-solid fa-square-minus"
                           onClick={() => handleDelete(innerItem, item.playlist)}
@@ -152,7 +156,7 @@ const UsedTable = ({
       ) : (
         <></>
       )}
-    </>
+    </div>
   );
 };
 

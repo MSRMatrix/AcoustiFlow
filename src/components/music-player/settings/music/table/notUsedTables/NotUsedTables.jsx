@@ -30,7 +30,8 @@ const NotUsedTables = ({
       <div className="not-used-playlists">
         {Array.isArray(displayTable) && displayTable.length > 0 ? (
           displayTable.map((item) => (
-            <div className="not-used-list-div"
+            <div
+              className="not-used-list-div"
               key={item.playlist}
               onMouseEnter={() => setListForDrop(item.playlist)}
               onTouchStart={() => setListForDrop(item.playlist)}
@@ -67,108 +68,100 @@ const NotUsedTables = ({
 
               <table>
                 <thead>
-                  <tr className="list-topics">
+                  <tr className="list-topics" style={{width: "200%"}}>
                     <th>Song</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
-                  <tbody
-                    onMouseEnter={() => setDrag(false)}
-                    onTouchEnd={() => setDrag(false)}
-                  >
-                    {Array.isArray(item.songs) && item.songs.length > 0 ? (
-                      <SortableContext
-                        items={item.songs.map(
-                          (song) => `${item.playlist}-${song.src}`
-                        )}
-                        strategy={verticalListSortingStrategy}
-                      >
-                        {item.songs.map((innerItem) =>
-                          innerItem.name.length > 0 ? (
-                            <tr className="tr-class"
+                <tbody>
+                  {Array.isArray(item.songs) && item.songs.length > 0 ? (
+                    <SortableContext
+                      items={item.songs.map(
+                        (song) => `${item.playlist}-${song.src}`
+                      )}
+                      strategy={verticalListSortingStrategy}
+                    >
+                      {item.songs.map((innerItem) =>
+                        innerItem.name.length > 0 ? (
+                          <tr key={`${item.playlist}-${innerItem.src}`}
+                          id={`${item.playlist}-${innerItem.src}`}>
+                            <td className="show-hidden-text">
+                              <p className="hidden-text">
+                                {innerItem.name.length > 60
+                                  ? `${innerItem.name.slice(0, 60)}...`
+                                  : innerItem.name}
+                              </p>
+                              <p>
+                                {innerItem.name.length >= 40
+                                  ? `${innerItem.name.slice(0, 40)}...`
+                                  : innerItem.name}
+                              </p>
+                            </td>
+                            <td className="music-options">
+                              <IconButton
+                                icon="fa-solid fa-play"
+                                onClick={() => playMusic(innerItem, item)}
+                                text="Play"
+                              />
+                              <IconButton
+                                icon="fa-solid fa-square-minus"
+                                onClick={() =>
+                                  handleDelete(innerItem, item.playlist)
+                                }
+                                text="Delete"
+                              />
+                              <IconButton
+                                icon="fa-solid fa-arrow-turn-up"
+                                onClick={() => {
+                                  setTakeMusic(innerItem);
+                                  setPlaylistContext(item.playlist);
+                                  setIsOpen(true);
+                                }}
+                                text="Move"
+                              />
+                              <IconButton
+                                icon="fa-solid fa-pencil"
+                                onClick={() => {
+                                  setOpenEditWindow(true);
+                                  setTakeMusic({
+                                    playlist: item.playlist,
+                                    name: innerItem.name,
+                                    src: innerItem.src,
+                                  });
+                                }}
+                                text="Rename"
+                              /><SortableItem
                             key={`${item.playlist}-${innerItem.src}`}
-                            id={`${item.playlist}-${innerItem.src}`}>
-                            
-                              <td className="show-hidden-text">
-                                <p className="hidden-text">
-                                  {innerItem.name.length > 60
-                                    ? `${innerItem.name.slice(0, 60)}...`
-                                    : innerItem.name}
-                                </p>
-                                <p onMouseEnter={() => setDrag(false)}>
-                                  {innerItem.name.length >= 40
-                                    ? `${innerItem.name.slice(0, 40)}...`
-                                    : innerItem.name}
-                                </p>
-                              </td>
-                              <td className="music-options">
-                                <IconButton
-                                  icon="fa-solid fa-play"
-                                  onClick={() => playMusic(innerItem, item)}
-                                  text="Play"
-                                />
-                                <IconButton
-                                  icon="fa-solid fa-square-minus"
-                                  onClick={() =>
-                                    handleDelete(innerItem, item.playlist)
-                                  }
-                                  text="Delete"
-                                />
-                                <IconButton
-                                  icon="fa-solid fa-arrow-turn-up"
-                                  onClick={() => {
-                                    setTakeMusic(innerItem);
-                                    setPlaylistContext(item.playlist);
-                                    setIsOpen(true);
-                                  }}
-                                  text="Move"
-                                />
-                                <IconButton
-                                  icon="fa-solid fa-pencil"
-                                  onClick={() => {
-                                    setOpenEditWindow(true);
-                                    setTakeMusic({
-                                      playlist: item.playlist,
-                                      name: innerItem.name,
-                                      src: innerItem.src,
-                                    });
-                                  }}
-                                  text="Rename"
-                                />
-                                <SortableItem
-                              key={`${item.playlist}-${innerItem.src}`}
-                              id={`${item.playlist}-${innerItem.src}`}
-                            >
-                                <td
-                                  onMouseEnter={() => setDrag(true)}
-                                  onMouseLeave={() => setDrag(false)}
-                                  onTouchStart={() => setDrag(true)}
-                                  onTouchEnd={() => setDrag(false)}
-                                  style={{ touchAction: "none"}}
-                                >
-                                  <IconButton
-                                    icon="fa-solid fa-sort"
-                                    text="Change place"
-                                    disabled={
-                                      item.songs[1] === undefined ? true : false
-                                    }
-                                  />
-                                </td> </SortableItem>
-                              </td>
-                           </tr>
-                          ) : (
-                            <tr key={innerItem.src}>Keine Daten eingetragen</tr>
-                          )
-                        )}
-                      </SortableContext>
-                    ) : (
-                      <tr>
-                        <td colSpan="2">Keine Lieder in dieser Playlist</td>
-                      </tr>
-                    )}
-              
-                  </tbody>
-                
+                            id={`${item.playlist}-${innerItem.src}`}
+                          >
+                              <span
+                                onMouseEnter={() => setDrag(true)}
+                                onMouseLeave={() => setDrag(false)}
+                                onTouchStart={() => setDrag(true)}
+                                onTouchEnd={() => setDrag(false)}>
+
+                              
+                              <IconButton
+                                icon="fa-solid fa-sort"
+                                text="Change place"
+                                disabled={item.songs.length <= 1}
+                              />
+                              </span></SortableItem>
+                            </td>
+                          </tr>
+                        ) : (
+                          <tr key={innerItem.src}>
+                            <td colSpan="2">Keine Daten eingetragen</td>
+                          </tr>
+                        )
+                      )}
+                    </SortableContext>
+                  ) : (
+                    <tr>
+                      <td colSpan="2">Keine Lieder in dieser Playlist</td>
+                    </tr>
+                  )}
+                </tbody>
               </table>
             </div>
           ))

@@ -15,10 +15,9 @@ export const SortableItem = ({ id, children }) => {
     transform: CSS.Transform.toString(transform),
     transition,
   };
-
   return (
-    <tr ref={setNodeRef} style={style} {...attributes} {...listeners} className="click-class">
+    <span ref={setNodeRef} style={style} {...attributes} {...listeners} className="click-class">
       {children}
-    </tr>
+    </span>
   );
 };

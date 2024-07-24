@@ -17,6 +17,6 @@ html, body {
         transform-origin: center top; 
         margin: 0;
         flex-shrink: 0;
-        zoom: 60%;
+        /* zoom: 60% */
     }
 }
