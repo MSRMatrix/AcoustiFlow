@@ -13,10 +13,8 @@ html, body {
 
 
 @media (max-width: 920px) {
-    body {
-        transform-origin: center top; 
-        margin: 0;
-        flex-shrink: 0;
-        /* zoom: 60% */
+    *{
+        font-size: 10px;
     }
 }
+
