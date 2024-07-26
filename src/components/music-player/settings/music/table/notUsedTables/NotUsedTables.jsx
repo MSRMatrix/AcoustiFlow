@@ -68,7 +68,7 @@ const NotUsedTables = ({
 
               <table>
                 <thead>
-                  <tr className="list-topics" style={{width: "200%"}}>
+                  <tr className="list-topics">
                     <th>Song</th>
                     <th>Actions</th>
                   </tr>
