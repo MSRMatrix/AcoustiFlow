@@ -13,7 +13,7 @@ const ProgressBar = ({ src, time, setTime, duration, playerRef }) => {
   return (
     <>
       {src && src.src && src.src.length > 0 && time && duration ? (
-        <div>
+        <div style={{display:"flex", flexDirection:"column"}}>
           <p>
             {time.hours}:{time.minutes}:{time.seconds} / {duration.hours}:
             {duration.minutes}:
