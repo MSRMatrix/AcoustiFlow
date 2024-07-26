@@ -24,9 +24,14 @@
 @media (max-width:750px){
     .settings-box{
         padding: 0;
+        margin-bottom: 20px;
+        
     }
-
+    .settings-box:nth-child(even){
+       gap: 30px;
+   }
     .settings-box:last-child{
-         padding-right: 15px;
+         padding-left: 10px;
+         padding-right: 10px;
     }
 }

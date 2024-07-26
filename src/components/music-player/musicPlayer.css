@@ -119,4 +119,8 @@ i{
     padding: 0;
     margin: 0;
   }
+  .test{
+    width: 270px;
+    gap: 10px;
+  }
 }
