@@ -105,3 +105,18 @@ i{
   padding-right: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
+@media (max-width:750px){
+  .player-container{
+    width: 72%;
+  }
+  .player{
+    width: 100px;
+    height: 100px;
+    transition: all 0.5s ease-in-out;
+  }
+  .button-style{
+    padding: 0;
+    margin: 0;
+  }
+}

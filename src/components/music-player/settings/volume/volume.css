@@ -30,3 +30,7 @@
   .volume-slider::-webkit-slider-thumb:active {
     cursor: grabbing;
   }
+
+.volume-slider{
+  width: 75px;
+}

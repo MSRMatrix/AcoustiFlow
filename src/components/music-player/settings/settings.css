@@ -20,3 +20,13 @@
     max-width: fit-content;
     margin: 20px auto; 
 }
+
+@media (max-width:750px){
+    .settings-box{
+        padding: 0;
+    }
+
+    .settings-box:last-child{
+         padding-right: 15px;
+    }
+}
