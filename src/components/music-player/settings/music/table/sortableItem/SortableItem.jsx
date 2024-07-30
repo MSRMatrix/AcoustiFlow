@@ -9,15 +9,25 @@ export const SortableItem = ({ id, children }) => {
     setNodeRef,
     transform,
     transition,
+    isDragging,
   } = useSortable({ id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
+    cursor: isDragging ? "grabbing" : "grab",
   };
+
   return (
-    <span ref={setNodeRef} style={style} {...attributes} {...listeners} className="click-class">
+    <tr
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+    >
       {children}
-    </span>
+    </tr>
   );
 };
+
+export default SortableItem;

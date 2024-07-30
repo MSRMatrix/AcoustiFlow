@@ -22,4 +22,10 @@ html, body {
 
 tr{
     display: flex;
+    justify-content: space-between;
+}
+
+
+table{
+    width: 100%;
 }

@@ -54,6 +54,13 @@
 .music-options{
     display: flex;
     align-items: center;
+    justify-content: center;
+    touch-action: none;
+}
+
+.music-options-drag{
+    display: flex;
+    align-items: center;
     justify-content: right;
     width: 100%;
     touch-action: none;
@@ -64,9 +71,14 @@
     align-items: center;
 }
 
-.list-topics{
+.list-topics-drag{
     display: grid;
     grid-template-columns: 1fr 1fr;
+}
+
+.list-topics{
+    display: flex;
+    justify-content: center;
 }
 
 .show-hidden-text{
@@ -74,8 +86,22 @@
     color: #ffffff;
     border-radius: 5px;
     padding: 10px;
-    cursor: pointer;
+    cursor: default;
 }
+
+.drag-drop{
+    position: relative;
+    color: #ffffff;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: grab;
+    touch-action: none;
+}
+
+.drag-drop:active{
+    cursor: grabbing;
+}
+
 
 .hidden-text{
     display: none;

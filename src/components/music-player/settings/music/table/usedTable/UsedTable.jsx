@@ -52,7 +52,7 @@ const UsedTable = ({
             </div>
             <table>
               <thead>
-                <tr className="list-topics">
+                <tr className="list-topics-drag">
                   <th>Song</th>
                   <th>Actions</th>
                 </tr>
@@ -92,7 +92,7 @@ const UsedTable = ({
                           ? `${innerItem.name.slice(0, 60)}...`
                           : innerItem.name}
                       </td>
-                      <td className="music-options">
+                      <td className="music-options-drag">
                         <IconButton
                           icon="fa-solid fa-play"
                           onClick={() => playMusic(innerItem, item)}

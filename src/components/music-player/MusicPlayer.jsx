@@ -201,13 +201,15 @@ const MusicPlayer = () => {
             disabled={cooldown}
           />
         </div>
-        <p>{oldIndex}</p>
+        <p>{src && src.playlist ? oldIndex : ""}</p>
         <p className="title-from-current-music">
-          {oldName
+          {src && src.playlist ? `${oldName
             ? oldName.length > 60
               ? `${oldName.slice(0, 60)}...`
               : oldName
-            : ""}
+            : ""}` : getCurrentName() }
+        
+            
         </p>
         <ProgressBar
           src={src}
