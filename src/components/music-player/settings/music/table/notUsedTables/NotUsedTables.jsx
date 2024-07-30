@@ -25,8 +25,8 @@ const NotUsedTables = ({
   const [action, setAction] = useState("Play");
 
   return (
-    <div>
-      <select onChange={(e) => setAction(e.target.value)} value={action}>
+    <div className="main-div-from-not-used-list">
+      <select className="choose-options" onChange={(e) => setAction(e.target.value)} value={action}>
         <option value="Play">Play</option>
         <option value="Delete">Delete</option>
         <option value="Change">Change</option>

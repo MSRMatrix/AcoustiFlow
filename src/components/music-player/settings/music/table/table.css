@@ -133,3 +133,14 @@
     flex-direction: row;
 }
 }
+
+.choose-options{
+    width: fit-content;
+}
+
+.main-div-from-not-used-list{
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+

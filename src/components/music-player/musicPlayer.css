@@ -122,5 +122,17 @@ i{
   .test{
     width: 270px;
     gap: 10px;
+    font-size: 10px;
+  }
+}
+
+@media (max-width:360px){
+  .fa-solid{
+    font-size: 10px !important;
+  }
+  .test{
+    width: fit-content;
+    gap: 0px;
+    font-size: 10px;
   }
 }
