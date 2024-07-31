@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import IconButton from "../../../../functions/IconButton";
 import CurrentList from "../../../../MusicContext/CurrentList";
 import PlaylistContext from "../../../../MusicContext/PlaylistContext";
@@ -18,6 +18,7 @@ const UsedTable = ({
 }) => {
   const { currentList, setCurrentList } = useContext(CurrentList);
   const { playlistContext, setPlaylistContext } = useContext(PlaylistContext);
+  const [showAction, setShowAction] = useState(false);
 
   return (
     <div>
@@ -93,7 +94,20 @@ const UsedTable = ({
                           : innerItem.name}
                       </td>
                       <td className="music-options-drag">
-                        <IconButton
+                        {!showAction ? <IconButton
+                          icon="fa-solid fa-chevron-right"
+                          onClick={() => setShowAction(true)}
+                          text="open"
+                        />  : <IconButton
+                          icon="fa-solid fa-chevron-left"
+                          onClick={() => setShowAction(false)}
+                          text="close"
+                        /> }
+                        
+
+                       
+
+                        {showAction ?  <span style={{display: "flex"}}> <IconButton
                           icon="fa-solid fa-play"
                           onClick={() => playMusic(innerItem, item)}
                           text="Play"
@@ -142,7 +156,7 @@ const UsedTable = ({
                             });
                           }}
                           text="Rename"
-                        />
+                        /></span> : <></>}
                       </td>
                     </tr>
                   ) : (
