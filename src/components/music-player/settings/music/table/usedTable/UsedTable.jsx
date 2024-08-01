@@ -78,7 +78,7 @@ const UsedTable = ({
                               innerItem.name &&
                             src.src &&
                             src.src[currentSongIndex] === innerItem.src)
-                            ? "#2d41f5"
+                            ? "#FFA500"
                             : "",
                         borderRadius: "10px",
                       }}

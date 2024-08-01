@@ -21,6 +21,7 @@ import Loop from "./settings/loop/Loop";
 import Muted from "./settings/muted/Muted";
 import Volume from "./settings/volume/Volume";
 import ProgressBar from "./settings/progress/ProgressBar";
+import DisplayTable from "./MusicContext/DisplayTable";
 
 const MusicPlayer = () => {
   const playerRef = useRef(null);
@@ -51,6 +52,7 @@ const MusicPlayer = () => {
   const [cooldown, SetCoolDown] = useState(true);
   const [oldIndex, setOldIndex] = useState(null);
   const [oldName, setOldName] = useState(null);
+  const {displayTable} = useContext(DisplayTable)
 
   useEffect(() => {
     let count = 0;
@@ -138,7 +140,7 @@ const MusicPlayer = () => {
 
     setOldName(`${currentName}`);
     return setOldIndex(`${currentSong}/${srcLength}`);
-  }, [getCurrentUrl(), getCurrentName()]);
+  }, [getCurrentUrl(), getCurrentName(), displayTable]);
 
   return (
     <>

@@ -223,7 +223,7 @@ const Table = ({ src, setSrc }) => {
 
   return (
     <>
-      <div className="list-in-use">
+    {currentList && currentList.length > 0 ?<div className="list-in-use">
         <UsedTable
           setOpenChangePlaylistName={setOpenChangePlaylistName}
           setTakeMusic={setTakeMusic}
@@ -236,7 +236,10 @@ const Table = ({ src, setSrc }) => {
           handleDelete={handleDelete}
           setIsOpen={setIsOpen}
           setOpenEditWindow={setOpenEditWindow}
-        />
+        /></div> : <></>}
+      
+
+
         {isOpen && (
           <PlaylistChanger
             setIsOpen={setIsOpen}
@@ -261,7 +264,7 @@ const Table = ({ src, setSrc }) => {
             updateAllLists={updateAllLists}
           />
         )}
-      </div>
+      
   <DndContext 
     sensors={sensors}
     collisionDetection={closestCorners}
