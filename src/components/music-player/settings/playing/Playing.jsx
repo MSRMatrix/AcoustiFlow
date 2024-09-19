@@ -8,7 +8,7 @@ const Playing = ({ playing, setIsPlaying, src, setSrc }) => {
     if (src.src && !cooldown) {
       setIsPlaying((prevMod) => !prevMod);
       setCooldown(true);
-      setTimeout(() => setCooldown(false), 200);
+      setTimeout(() => setCooldown(false), 1000);
     }
   };
 

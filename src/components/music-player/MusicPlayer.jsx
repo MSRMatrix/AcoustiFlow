@@ -49,7 +49,7 @@ const MusicPlayer = () => {
     sixthPic,
   ];
   const [currentPic, setCurrentPic] = useState([pictureArray[0]]);
-  const [cooldown, SetCoolDown] = useState(true);
+  const [cooldown, setCoolDown] = useState(true);
   const [oldIndex, setOldIndex] = useState(null);
   const [oldName, setOldName] = useState(null);
   const {displayTable} = useContext(DisplayTable)
@@ -74,14 +74,14 @@ const MusicPlayer = () => {
 
   const handleNextSong = () => {
     setCurrentSongIndex((prevIndex) => (prevIndex + 1) % (src.src.length || 1));
-    SetCoolDown(true);
+    setCoolDown(true);
   };
 
   const handlePreviousSong = () => {
     setCurrentSongIndex((prevIndex) =>
       prevIndex === 0 ? (src.src.length || 1) - 1 : prevIndex - 1
     );
-    SetCoolDown(true);
+    setCoolDown(true);
   };
 
   const getCurrentUrl = () => {
@@ -108,12 +108,12 @@ const MusicPlayer = () => {
 
   if (cooldown && src.src && src.src.length > 1) {
     setTimeout(() => {
-      SetCoolDown(false);
+      setCoolDown(false);
     }, 1000);
   }
 
   if (!cooldown && src.src && src.src.length <= 1) {
-    SetCoolDown(true);
+    setCoolDown(true);
   }
 
   useEffect(() => {
