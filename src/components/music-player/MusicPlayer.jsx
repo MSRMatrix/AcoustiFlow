@@ -256,8 +256,8 @@ const MusicPlayer = () => {
         duration={duration}
         playerRef={playerRef}
       />
-      <NavLink to="/import-export">Import or export your data</NavLink>
-      <NavLink to="/tutorial">How does this website works</NavLink>
+      <NavLink to="/import-export"><button>Import or export your data</button></NavLink>
+      <NavLink to="/tutorial"><button>How does this website works</button></NavLink>
       <Outlet />
     </>
   );

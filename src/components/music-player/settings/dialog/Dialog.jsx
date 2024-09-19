@@ -40,7 +40,7 @@ const PlaylistChanger = ({ setIsOpen, src, setSrc, updateSrc }) => {
       return;
     }
 
-    if (list[0][1].split(", ").length >= 2) {
+    if (list[0][1].split(", ")?.length >= 2) {
       const newData =
         localStorage.getItem(playlist) +
         ", " +
