@@ -92,10 +92,10 @@ const Table = ({ src, setSrc }) => {
         updateAllLists(playlist);
         setSrc([]);
       }
-      alert(`Die Playlist "${playlist}" wurde erfolgreich gelöscht.`);
+      console.log(`Die Playlist "${playlist}" wurde erfolgreich gelöscht.`);
       updateAllLists(src.playlist);
     } else {
-      alert(`Die Löschung der Playlist "${playlist}" wurde abgebrochen.`);
+      console.log(`Die Löschung der Playlist "${playlist}" wurde abgebrochen.`);
     }
   };
 
