@@ -145,11 +145,13 @@ const MusicPlayer = () => {
   return (
     <>
       <div className="player-container">
+        <div className="playlist-name">
         {currentList[0]?.playlist ? (
           <h3>{currentList[0]?.playlist}</h3>
         ) : (
-          <h3>No Playlist</h3>
+          <h3>AcoustiFlow</h3>
         )}
+        </div>
         <div className="test">
           <IconButton
             icon="fa-solid fa-backward-step"
@@ -168,7 +170,7 @@ const MusicPlayer = () => {
             className="player"
             style={{
               backgroundImage: `url(${
-                src && src.src && src.src.length > 0 ? currentPic : noMusic
+                src && src.src && src.src.length && playing > 0 ? currentPic : noMusic
               })`,
               backgroundSize: "cover",
               backgroundPosition: "center",

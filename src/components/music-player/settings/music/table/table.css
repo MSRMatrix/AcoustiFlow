@@ -129,9 +129,6 @@
     max-width: none;
     min-width: auto;
   }
-  .not-used-playlists {
-    flex-direction: row;
-  }
 }
 .choose-options {
   width: fit-content;
