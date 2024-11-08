@@ -8,93 +8,91 @@ import TakeMusic from "../../MusicContext/TakeMusic";
 import { PlaylistChanger } from "../dialog/Dialog";
 import CurrentList from "../../MusicContext/CurrentList";
 import { showCurrentPlaylist } from "../../functions/ShowCurrentPlaylist";
-import "./music.css"
+import "./music.css";
 
 const Music = ({ src, setSrc, loop, setLoop }) => {
   const { displayTable, setDisplayTable } = useContext(DisplayTable);
-  const {showInput, setShowInput} = useContext(ShowInput)
-  const {takeMusic, setTakeMusic} = useContext(TakeMusic);
+  const { showInput, setShowInput } = useContext(ShowInput);
+  const { takeMusic, setTakeMusic } = useContext(TakeMusic);
   const { currentList, setCurrentList } = useContext(CurrentList);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSrc([])
-    setCurrentList([])
-    
-   setTimeout(() => {
-     const newSrc = {
-      src: e.target.elements.src.value,
-    };
+    setSrc([]);
+    setCurrentList([]);
+
+    setTimeout(() => {
+      const newSrc = {
+        src: e.target.elements.src.value,
+      };
       setSrc(newSrc);
-      titleFixer(newSrc)
-    e.target.reset();
-    setShowInput(true)
-   }, 100); 
-   
+      titleFixer(newSrc);
+      e.target.reset();
+      setShowInput(true);
+    }, 100);
   };
 
   const titleFixer = (newSrc) => {
     setTimeout(() => {
-      if(!document.querySelector("iframe")?.title.split(",").join("")){
-        setShowInput(false)
-       setSrc({
+      if (!document.querySelector("iframe")?.title.split(",").join("")) {
+        setShowInput(false);
+        setSrc({
           name: "Unknown",
           src: newSrc.src,
-        }) 
-        return
+        });
+        return;
       }
       const title = document.querySelector("iframe").title.split(",").join("");
 
-      if(title === "YouTube video player"){
+      if (title === "YouTube video player") {
         setTimeout(() => {
-        const newTitle = document.querySelector("iframe").title.split(",").join("");
-        const music = {
-          name: newTitle,
+          const newTitle = document
+            .querySelector("iframe")
+            .title.split(",")
+            .join("");
+          const music = {
+            name: newTitle,
+            src: newSrc.src,
+          };
+          setSrc(music);
+          newestList(setDisplayTable);
+          showCurrentPlaylist(setCurrentList);
+          return;
+        }, 1000);
+      } else {
+        const newTitle = {
+          name: title,
           src: newSrc.src,
         };
-        setSrc(music);
-        newestList(setDisplayTable);
-        showCurrentPlaylist(setCurrentList)
-        return  
-        }, 1000);
-      }
-      else{
-        const newTitle = {
-        name: title,
-        src: newSrc.src,
-      };
-      setSrc(newTitle);
+        setSrc(newTitle);
       }
       newestList(setDisplayTable);
-      showCurrentPlaylist(setCurrentList)
+      showCurrentPlaylist(setCurrentList);
     }, 1000);
-
-  }
+  };
 
   const handleSaveMusic = () => {
-    
     const newData = {
-      name: src.name, 
-      src: src.src
-    }
+      name: src.name,
+      src: src.src,
+    };
 
     if (!src.name || !src.src) {
       alert("Diese Felder dürfen nicht leer sein!");
       return;
     }
-      setTakeMusic(newData)
+    setTakeMusic(newData);
     newestList(setDisplayTable);
     setShowInput(false);
     setSrc([]);
-  } 
-
+  };
 
   const handleDeleteMusic = () => {
     setSrc([]);
     setShowInput(false);
     newestList(setDisplayTable);
-    showCurrentPlaylist(setCurrentList)
+    showCurrentPlaylist(setCurrentList);
     console.log(`Song was removed!`);
   };
 
@@ -102,15 +100,21 @@ const Music = ({ src, setSrc, loop, setLoop }) => {
     e.preventDefault();
     setShowInput(false);
     const newList = e.target.elements[0].value.trim();
+
+    if (newList.length <= 0) {
+      e.target.reset();
+      return alert("Playlist should have a name!");
+    }
+
     const list = Object.entries(localStorage).map((item) => item[0]);
     const checkIfThere = list.filter((item) => item === newList);
 
-
-    if(newList.includes("-")){
+    if (newList.includes("-")) {
       alert("Playlist names cannot contain dashes (-).");
       e.target.reset();
       return;
     }
+
     if (checkIfThere.length >= 1) {
       alert("List already exists");
       e.target.reset();
@@ -118,33 +122,28 @@ const Music = ({ src, setSrc, loop, setLoop }) => {
     }
     if (newList) {
       localStorage.setItem(newList, "");
-      
     }
     e.target.reset();
-    if(currentList.length >= 1){
+    if (currentList.length >= 1) {
       newestList(setDisplayTable, currentList[0].playlist);
-      showCurrentPlaylist(setCurrentList, currentList[0].playlist)  
-    }
-    else{
+      showCurrentPlaylist(setCurrentList, currentList[0].playlist);
+    } else {
       newestList(setDisplayTable);
     }
-    
-    alert("New playlist created!");
 
+    alert("New playlist created!");
   };
 
   useEffect(() => {
     newestList(setDisplayTable, src.playlist);
-    showCurrentPlaylist(setCurrentList, src.playlist)
+    showCurrentPlaylist(setCurrentList, src.playlist);
   }, []);
 
   return (
-    <div className="music-component-div"> {isOpen && (
-        <PlaylistChanger
-          setIsOpen={setIsOpen}
-          src={src}
-          setSrc={setSrc}
-        />
+    <div className="music-component-div">
+      {" "}
+      {isOpen && (
+        <PlaylistChanger setIsOpen={setIsOpen} src={src} setSrc={setSrc} />
       )}
       <form onSubmit={handleSubmit}>
         <input
@@ -156,39 +155,48 @@ const Music = ({ src, setSrc, loop, setLoop }) => {
         />
         <button type="submit">Play</button>
       </form>
-
       {showInput && (
         <div>
           <p>Do you want to save this song?</p>
-          <button onClick={() => {
-            if(src.name.length > 60){
-             return alert(`Name should be shorter or equal to 60!`)
-            }
-            handleSaveMusic(), 
-            setIsOpen(true)
-            }}>Yes</button>
-
-          <button onClick={handleDeleteMusic}>No</button>
-          <div>
+          <div className="add-new-song">
+          <button
+            onClick={() => {
+              if (src.name.length > 60) {
+                return alert(`Name should be shorter or equal to 60!`);
+              }
+              handleSaveMusic(), setIsOpen(true);
+            }}
+          >
+            Yes
+          </button>
           <input
-          style={{boxShadow: src.name && src.name.length > 60 ? "0px 0px 10px 10px red" : "", transition:"0.5s ease-in-out"}}
+            style={{
+              boxShadow:
+                src.name && src.name.length > 60 ? "0px 0px 10px 10px red" : "",
+              transition: "0.5s ease-in-out",
+            }}
             type="text"
             value={src.name}
             onChange={(e) => setSrc({ ...src, name: e.target.value })}
           />
-          {src.name && src.name.length > 60 ? <p style={{color:"red"}}>Name shoud be shorter or equal to 60!</p> : ""}
-          <p>{src.name && src.name.length}</p>  
+          <button onClick={handleDeleteMusic}>No</button>  
           </div>
           
+          <div>
+            {src.name && src.name.length > 60 ? (
+              <p style={{ color: "red" }}>
+                Name shoud be shorter or equal to 60!
+              </p>
+            ) : (
+              ""
+            )}
+            <p>{src.name && src.name.length}</p>
+          </div>
         </div>
       )}
-      <Table
-        src={src}
-        setSrc={setSrc}
-      />
- 
+      <Table src={src} setSrc={setSrc} />
       <form onSubmit={handleNewPlaylist}>
-        <input type="text" placeholder="New Playlist" />
+        <input required type="text" placeholder="New Playlist" />
         <button type="submit">Create</button>
       </form>
     </div>

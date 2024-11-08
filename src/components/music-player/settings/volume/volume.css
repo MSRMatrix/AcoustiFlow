@@ -7,11 +7,12 @@
   width: 150px;
   -webkit-appearance: none;
   appearance: none;
-  height: 5px;
+  height: 10px;
   background: #ccc;
   outline: none;
   border-radius: 5px;
   margin: 0 10px;
+  padding: 0px;
 }
 
 .volume-slider::-webkit-slider-thumb {
@@ -34,5 +35,6 @@
 @media (max-width: 750px) {
   .volume-slider {
     width: 75px;
+    height: 5px;
   }
 }

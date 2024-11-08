@@ -206,6 +206,7 @@ const MusicPlayer = () => {
           />
         </div>
         <p>{src && src.playlist ? oldIndex : ""}</p>
+        <p>{playbackRate === 1 ? "Standart" : `${playbackRate}x`} Speed</p>
         <p className="title-from-current-music">
           {src && src.playlist ? `${oldName
             ? oldName.length > 60
@@ -243,23 +244,14 @@ const MusicPlayer = () => {
         </div>
       </div>
       <Settings
-        playing={playing}
-        setIsPlaying={setIsPlaying}
-        volume={volume}
-        setVolume={setVolume}
-        loop={loop}
-        setLoop={setLoop}
-        muted={muted}
-        setMuted={setMuted}
         src={src}
         setSrc={setSrc}
-        time={time}
-        setTime={setTime}
-        duration={duration}
-        playerRef={playerRef}
       />
+      <div className="nav-link">
       <NavLink to="/import-export"><button>Import or export your data</button></NavLink>
-      <NavLink to="/tutorial"><button>How does this website works</button></NavLink>
+      <NavLink to="/tutorial"><button>How does this website works</button></NavLink>  
+      </div>
+      
       <Outlet />
     </>
   );

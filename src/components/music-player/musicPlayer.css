@@ -19,15 +19,21 @@
 }
 
 button {
-  background: #000102;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  margin: 10px;
-  transition: background 0.3s;
+  padding: 5px;
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+input{
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  padding: 5px;
+}
+
+form{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .test {
@@ -57,6 +63,7 @@ p {
 
 .button-style {
   width: 30px;
+  margin: 10px;
   height: 30px;
   background-color: transparent;
   color: white;
@@ -114,10 +121,19 @@ i{
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+.nav-link{
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.nav-link>a:first-child>button:first-child{
+  border-bottom-right-radius: 0px;
+  border-top-right-radius: 0px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
 @media (max-width:750px){
-  .player-container{
-    width: 72%;
-  }
   .player{
     width: 100px;
     height: 100px;

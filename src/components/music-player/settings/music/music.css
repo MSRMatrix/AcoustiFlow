@@ -5,6 +5,18 @@
     align-items: center;
 }
 
+.add-new-song>button:first-child{
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.add-new-song>input{
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
+}
+
 @media (max-width:750px){
     .music-component-div{
         width: 100%;
