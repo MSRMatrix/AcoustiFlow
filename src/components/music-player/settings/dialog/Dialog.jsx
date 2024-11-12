@@ -95,11 +95,7 @@ const PlaylistChanger = ({ setIsOpen, src, setSrc, updateSrc }) => {
                     localStorage
                       .getItem(item)
                       .split(", ")
-                      .includes(takeMusic.src) ||
-                    localStorage
-                      .getItem(item)
-                      .split(", ")
-                      .includes(takeMusic.name)
+                      .includes(takeMusic.src)
                       ? "lightgreen"
                       : "",
                 }}
@@ -107,11 +103,7 @@ const PlaylistChanger = ({ setIsOpen, src, setSrc, updateSrc }) => {
                   localStorage
                     .getItem(item)
                     .split(", ")
-                    .includes(takeMusic.src) ||
-                  localStorage
-                    .getItem(item)
-                    .split(", ")
-                    .includes(takeMusic.name)
+                    .includes(takeMusic.src)
                 }
                 onClick={() => addToNewPlaylist(item)}
                 key={key}
@@ -123,11 +115,7 @@ const PlaylistChanger = ({ setIsOpen, src, setSrc, updateSrc }) => {
                 {localStorage
                   .getItem(item)
                   .split(", ")
-                  .includes(takeMusic.src) ||
-                localStorage
-                  .getItem(item)
-                  .split(", ")
-                  .includes(takeMusic.name) ? (
+                  .includes(takeMusic.src) ? (
                   <i
                     style={{ color: "lightgreen" }}
                     className="fa-solid fa-check"
