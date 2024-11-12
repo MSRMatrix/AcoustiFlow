@@ -85,11 +85,11 @@ const Music = ({ src, setSrc, loop, setLoop }) => {
     setTakeMusic(newData);
     newestList(setDisplayTable);
     setShowInput(false);
-    setSrc([]);
+    setSrc({ name: "", src: [] });
   };
 
   const handleDeleteMusic = () => {
-    setSrc([]);
+    setSrc({ name: "", src: [] });
     setShowInput(false);
     newestList(setDisplayTable);
     showCurrentPlaylist(setCurrentList);
@@ -138,6 +138,7 @@ const Music = ({ src, setSrc, loop, setLoop }) => {
     newestList(setDisplayTable, src.playlist);
     showCurrentPlaylist(setCurrentList, src.playlist);
   }, []);
+  
 
   return (
     <div className="music-component-div">
@@ -159,29 +160,33 @@ const Music = ({ src, setSrc, loop, setLoop }) => {
         <div>
           <p>Do you want to save this song?</p>
           <div className="add-new-song">
-          <button
-            onClick={() => {
-              if (src.name.length > 60) {
-                return alert(`Name should be shorter or equal to 60!`);
-              }
-              handleSaveMusic(), setIsOpen(true);
-            }}
-          >
-            Yes
-          </button>
-          <input
-            style={{
-              boxShadow:
-                src.name && src.name.length > 60 ? "0px 0px 10px 10px red" : "",
-              transition: "0.5s ease-in-out",
-            }}
-            type="text"
-            value={src.name}
-            onChange={(e) => setSrc({ ...src, name: e.target.value })}
-          />
-          <button onClick={handleDeleteMusic}>No</button>  
+            <input
+              style={{
+                boxShadow:
+                  src.name && src.name.length > 60
+                    ? "0px 0px 10px 10px red"
+                    : "",
+                transition: "0.5s ease-in-out",
+              }}
+              type="text"
+              value={src.name}
+              onChange={(e) => setSrc({ ...src, name: e.target.value })}
+            />
+            <div>
+              <button
+                onClick={() => {
+                  if (src.name.length > 60) {
+                    return alert(`Name should be shorter or equal to 60!`);
+                  }
+                  handleSaveMusic(), setIsOpen(true);
+                }}
+              >
+                Yes
+              </button>
+              <button onClick={handleDeleteMusic}>No</button>
+            </div>
           </div>
-          
+
           <div>
             {src.name && src.name.length > 60 ? (
               <p style={{ color: "red" }}>

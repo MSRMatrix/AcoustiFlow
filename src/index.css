@@ -1,31 +1,29 @@
-html, body {
-    margin: 0 auto;
-    padding: 0;
-    background-color: gray;
-    display: flex;
-    justify-content: center;
-    width: fit-content;
-    margin-top: 10px; 
-    overflow-x: hidden;
-    -ms-overflow-style: none;
-    scrollbar-width: none; 
+html,
+body {
+  margin: 0 auto;
+  padding: 0;
+  background-color: gray;
+  display: flex;
+  justify-content: center;
+  width: fit-content;
+  margin-top: 10px;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-@media (max-width: 750px) {
-    *{
-        font-size: 10px;
-    }
-    i{
-        font-size: 20px !important;
-    }
+* {
+  font-size: 10px;
+}
+i {
+  font-size: 20px !important;
 }
 
-tr{
-    display: flex;
-    justify-content: space-between;
+tr {
+  display: flex;
+  justify-content: space-between;
 }
 
-
-table{
-    width: 100%;
+table {
+  width: 100%;
 }

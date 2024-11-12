@@ -78,7 +78,7 @@ const PlaylistChanger = ({ setIsOpen, src, setSrc, updateSrc }) => {
     const dialog = dialogRef.current;
     if (dialog) {
       dialog.focus();
-      dialog.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      dialog.scrollIntoView({ behavior: "smooth", block: "center" });
     }
   }, []);
 
@@ -88,9 +88,55 @@ const PlaylistChanger = ({ setIsOpen, src, setSrc, updateSrc }) => {
         Zur welchen Playlist soll "{takeMusic.name}" hinzugefügt werden?
         {allLists &&
           allLists.map((item, key) => (
-            <button onClick={() => addToNewPlaylist(item)} key={key}>
-              {item}
-            </button>
+            <div key={key}>
+              <button
+                style={{
+                  color:
+                    localStorage
+                      .getItem(item)
+                      .split(", ")
+                      .includes(takeMusic.src) ||
+                    localStorage
+                      .getItem(item)
+                      .split(", ")
+                      .includes(takeMusic.name)
+                      ? "lightgreen"
+                      : "",
+                }}
+                disabled={
+                  localStorage
+                    .getItem(item)
+                    .split(", ")
+                    .includes(takeMusic.src) ||
+                  localStorage
+                    .getItem(item)
+                    .split(", ")
+                    .includes(takeMusic.name)
+                }
+                onClick={() => addToNewPlaylist(item)}
+                key={key}
+              >
+                {item}
+              </button>{" "}
+              <p>
+                {" "}
+                {localStorage
+                  .getItem(item)
+                  .split(", ")
+                  .includes(takeMusic.src) ||
+                localStorage
+                  .getItem(item)
+                  .split(", ")
+                  .includes(takeMusic.name) ? (
+                  <i
+                    style={{ color: "lightgreen" }}
+                    className="fa-solid fa-check"
+                  ></i>
+                ) : (
+                  ""
+                )}
+              </p>
+            </div>
           ))}
         <button
           onClick={() => {
@@ -106,8 +152,13 @@ const PlaylistChanger = ({ setIsOpen, src, setSrc, updateSrc }) => {
   );
 };
 
-
-const EditName = ({ setOpenEditWindow, takeMusic, updateSrc, updateAllLists, src }) => {
+const EditName = ({
+  setOpenEditWindow,
+  takeMusic,
+  updateSrc,
+  updateAllLists,
+  src,
+}) => {
   const dialogRef = useRef(null);
 
   const { displayTable, setDisplayTable } = useContext(DisplayTable);
@@ -123,8 +174,8 @@ const EditName = ({ setOpenEditWindow, takeMusic, updateSrc, updateAllLists, src
       formData[key] = value;
     });
 
-    if(formData.name.length > 60){
-      return alert(`Name should be shorter or equal to 60!`)
+    if (formData.name.length > 60) {
+      return alert(`Name should be shorter or equal to 60!`);
     }
 
     const playlist = oldMusic.playlist;
@@ -166,7 +217,7 @@ const EditName = ({ setOpenEditWindow, takeMusic, updateSrc, updateAllLists, src
     const dialog = dialogRef.current;
     if (dialog) {
       dialog.focus();
-      dialog.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      dialog.scrollIntoView({ behavior: "smooth", block: "center" });
     }
   }, []);
 
@@ -174,17 +225,24 @@ const EditName = ({ setOpenEditWindow, takeMusic, updateSrc, updateAllLists, src
     <dialog ref={dialogRef} open>
       <form action="" onSubmit={changeMusic}>
         <legend>Name</legend>
-        <input defaultValue={takeMusic.name} name="name" type="text" max={60} min={5} required />
+        <input
+          defaultValue={takeMusic.name}
+          name="name"
+          type="text"
+          max={60}
+          min={5}
+          required
+        />
         <legend>Url</legend>
         <input defaultValue={takeMusic.src} name="url" type="url" required />
-        <button type="submit">Change</button>
+        <fieldset>
+          <button type="submit">Change</button>
+          <button onClick={() => setOpenEditWindow(false)}>close</button>
+        </fieldset>
       </form>
-
-      <button onClick={() => setOpenEditWindow(false)}>close</button>
     </dialog>
   );
 };
-
 
 const ChangePlaylist = ({ setOpenChangePlaylistName, updateAllLists }) => {
   const dialogRef = useRef(null);
@@ -233,7 +291,7 @@ const ChangePlaylist = ({ setOpenChangePlaylistName, updateAllLists }) => {
     const dialog = dialogRef.current;
     if (dialog) {
       dialog.focus();
-      dialog.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      dialog.scrollIntoView({ behavior: "smooth", block: "center" });
     }
   }, []);
 
@@ -242,12 +300,16 @@ const ChangePlaylist = ({ setOpenChangePlaylistName, updateAllLists }) => {
       <form action="" onSubmit={renamePlaylist}>
         <legend>New Playlistname</legend>
         <input defaultValue={takeMusic} name="playlist" type="text" required />
-        <button onSubmit type="submit">
-          Change
-        </button>
-      </form>
 
-      <button onClick={() => setOpenChangePlaylistName(false)}>close</button>
+        <fieldset>
+          <button onSubmit type="submit">
+            Change
+          </button>
+          <button onClick={() => setOpenChangePlaylistName(false)}>
+            close
+          </button>
+        </fieldset>
+      </form>
     </dialog>
   );
 };

@@ -1,25 +1,57 @@
-.playlist-changer{
-    display: flex;
-    flex-direction: column;
+.playlist-changer {
+  display: flex;
+  flex-direction: column;
 }
 
-.playlist-changer>button{
-    width: max-content;
-    height: max-content;
+.playlist-changer > button {
+  width: max-content;
+  height: max-content;
 }
 
 dialog {
-    z-index: 999999;
-    position: absolute;
-    margin: 0 auto;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 20px;
-    background-color: #282c34;
-    border-radius: 10px;
-    color: #ffffff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    margin-bottom: 10px;
+  z-index: 999999;
+  position: absolute;
+  margin: 0 auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background-color: gray;
+  border-radius: 10px;
+  color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin-bottom: 10px;
+  width: 300px;
+  margin: auto 0;
+  display: flex;
+}
+
+dialog > form {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+
+  fieldset {
     border: none;
+  }
+
+  button:first-child {
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+}
+
+dialog > div > button, dialog > div > div > button {
+  background-color: #282c34;
+  border-radius: 10px;
+  min-width: 50px;
+}
+
+
+dialog > div > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }

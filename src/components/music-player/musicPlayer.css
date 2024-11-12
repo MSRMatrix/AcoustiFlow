@@ -11,26 +11,31 @@
   padding-top: 10px;
 }
 
-.playlist-name{
+.playlist-name {
   padding: 10px 30px;
   border-radius: 10px;
   background-color: #3a4a5a;
-  box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+  box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset,
+    rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset,
+    rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px,
+    rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px,
+    rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
 }
 
 button {
   padding: 5px;
   border-bottom-right-radius: 10px;
   border-top-right-radius: 10px;
+  cursor: pointer;
 }
 
-input{
+input {
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
   padding: 5px;
 }
 
-form{
+form {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -44,7 +49,6 @@ form{
   border-radius: 10px;
   color: #ffffff;
   max-width: fit-content;
-
 }
 
 p {
@@ -89,30 +93,30 @@ p {
 
 .button-style:hover i {
   transform: perspective(100px) rotateY(20deg) scale(1.1);
-   color: #2d41f5;
+  color: #2d41f5;
 }
 
-i{
+i {
   color: #61dafb;
 }
 
-.player{
+.player {
   width: 200px;
   height: 200px;
   border-radius: 100%;
   transition: all 0.5s ease-in-out;
 }
 
-.player>*{
+.player > * {
   display: none;
 }
 
 .title-from-current-music {
   word-wrap: break-word;
-  overflow-wrap: break-word; 
+  overflow-wrap: break-word;
   white-space: normal;
   display: flex;
-  justify-content: center; 
+  justify-content: center;
   width: 100%;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -121,40 +125,64 @@ i{
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.nav-link{
+.nav-link {
   display: flex;
   justify-content: space-evenly;
 }
 
-.nav-link>a:first-child>button:first-child{
+.nav-link > a:first-child > button:first-child {
   border-bottom-right-radius: 0px;
   border-top-right-radius: 0px;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
 }
 
-@media (max-width:750px){
-  .player{
-    width: 100px;
-    height: 100px;
-    transition: all 0.5s ease-in-out;
-  }
-  .button-style{
-    padding: 0;
-    margin: 0;
-  }
-  .test{
-    width: 270px;
-    gap: 10px;
-    font-size: 10px;
-  }
+.nav-link > a > button:hover,
+form > button:hover,
+.add-new-song > button:hover,
+dialog > div > div > button:hover,
+dialog > div > button:hover,
+dialog > form > fieldset > button:hover, .add-new-song>div>button:hover {
+  background-color: #3b4049;
+  color: #e0e0e0;
+  transform: scale(1.05);
+  cursor: pointer;
 }
 
-@media (max-width:360px){
-  .fa-solid{
+.nav-link > a > button:active,
+form > button:active,
+.add-new-song > button:active,
+dialog > div > div > button:active,
+dialog > div > button:active,
+dialog > form > fieldset > button:active, .add-new-song>div>button:active {
+  background-color: #1f2329;
+  transform: scale(0.98);
+}
+
+dialog > form > input {
+  border-radius: 10px;
+}
+
+.player {
+  width: 100px;
+  height: 100px;
+  transition: all 0.5s ease-in-out;
+}
+.button-style {
+  padding: 0;
+  margin: 0;
+}
+.test {
+  width: 270px;
+  gap: 10px;
+  font-size: 10px;
+}
+
+@media (max-width: 360px) {
+  .fa-solid {
     font-size: 10px !important;
   }
-  .test{
+  .test {
     width: fit-content;
     gap: 0px;
     font-size: 10px;
