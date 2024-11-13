@@ -2,12 +2,13 @@ import { useState, useEffect, useContext } from "react";
 import Table from "./table/Table";
 import { newestList } from "../../functions/NewestList";
 import DisplayTable from "../../MusicContext/DisplayTable";
-import { isMobile } from "react-device-detect";
 import ShowInput from "../../MusicContext/ShowInput";
 import TakeMusic from "../../MusicContext/TakeMusic";
 import { PlaylistChanger } from "../dialog/Dialog";
 import CurrentList from "../../MusicContext/CurrentList";
 import { showCurrentPlaylist } from "../../functions/ShowCurrentPlaylist";
+import {handleDeleteMusic, handleSaveMusic} from "../../functions/addAndDeleteMusic"
+import {handleNewPlaylist} from "../../functions/handleNewPlaylist"
 import "./music.css";
 
 const Music = ({ src, setSrc, loop, setLoop }) => {
@@ -15,7 +16,7 @@ const Music = ({ src, setSrc, loop, setLoop }) => {
   const { showInput, setShowInput } = useContext(ShowInput);
   const { takeMusic, setTakeMusic } = useContext(TakeMusic);
   const { currentList, setCurrentList } = useContext(CurrentList);
-  const [isOpen, setIsOpen] = useState(false);
+  const [openDialog, setOpenDialog] = useState({newMusic: false});
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -72,68 +73,7 @@ const Music = ({ src, setSrc, loop, setLoop }) => {
     }, 1000);
   };
 
-  const handleSaveMusic = () => {
-    const newData = {
-      name: src.name,
-      src: src.src,
-    };
-
-    if (!src.name || !src.src) {
-      alert("Diese Felder dürfen nicht leer sein!");
-      return;
-    }
-    setTakeMusic(newData);
-    newestList(setDisplayTable);
-    setShowInput(false);
-    setSrc({ name: "", src: [] });
-  };
-
-  const handleDeleteMusic = () => {
-    setSrc({ name: "", src: [] });
-    setShowInput(false);
-    newestList(setDisplayTable);
-    showCurrentPlaylist(setCurrentList);
-    console.log(`Song was removed!`);
-  };
-
-  const handleNewPlaylist = (e) => {
-    e.preventDefault();
-    setShowInput(false);
-    const newList = e.target.elements[0].value.trim();
-
-    if (newList.length <= 0) {
-      e.target.reset();
-      return alert("Playlist should have a name!");
-    }
-
-    const list = Object.entries(localStorage).map((item) => item[0]);
-    const checkIfThere = list.filter((item) => item === newList);
-
-    if (newList.includes("-")) {
-      alert("Playlist names cannot contain dashes (-).");
-      e.target.reset();
-      return;
-    }
-
-    if (checkIfThere.length >= 1) {
-      alert("List already exists");
-      e.target.reset();
-      return;
-    }
-    if (newList) {
-      localStorage.setItem(newList, "");
-    }
-    e.target.reset();
-    if (currentList.length >= 1) {
-      newestList(setDisplayTable, currentList[0].playlist);
-      showCurrentPlaylist(setCurrentList, currentList[0].playlist);
-    } else {
-      newestList(setDisplayTable);
-    }
-
-    alert("New playlist created!");
-  };
-
+  
   useEffect(() => {
     newestList(setDisplayTable, src.playlist);
     showCurrentPlaylist(setCurrentList, src.playlist);
@@ -143,11 +83,11 @@ const Music = ({ src, setSrc, loop, setLoop }) => {
   return (
     <div className="music-component-div">
       {" "}
-      {isOpen && (
-        <PlaylistChanger setIsOpen={setIsOpen} src={src} setSrc={setSrc} />
+      {openDialog.newMusic && (
+        <PlaylistChanger setOpenDialog={setOpenDialog} src={src} setSrc={setSrc} />
       )}
       <form onSubmit={handleSubmit}>
-        <input
+        <input style={{width: "300px"}}
           type="url"
           name="src"
           required
@@ -161,46 +101,52 @@ const Music = ({ src, setSrc, loop, setLoop }) => {
           <p>Do you want to save this song?</p>
           <div className="add-new-song">
             <input
+            placeholder="Song Name"
               style={{
                 boxShadow:
                   src.name && src.name.length > 60
                     ? "0px 0px 10px 10px red"
                     : "",
-                transition: "0.5s ease-in-out",
+                transition: "0.5s ease-in-out",width: "300px",
               }}
               type="text"
-              value={src.name}
+              value={src.name || ""}
               onChange={(e) => setSrc({ ...src, name: e.target.value })}
             />
             <div>
               <button
                 onClick={() => {
-                  if (src.name.length > 60) {
+                  if (src.name.trim().length > 60) {
                     return alert(`Name should be shorter or equal to 60!`);
+                 
+                  }  else if(!src.name.trim() || !src.src.trim()){
+                    return alert("Should not be empty!")
+                  }else{
+                    handleSaveMusic(src, setTakeMusic, newestList, setDisplayTable, setShowInput, setSrc), setOpenDialog({newMusic: true});
                   }
-                  handleSaveMusic(), setIsOpen(true);
+                  
                 }}
               >
                 Yes
               </button>
-              <button onClick={handleDeleteMusic}>No</button>
+              <button onClick={() => handleDeleteMusic(setSrc, setShowInput, newestList, setDisplayTable, showCurrentPlaylist, setCurrentList)}>No</button>
             </div>
           </div>
 
           <div>
-            {src.name && src.name.length > 60 ? (
+            {src.name && src.name.trim().length > 60 ? (
               <p style={{ color: "red" }}>
                 Name shoud be shorter or equal to 60!
               </p>
             ) : (
               ""
             )}
-            <p>{src.name && src.name.length}</p>
+            <p>{src.name && src.name.trim().length}</p>
           </div>
         </div>
       )}
       <Table src={src} setSrc={setSrc} />
-      <form onSubmit={handleNewPlaylist}>
+      <form onSubmit={(e) => handleNewPlaylist(e, setShowInput, currentList, newestList, setDisplayTable, showCurrentPlaylist, setCurrentList)}>
         <input required type="text" placeholder="New Playlist" />
         <button type="submit">Create</button>
       </form>
@@ -209,3 +155,78 @@ const Music = ({ src, setSrc, loop, setLoop }) => {
 };
 
 export default Music;
+
+
+// const [disable, setDisable] = useState({
+//   newSong: "",
+//   newPlaylist: "",
+// })
+  
+// return (
+//   <div className="music-component-div">
+//     {" "}
+//     {isOpen && (
+//       <PlaylistChanger setIsOpen={setIsOpen} src={src} setSrc={setSrc} />
+//     )}
+//     <form onSubmit={handleSubmit}>
+//     <input required
+//       type="text"
+//       placeholder="New Song"
+//       value={disable.newSong}
+//       onChange={(e) => setDisable({newSong: e.target.value})} />
+//       <button  type="submit" disabled={!disable.newSong} style={{background: disable.newSong ? "" : "gray"}}>Play</button>
+//     </form>
+//     {showInput && (
+//       <div>
+//         <p>Do you want to save this song?</p>
+//         <div className="add-new-song">
+//           <input
+//             style={{
+//               boxShadow:
+//                 src.name && src.name.length > 60
+//                   ? "0px 0px 10px 10px red"
+//                   : "",
+//               transition: "0.5s ease-in-out",
+//             }}
+//             type="text"
+//             value={src.name}
+//             onChange={(e) => setSrc({ ...src, name: e.target.value })}
+//           />
+//           <div>
+//             <button
+//               onClick={() => {
+//                 if (src.name.length > 60) {
+//                   return alert(`Name should be shorter or equal to 60!`);
+//                 }
+//                 handleSaveMusic(), setIsOpen(true);
+//               }}
+//             >
+//               Yes
+//             </button>
+//             <button onClick={handleDeleteMusic}>No</button>
+//           </div>
+//         </div>
+
+//         <div>
+//           {src.name && src.name.length > 60 ? (
+//             <p style={{ color: "red" }}>
+//               Name shoud be shorter or equal to 60!
+//             </p>
+//           ) : (
+//             ""
+//           )}
+//           <p>{src.name && src.name.length}</p>
+//         </div>
+//       </div>
+//     )}
+//     <Table src={src} setSrc={setSrc} />
+//     <form onSubmit={handleNewPlaylist}>
+//       <input required
+//       type="text"
+//       placeholder="New Playlist"
+//       value={disable.newPlaylist}
+//       onChange={(e) => setDisable({newPlaylist: e.target.value})} />
+//       <button  type="submit" disabled={!disable.newPlaylist} style={{background: disable.newPlaylist ? "" : "gray"}}>Create</button>
+//     </form>
+//   </div>
+// );

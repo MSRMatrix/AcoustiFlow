@@ -20,18 +20,17 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import {
-  arrayMove,
-  sortableKeyboardCoordinates,
-} from "@dnd-kit/sortable";
+import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import NotUsedTables from "./notUsedTables/NotUsedTables";
 import UsedTable from "./usedTable/UsedTable";
 // Drag and Drop Import
 
 const Table = ({ src, setSrc }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [openEditWindow, setOpenEditWindow] = useState(false);
-  const [openChangePlaylistName, setOpenChangePlaylistName] = useState(false);
+  const [openDialog, setOpenDialog] = useState(
+    { newPlaylist: false },
+    { changeMusic: false },
+    { newMusic: false }
+  );
   const { takeMusic, setTakeMusic } = useContext(TakeMusic);
   const { displayTable, setDisplayTable } = useContext(DisplayTable);
 
@@ -40,8 +39,8 @@ const Table = ({ src, setSrc }) => {
     useContext(CurrentSongIndex);
   const { currentList, setCurrentList } = useContext(CurrentList);
 
-  const [drag, setDrag] = useState(false)
-  const [listForDrop, setListForDrop] = useState(null)
+  const [drag, setDrag] = useState(false);
+  const [listForDrop, setListForDrop] = useState(null);
 
   const updateAllLists = (playlist) => {
     newestList(setDisplayTable, playlist);
@@ -50,26 +49,32 @@ const Table = ({ src, setSrc }) => {
 
   const handleDelete = (item, playlist) => {
     setShowInput(false);
-    const storedData = localStorage.getItem(playlist);
-    if (storedData) {
-      const parsedData = storedData.split(", ");
-      const updatedData = [];
-      for (let i = 0; i < parsedData.length; i += 2) {
-        if (parsedData.length <= 2) {
-          localStorage.setItem(playlist, "");
-          updateAllLists(src.playlist);
-          return;
-        }
-        if (parsedData[i] !== item.name || parsedData[i + 1] !== item.src) {
-          updatedData.push(parsedData[i], parsedData[i + 1]);
-        }
-      }
-      localStorage.setItem(playlist, updatedData.join(", "));
-      updateAllLists(src.playlist);
-    }
-    if (playlist === src.playlist) {
-      updateSrc();
-    }
+    console.log(item);
+    
+     const storedData = localStorage.getItem(playlist);
+     if (storedData) {
+       const parsedData = storedData.split(", ");
+       const updatedData = [];
+       for (let i = 0; i < parsedData.length; i += 2) {
+         if (parsedData.length <= 2) {
+           localStorage.setItem(playlist, "");
+           updateAllLists(src.playlist);
+           return;
+         }
+         if (parsedData[i] !== item.name || parsedData[i + 1] !== item.src) {
+           updatedData.push(parsedData[i], parsedData[i + 1]);
+   
+           
+         }
+       }
+       localStorage.setItem(playlist, updatedData.join(", "));
+       updateAllLists(src.playlist);
+       
+       
+     }
+     if (playlist === src.playlist) {
+       updateSrc();
+     }
   };
 
   const listFunction = async (list) => {
@@ -167,12 +172,13 @@ const Table = ({ src, setSrc }) => {
       names.push(list[i]);
       url.push(list[i + 1]);
     }
-    setSrc({
-      playlist: src.playlist,
-      name: names,
-      src: url,
-    });
-    updateAllLists(src.playlist);
+    
+     setSrc({
+       playlist: src.playlist,
+       name: names,
+       src: url,
+     });
+     updateAllLists(src.playlist);
   };
 
   // Drag and Drop
@@ -184,38 +190,55 @@ const Table = ({ src, setSrc }) => {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
-  
 
   const handleDragEnd = (event) => {
     const { active, over } = event;
     if (!over || active.id === over.id) {
       return;
     }
-  
-    const playlistToUpdate = listForDrop; 
 
-    const oldIndex = displayTable.findIndex(item => item.playlist === playlistToUpdate);
-    
-    const oldSongIndex = displayTable[oldIndex].songs.findIndex(song => song.src === active.id.split("-").slice(1).join("-"));
-  
-    const newIndex = displayTable.findIndex(item => item.playlist === playlistToUpdate);
-    const newSongIndex = displayTable[newIndex].songs.findIndex(song => song.src === over.id.split("-").slice(1).join("-"));
-    
-    if (oldIndex !== -1 && newIndex !== -1 && oldSongIndex !== -1 && newSongIndex !== -1) {
-      
-      setDisplayTable(items => {
+    const playlistToUpdate = listForDrop;
+
+    const oldIndex = displayTable.findIndex(
+      (item) => item.playlist === playlistToUpdate
+    );
+
+    const oldSongIndex = displayTable[oldIndex].songs.findIndex(
+      (song) => song.src === active.id.split("-").slice(1).join("-")
+    );
+
+    const newIndex = displayTable.findIndex(
+      (item) => item.playlist === playlistToUpdate
+    );
+    const newSongIndex = displayTable[newIndex].songs.findIndex(
+      (song) => song.src === over.id.split("-").slice(1).join("-")
+    );
+
+    if (
+      oldIndex !== -1 &&
+      newIndex !== -1 &&
+      oldSongIndex !== -1 &&
+      newSongIndex !== -1
+    ) {
+      setDisplayTable((items) => {
         const updatedItems = [...items];
-        updatedItems[oldIndex].songs = arrayMove(updatedItems[oldIndex].songs, oldSongIndex, newSongIndex);
+        updatedItems[oldIndex].songs = arrayMove(
+          updatedItems[oldIndex].songs,
+          oldSongIndex,
+          newSongIndex
+        );
         return updatedItems;
       });
     }
-    const updatedList = displayTable.filter((list) => list.playlist === playlistToUpdate)[0].songs.map((item) => `${item.name}, ${item.src}`).join(", ")
-    localStorage.setItem(playlistToUpdate, updatedList)
+    const updatedList = displayTable
+      .filter((list) => list.playlist === playlistToUpdate)[0]
+      .songs.map((item) => `${item.name}, ${item.src}`)
+      .join(", ");
+    localStorage.setItem(playlistToUpdate, updatedList);
     setDrag(false);
   };
-  
+
   // Drag and Drop
-  
 
   useEffect(() => {
     updateAllLists(src.playlist);
@@ -223,69 +246,67 @@ const Table = ({ src, setSrc }) => {
 
   return (
     <>
-    {currentList && currentList.length > 0 ?<div className="list-in-use">
-        <UsedTable
-          setOpenChangePlaylistName={setOpenChangePlaylistName}
+      {currentList && currentList.length > 0 ? (
+        <div className="list-in-use">
+          <UsedTable
+            setOpenDialog={setOpenDialog}
+            setTakeMusic={setTakeMusic}
+            deletePlaylist={deletePlaylist}
+            listFunction={listFunction}
+            randomSequence={randomSequence}
+            src={src}
+            currentSongIndex={currentSongIndex}
+            playMusic={playMusic}
+            handleDelete={handleDelete}
+          />
+        </div>
+      ) : (
+        <></>
+      )}
+
+      {openDialog.newMusic && (
+        <PlaylistChanger
+          setOpenDialog={setOpenDialog}
+          src={src}
+          setSrc={setSrc}
+          updateSrc={updateSrc}
+        />
+      )}
+      {openDialog.changeMusic && (
+        <EditName
+          setOpenDialog={setOpenDialog}
+          src={src}
+          setSrc={setSrc}
+          updateSrc={updateSrc}
+          takeMusic={takeMusic}
+          updateAllLists={updateAllLists}
+        />
+      )}
+      {openDialog.newPlaylist && (
+        <ChangePlaylist
+          setOpenDialog={setOpenDialog}
+          updateAllLists={updateAllLists}
+        />
+      )}
+
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCorners}
+        onDragEnd={handleDragEnd}
+      >
+        <NotUsedTables
+          setDrag={setDrag}
+          setOpenDialog={setOpenDialog}
           setTakeMusic={setTakeMusic}
           deletePlaylist={deletePlaylist}
           listFunction={listFunction}
           randomSequence={randomSequence}
-          src={src}
-          currentSongIndex={currentSongIndex}
           playMusic={playMusic}
           handleDelete={handleDelete}
-          setIsOpen={setIsOpen}
-          setOpenEditWindow={setOpenEditWindow}
-        /></div> : <></>}
-      
-
-
-        {isOpen && (
-          <PlaylistChanger
-            setIsOpen={setIsOpen}
-            src={src}
-            setSrc={setSrc}
-            updateSrc={updateSrc}
-          />
-        )}
-        {openEditWindow && (
-          <EditName
-            setOpenEditWindow={setOpenEditWindow}
-            src={src}
-            setSrc={setSrc}
-            updateSrc={updateSrc}
-            takeMusic={takeMusic}
-            updateAllLists={updateAllLists}
-          />
-        )}
-        {openChangePlaylistName && (
-          <ChangePlaylist
-            setOpenChangePlaylistName={setOpenChangePlaylistName}
-            updateAllLists={updateAllLists}
-          />
-        )}
-      
-  <DndContext 
-    sensors={sensors}
-    collisionDetection={closestCorners}
-    onDragEnd={handleDragEnd}
-  >
-    <NotUsedTables
-      setDrag={setDrag}
-      setOpenChangePlaylistName={setOpenChangePlaylistName}
-      setTakeMusic={setTakeMusic}
-      deletePlaylist={deletePlaylist}
-      listFunction={listFunction}
-      randomSequence={randomSequence}
-      playMusic={playMusic}
-      handleDelete={handleDelete}
-      setIsOpen={setIsOpen}
-      setOpenEditWindow={setOpenEditWindow}
-      setListForDrop={setListForDrop}
-      drag={drag}
-    />
-  </DndContext>
-
+          setListForDrop={setListForDrop}
+          drag={drag}
+        />
+      </DndContext>
     </>
   );
 };

@@ -142,7 +142,7 @@ form > button:hover,
 .add-new-song > button:hover,
 dialog > div > div > button:hover,
 dialog > div > button:hover,
-dialog > form > fieldset > button:hover, .add-new-song>div>button:hover {
+dialog > div > form > fieldset > button:hover, .add-new-song>div>button:hover, .choose-options:hover {
   background-color: #3b4049;
   color: #e0e0e0;
   transform: scale(1.05);
@@ -154,7 +154,7 @@ form > button:active,
 .add-new-song > button:active,
 dialog > div > div > button:active,
 dialog > div > button:active,
-dialog > form > fieldset > button:active, .add-new-song>div>button:active {
+dialog > div > form > fieldset > button:active, .add-new-song>div>button:active, .choose-options:active {
   background-color: #1f2329;
   transform: scale(0.98);
 }

@@ -146,16 +146,6 @@
   outline: none;
 }
 
-.choose-options:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
-}
-
-.choose-options:active {
-  box-shadow: 10px 10px 10px inset rgba(0, 0, 0, 0.17);
-  outline: none;
-}
-
 .main-div-from-not-used-list {
   display: flex;
   flex-direction: column;

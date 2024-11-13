@@ -8,7 +8,7 @@ import TakeMusic from "../../MusicContext/TakeMusic";
 import { showCurrentPlaylist } from "../../functions/ShowCurrentPlaylist";
 import CurrentList from "../../MusicContext/CurrentList";
 
-const PlaylistChanger = ({ setIsOpen, src, setSrc, updateSrc }) => {
+const PlaylistChanger = ({ setOpenDialog, src, setSrc, updateSrc }) => {
   const dialogRef = useRef(null);
 
   const { displayTable, setDisplayTable } = useContext(DisplayTable);
@@ -128,7 +128,7 @@ const PlaylistChanger = ({ setIsOpen, src, setSrc, updateSrc }) => {
           ))}
         <button
           onClick={() => {
-            setIsOpen(false);
+            setOpenDialog({newMusic: false});
             newestList(setDisplayTable, currentPlaylist);
             showCurrentPlaylist(setCurrentList, currentPlaylist);
           }}
@@ -141,7 +141,7 @@ const PlaylistChanger = ({ setIsOpen, src, setSrc, updateSrc }) => {
 };
 
 const EditName = ({
-  setOpenEditWindow,
+  setOpenDialog,
   takeMusic,
   updateSrc,
   updateAllLists,
@@ -196,7 +196,7 @@ const EditName = ({
     if (playlist === src.playlist) {
       updateSrc();
     }
-    setOpenEditWindow(false);
+    setOpenDialog({changeMusic: false});
   };
 
   useEffect(() => {
@@ -211,6 +211,7 @@ const EditName = ({
 
   return (
     <dialog ref={dialogRef} open>
+      <div className="playlist-changer">
       <form action="" onSubmit={changeMusic}>
         <legend>Name</legend>
         <input
@@ -225,14 +226,14 @@ const EditName = ({
         <input defaultValue={takeMusic.src} name="url" type="url" required />
         <fieldset>
           <button type="submit">Change</button>
-          <button onClick={() => setOpenEditWindow(false)}>close</button>
+          <button onClick={() => setOpenDialog({changeMusic: false})}>close</button>
         </fieldset>
-      </form>
+      </form></div>
     </dialog>
   );
 };
 
-const ChangePlaylist = ({ setOpenChangePlaylistName, updateAllLists }) => {
+const ChangePlaylist = ({ setOpenDialog, updateAllLists }) => {
   const dialogRef = useRef(null);
 
   const { currentList, setCurrentList } = useContext(CurrentList);
@@ -272,7 +273,7 @@ const ChangePlaylist = ({ setOpenChangePlaylistName, updateAllLists }) => {
       newestList(setDisplayTable, currentPlaylist);
       showCurrentPlaylist(setCurrentList, currentPlaylist);
     }
-    setOpenChangePlaylistName(false);
+    setOpenDialog({newPlaylist: false});
   };
 
   useEffect(() => {
@@ -285,6 +286,7 @@ const ChangePlaylist = ({ setOpenChangePlaylistName, updateAllLists }) => {
 
   return (
     <dialog ref={dialogRef} open>
+      <div className="playlist-changer">
       <form action="" onSubmit={renamePlaylist}>
         <legend>New Playlistname</legend>
         <input defaultValue={takeMusic} name="playlist" type="text" required />
@@ -293,11 +295,11 @@ const ChangePlaylist = ({ setOpenChangePlaylistName, updateAllLists }) => {
           <button onSubmit type="submit">
             Change
           </button>
-          <button onClick={() => setOpenChangePlaylistName(false)}>
+          <button onClick={() => setOpenDialog({newPlaylist: false})}>
             close
           </button>
         </fieldset>
-      </form>
+      </form></div>
     </dialog>
   );
 };

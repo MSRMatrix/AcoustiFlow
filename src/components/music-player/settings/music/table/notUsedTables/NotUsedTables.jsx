@@ -9,15 +9,13 @@ import PlaylistContext from "../../../../MusicContext/PlaylistContext";
 import { SortableItem } from "../sortableItem/SortableItem";
 
 const NotUsedTables = ({
-  setOpenChangePlaylistName,
+  setOpenDialog,
   setTakeMusic,
   deletePlaylist,
   listFunction,
   randomSequence,
   playMusic,
   handleDelete,
-  setIsOpen,
-  setOpenEditWindow,
   setListForDrop,
 }) => {
   const { displayTable } = useContext(DisplayTable);
@@ -49,7 +47,7 @@ const NotUsedTables = ({
                 <IconButton
                   icon="fa-solid fa-pencil"
                   onClick={() => {
-                    setOpenChangePlaylistName(true);
+                    setOpenDialog({newPlaylist: true});
                     setTakeMusic(item.playlist);
                   }}
                   text="Rename Playlist"
@@ -166,7 +164,7 @@ const NotUsedTables = ({
                                   onClick={() => {
                                     setTakeMusic(innerItem);
                                     setPlaylistContext(item.playlist);
-                                    setIsOpen(true);
+                                    setOpenDialog({newMusic: true});
                                   }}
                                   text="Move"
                                 />
@@ -176,7 +174,7 @@ const NotUsedTables = ({
                                 <IconButton
                                   icon="fa-solid fa-pencil"
                                   onClick={() => {
-                                    setOpenEditWindow(true);
+                                    setOpenDialog({changeMusic: true});
                                     setTakeMusic({
                                       playlist: item.playlist,
                                       name: innerItem.name,

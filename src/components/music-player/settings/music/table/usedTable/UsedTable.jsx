@@ -4,7 +4,7 @@ import CurrentList from "../../../../MusicContext/CurrentList";
 import PlaylistContext from "../../../../MusicContext/PlaylistContext";
 
 const UsedTable = ({
-  setOpenChangePlaylistName,
+  setOpenDialog,
   setTakeMusic,
   deletePlaylist,
   listFunction,
@@ -13,8 +13,6 @@ const UsedTable = ({
   currentSongIndex,
   playMusic,
   handleDelete,
-  setIsOpen,
-  setOpenEditWindow,
 }) => {
   const { currentList, setCurrentList } = useContext(CurrentList);
   const { playlistContext, setPlaylistContext } = useContext(PlaylistContext);
@@ -31,7 +29,7 @@ const UsedTable = ({
               <IconButton
                 icon="fa-solid fa-pencil"
                 onClick={() => {
-                  setOpenChangePlaylistName(true), setTakeMusic(item.playlist);
+                  setOpenDialog({newPlaylist: true}), setTakeMusic(item.playlist);
                 }}
                 text="Rename Playlist"
               />
@@ -141,14 +139,14 @@ const UsedTable = ({
                           onClick={() => {
                             setTakeMusic(innerItem);
                             setPlaylistContext(item.playlist);
-                            setIsOpen(true);
+                            setOpenDialog({newMusic: true});
                           }}
                           text="Move"
                         />
                         <IconButton
                           icon="fa-solid fa-pencil"
                           onClick={() => {
-                            setOpenEditWindow(true);
+                            setOpenDialog({changeMusic: true});
                             setTakeMusic({
                               playlist: item.playlist,
                               name: innerItem.name,
