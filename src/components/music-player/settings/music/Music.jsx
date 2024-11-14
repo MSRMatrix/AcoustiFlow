@@ -7,8 +7,11 @@ import TakeMusic from "../../MusicContext/TakeMusic";
 import { PlaylistChanger } from "../dialog/Dialog";
 import CurrentList from "../../MusicContext/CurrentList";
 import { showCurrentPlaylist } from "../../functions/ShowCurrentPlaylist";
-import {handleDeleteMusic, handleSaveMusic} from "../../functions/addAndDeleteMusic"
-import {handleNewPlaylist} from "../../functions/handleNewPlaylist"
+import {
+  handleDeleteMusic,
+  handleSaveMusic,
+} from "../../functions/addAndDeleteMusic";
+import { handleNewPlaylist } from "../../functions/handleNewPlaylist";
 import "./music.css";
 
 const Music = ({ src, setSrc, loop, setLoop }) => {
@@ -16,7 +19,7 @@ const Music = ({ src, setSrc, loop, setLoop }) => {
   const { showInput, setShowInput } = useContext(ShowInput);
   const { takeMusic, setTakeMusic } = useContext(TakeMusic);
   const { currentList, setCurrentList } = useContext(CurrentList);
-  const [openDialog, setOpenDialog] = useState({newMusic: false});
+  const [openDialog, setOpenDialog] = useState({ newMusic: false });
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -73,21 +76,23 @@ const Music = ({ src, setSrc, loop, setLoop }) => {
     }, 1000);
   };
 
-  
   useEffect(() => {
     newestList(setDisplayTable, src.playlist);
     showCurrentPlaylist(setCurrentList, src.playlist);
   }, []);
-  
 
   return (
     <div className="music-component-div">
-      {" "}
       {openDialog.newMusic && (
-        <PlaylistChanger setOpenDialog={setOpenDialog} src={src} setSrc={setSrc} />
+        <PlaylistChanger
+          setOpenDialog={setOpenDialog}
+          src={src}
+          setSrc={setSrc}
+        />
       )}
       <form onSubmit={handleSubmit}>
-        <input style={{width: "300px"}}
+        <input
+          style={{ width: "300px" }}
           type="url"
           name="src"
           required
@@ -101,35 +106,56 @@ const Music = ({ src, setSrc, loop, setLoop }) => {
           <p>Do you want to save this song?</p>
           <div className="add-new-song">
             <input
-            placeholder="Song Name"
+              placeholder="Song Name"
               style={{
                 boxShadow:
                   src.name && src.name.length > 60
                     ? "0px 0px 10px 10px red"
                     : "",
-                transition: "0.5s ease-in-out",width: "300px",
+                transition: "0.5s ease-in-out",
+                width: "300px",
               }}
               type="text"
               value={src.name || ""}
               onChange={(e) => setSrc({ ...src, name: e.target.value })}
+              maxLength="60"
             />
             <div>
               <button
                 onClick={() => {
                   if (src.name.trim().length > 60) {
                     return alert(`Name should be shorter or equal to 60!`);
-                 
-                  }  else if(!src.name.trim() || !src.src.trim()){
-                    return alert("Should not be empty!")
-                  }else{
-                    handleSaveMusic(src, setTakeMusic, newestList, setDisplayTable, setShowInput, setSrc), setOpenDialog({newMusic: true});
+                  } else if (!src.name.trim() || !src.src.trim()) {
+                    return alert("Should not be empty!");
+                  } else {
+                    handleSaveMusic(
+                      src,
+                      setTakeMusic,
+                      newestList,
+                      setDisplayTable,
+                      setShowInput,
+                      setSrc
+                    ),
+                      setOpenDialog({ newMusic: true });
                   }
-                  
                 }}
               >
                 Yes
               </button>
-              <button onClick={() => handleDeleteMusic(setSrc, setShowInput, newestList, setDisplayTable, showCurrentPlaylist, setCurrentList)}>No</button>
+              <button
+                onClick={() =>
+                  handleDeleteMusic(
+                    setSrc,
+                    setShowInput,
+                    newestList,
+                    setDisplayTable,
+                    showCurrentPlaylist,
+                    setCurrentList
+                  )
+                }
+              >
+                No
+              </button>
             </div>
           </div>
 
@@ -146,8 +172,20 @@ const Music = ({ src, setSrc, loop, setLoop }) => {
         </div>
       )}
       <Table src={src} setSrc={setSrc} />
-      <form onSubmit={(e) => handleNewPlaylist(e, setShowInput, currentList, newestList, setDisplayTable, showCurrentPlaylist, setCurrentList)}>
-        <input required type="text" placeholder="New Playlist" />
+      <form
+        onSubmit={(e) =>
+          handleNewPlaylist(
+            e,
+            setShowInput,
+            currentList,
+            newestList,
+            setDisplayTable,
+            showCurrentPlaylist,
+            setCurrentList
+          )
+        }
+      >
+        <input required maxLength="25" type="text" placeholder="New Playlist" />
         <button type="submit">Create</button>
       </form>
     </div>
@@ -156,12 +194,11 @@ const Music = ({ src, setSrc, loop, setLoop }) => {
 
 export default Music;
 
-
 // const [disable, setDisable] = useState({
 //   newSong: "",
 //   newPlaylist: "",
 // })
-  
+
 // return (
 //   <div className="music-component-div">
 //     {" "}

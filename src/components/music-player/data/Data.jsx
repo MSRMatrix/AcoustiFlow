@@ -1,24 +1,33 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import DisplayTable from "../MusicContext/DisplayTable";
 import IconButton from "../functions/IconButton";
+import "./data.css";
 
 const ExportImport = () => {
   const { displayTable, setDisplayTable } = useContext(DisplayTable);
-
   const [reload, setReload] = useState(false);
+  const [fileName, setFileName] = useState("No file chosen");
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     setReload(false);
   }, [reload]);
 
   const handleDownload = () => {
+    const dataName = prompt("Type in the data name:");
+    
+  if (!dataName || dataName.trim().length <= 0) {
+    alert("Download canceled. Please provide a valid file name.");
+    return;
+  }
+    
     const data = JSON.stringify(localStorage, null, 2);
     const blob = new Blob([data], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "localStorage.json";
+    a.download = dataName || "localStorage.json";
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -26,6 +35,8 @@ const ExportImport = () => {
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     if (!file) return;
+
+    setFileName(file.name);
 
     const reader = new FileReader();
     reader.onload = (e) => {
@@ -49,48 +60,67 @@ const ExportImport = () => {
   };
 
   const deleteStorage = () => {
-    if (confirm("Möchtest du alle Daten löschen?")) {
+    if (confirm("Are you sure you want to delete all data?")) {
       localStorage.clear();
       setDisplayTable([]);
-      alert("Daten erfolgreich gelöscht!");
+      alert("Data successfully deleted!");
       setReload(true);
-
-      return;
     } else {
-      alert("Daten wurden nicht gelöscht!");
-      return;
+      alert("Data was not deleted.");
     }
   };
 
+  const triggerFileInput = () => {
+    fileInputRef.current.click();
+  };
+
   return (
-    <>
-      <h2>Alle Daten herunterladen</h2>
+    <div className="data">
+      <div>
+
+      
+      <h2>Download data</h2>
       <IconButton
         icon="fa-solid fa-download"
         onClick={handleDownload}
-        text="Download your Data"
+        disabled={localStorage.length <= 0}
+        text="Download"
       />
-      <h2>Daten importieren</h2>
-      <i className="fa-solid fa-upload"></i>
-      <input type="file" accept=".json" onChange={handleFileUpload} />
+</div>
+<div>
+
+
+      <h2>Import data</h2>
+      <IconButton
+        icon="fa-solid fa-upload"
+        onClick={triggerFileInput}
+        text="Upload"
+      />
+      <span>{fileName}</span>
+      <input
+        type="file"
+        ref={fileInputRef}
+        style={{ display: "none" }}
+        accept=".json"
+        onChange={handleFileUpload}
+      />
+</div>
+<div>
+  <h2>Delete data</h2>
+      <IconButton
+        icon="fa-solid fa-trash-can"
+        onClick={deleteStorage}
+        disabled={localStorage.length <= 0}
+        text="Delete"
+      />
+</div>
+      
       <p>
-        <b>Hinweis:</b> Der Import/Export wird in IE, Safari oder Opera Version
-        12 (und früher) nicht unterstützt.
+        <b>Notice:</b> The import/export feature is not supported in IE, Safari,
+        or Opera version 12 (and earlier).
       </p>
-      <h2>Daten löschen</h2>
-
-      {localStorage.length > 0 ? (
-        <IconButton
-          icon="fa-solid fa-trash-can"
-          onClick={deleteStorage}
-          text="Delete"
-        />
-      ) : (
-        <p>Keine Daten zum löschen</p>
-      )}
-
       <NavLink to="/">Zurück</NavLink>
-    </>
+    </div>
   );
 };
 

@@ -101,9 +101,7 @@ i {
 }
 
 .player {
-  width: 200px;
-  height: 200px;
-  border-radius: 100%;
+  border-radius: 10%;
   transition: all 0.5s ease-in-out;
 }
 

@@ -157,7 +157,7 @@ const MusicPlayer = () => {
             icon="fa-solid fa-backward-step"
             onClick={handlePreviousSong}
             text="Previous"
-            disabled={cooldown}
+            disabled={cooldown || Object.entries(src).length <= 2}
           />
           <IconButton
             icon="fa-solid fa-backward"
@@ -202,7 +202,7 @@ const MusicPlayer = () => {
             icon="fa-solid fa-forward-step"
             onClick={handleNextSong}
             text="Next"
-            disabled={cooldown}
+            disabled={cooldown || Object.entries(src).length <= 2}
           />
         </div>
         <p>{src && src.playlist ? oldIndex : ""}</p>
