@@ -13,6 +13,7 @@ import {
 } from "../../functions/addAndDeleteMusic";
 import { handleNewPlaylist } from "../../functions/handleNewPlaylist";
 import "./music.css";
+import IconButton from "../../functions/IconButton";
 
 const Music = ({ src, setSrc, loop, setLoop }) => {
   const { displayTable, setDisplayTable } = useContext(DisplayTable);
@@ -90,16 +91,23 @@ const Music = ({ src, setSrc, loop, setLoop }) => {
           setSrc={setSrc}
         />
       )}
-      <form onSubmit={handleSubmit}>
+      <form className="form-style" onSubmit={handleSubmit}>
+        <fieldset style={{border: "none"}}>
+        <legend>Add new Song</legend>
         <input
           style={{ width: "300px" }}
           type="url"
           name="src"
           required
-          placeholder="Add new song"
+          placeholder="Url from Video"
           min={5}
         />
-        <button type="submit">Play</button>
+           <IconButton 
+           icon="fa-solid fa-plus"
+           type="submit"
+           text="Add Song"/>
+        </fieldset>
+        
       </form>
       {showInput && (
         <div>
@@ -172,8 +180,7 @@ const Music = ({ src, setSrc, loop, setLoop }) => {
         </div>
       )}
       <Table src={src} setSrc={setSrc} />
-      <form
-        onSubmit={(e) =>
+      <form className="form-style" onSubmit={(e) =>
           handleNewPlaylist(
             e,
             setShowInput,
@@ -185,8 +192,16 @@ const Music = ({ src, setSrc, loop, setLoop }) => {
           )
         }
       >
-        <input required maxLength="25" type="text" placeholder="New Playlist" />
-        <button type="submit">Create</button>
+        <fieldset style={{border: "none"}}>
+          <legend>New Playlist</legend>
+          <input required maxLength="25" type="text" placeholder="Playlist-Name" />
+          <IconButton 
+           icon="fa-solid fa-plus"
+           type="submit"
+           text="Add Playlist"/>
+        </fieldset>
+        
+        
       </form>
     </div>
   );

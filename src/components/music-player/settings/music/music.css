@@ -29,6 +29,20 @@
     border-bottom-left-radius: 10px;
 }
 
+.form-style{
+    background-color: #282c34;
+    color: #ffffff;
+    border: 3px solid #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+
+    legend{
+        margin-bottom: 10px;
+    }
+}
+
 @media (max-width:750px){
     .music-component-div{
         width: 100%;

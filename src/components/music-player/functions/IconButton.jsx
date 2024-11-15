@@ -2,7 +2,7 @@ import { useState } from "react";
 import TextForIcon from "./TextForIcon";
 import "./iconButton.css"
 
-const IconButton = ({ icon, onClick, disabled, text }) => {
+const IconButton = ({ icon, onClick, disabled, text, type }) => {
   const [showText, setShowText] = useState("");
 
   return (
@@ -14,6 +14,7 @@ const IconButton = ({ icon, onClick, disabled, text }) => {
         className="button-style"
         onClick={onClick}
         disabled={disabled}
+        type={type || ""}
       >
         <i style={{color: disabled ? "gray" : ""}} className={icon}></i>
       </button>
