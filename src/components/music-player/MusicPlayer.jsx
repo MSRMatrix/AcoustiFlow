@@ -195,8 +195,9 @@ if(!volumeContext){
           ) : (
             ""
           )}
-          <p>{title?.length > 60 ? `${title.slice(0, 60)}...` : title}</p>
-          <p>{src && src.playlist ? oldIndex : ""}</p>
+
+          {!title ? "" : title?.length > 60 ? <p>`${title.slice(0, 60)}...`</p> : <p>{title}</p>}
+          {src && src.playlist ?  <p>{oldIndex}</p> : ""}
         <p>{playbackRate === 1 ? "Standart" : `${playbackRate}x`} Speed</p>
         <p>Volume: {!muted? (volumeContext * 100).toFixed(0) : 0}%</p>
 
