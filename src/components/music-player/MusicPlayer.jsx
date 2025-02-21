@@ -14,7 +14,6 @@ import thirdPic from "/src/assets/third-pic.png";
 import fourthPic from "/src/assets/fourth-pic.png";
 import fifthPic from "/src/assets/fifth-pic.png";
 import sixthPic from "/src/assets/sixth-pic.png";
-import noMusic from "/src/assets/no-music.png";
 import Playing from "./settings/playing/Playing";
 import StopList from "./settings/stopList/StopList";
 import Loop from "./settings/loop/Loop";
@@ -22,6 +21,8 @@ import Muted from "./settings/muted/Muted";
 import Volume from "./settings/volume/Volume";
 import ProgressBar from "./settings/progress/ProgressBar";
 import DisplayTable from "./MusicContext/DisplayTable";
+import Title from "./MusicContext/Title";
+import VolumeContext from "./MusicContext/VolumeContext";
 
 const MusicPlayer = () => {
   const playerRef = useRef(null);
@@ -51,8 +52,15 @@ const MusicPlayer = () => {
   const [currentPic, setCurrentPic] = useState([pictureArray[0]]);
   const [cooldown, setCoolDown] = useState(true);
   const [oldIndex, setOldIndex] = useState(null);
-  const [oldName, setOldName] = useState(null);
-  const {displayTable} = useContext(DisplayTable)
+  const { displayTable } = useContext(DisplayTable);
+  const { title, setTitle } = useContext(Title);
+  const {volumeContext, setVolumeContext} = useContext(VolumeContext)
+
+  function readyFunction(player) {
+    const newSong = player.getInternalPlayer().videoTitle;
+    setTitle(newSong);
+    return;
+  }
 
   useEffect(() => {
     let count = 0;
@@ -116,6 +124,16 @@ const MusicPlayer = () => {
     setCoolDown(true);
   }
 
+  
+
+  useEffect(() => {
+if(!volumeContext){
+   setVolumeContext(0.2)
+  }
+     
+
+  },[])
+
   useEffect(() => {
     const srcLength = src.src && src.src.length;
     let currentName;
@@ -137,45 +155,16 @@ const MusicPlayer = () => {
     if ((isNaN(currentSong) && srcLength <= 0) || srcLength === undefined) {
       return;
     }
-
-    setOldName(`${currentName}`);
     return setOldIndex(`${currentSong}/${srcLength}`);
-  }, [getCurrentUrl(), getCurrentName(), displayTable]);
+  }, [title, getCurrentUrl(), getCurrentName(), displayTable]);
 
   return (
     <>
-      <div className="player-container">
-        <div className="playlist-name">
-        {currentList[0]?.playlist ? (
-          <h3>{currentList[0]?.playlist}</h3>
-        ) : (
-          <h3>AcoustiFlow</h3>
-        )}
-        </div>
+      <div className="main-div">
+        <div className="player-container">
+        
         <div className="test">
-          <IconButton
-            icon="fa-solid fa-backward-step"
-            onClick={handlePreviousSong}
-            text="Previous"
-            disabled={cooldown || Object.entries(src).length <= 2}
-          />
-          <IconButton
-            icon="fa-solid fa-backward"
-            onClick={slowerRate}
-            disabled={playbackRate <= 0.2}
-            text="Slower"
-          />
-
-          <div
-            className="player"
-            style={{
-              backgroundImage: `url(${
-                src && src.src && src.src.length && playing > 0 ? currentPic : noMusic
-              })`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-          >
+          <div className="player">
             <ReactPlayer
               url={getCurrentUrl()}
               controls
@@ -189,8 +178,78 @@ const MusicPlayer = () => {
               onProgress={handleProgress(setTime)}
               ref={playerRef}
               progressInterval={500}
+              onReady={readyFunction}
             />
           </div>
+
+          
+        
+        <div className="title-from-current-music">
+          <div className="black-screen-part">
+          <h3>AcoustiFlow</h3>
+        </div>
+
+         <div className="screen-information">
+          {currentList[0]?.playlist ? (
+            <h2>{currentList[0]?.playlist}</h2>
+          ) : (
+            ""
+          )}
+          <p>{title?.length > 60 ? `${title.slice(0, 60)}...` : title}</p>
+          <p>{src && src.playlist ? oldIndex : ""}</p>
+        <p>{playbackRate === 1 ? "Standart" : `${playbackRate}x`} Speed</p>
+        <p>Volume: {!muted? (volumeContext * 100).toFixed(0) : 0}%</p>
+
+        <ProgressBar
+          src={src}
+          time={time}
+          setTime={setTime}
+          duration={duration}
+          playerRef={playerRef}
+        />
+          </div> 
+          
+        
+        <Volume
+          muted={muted}
+          setMuted={setMuted}
+          volume={volume}
+          setVolume={setVolume}
+        /> 
+        <div className="black-screen-part"></div>
+        
+        </div>
+
+        </div>
+
+        <div className="muted-volume">
+        <Muted muted={muted} setMuted={setMuted} volume={volume} />
+        </div>
+
+        <div className="stop-loop">
+        <StopList src={src} setSrc={setSrc} />
+        <Loop loop={loop} setLoop={setLoop} src={src} />
+        </div>
+
+        <div className="settings-box">
+          <IconButton
+            icon="fa-solid fa-backward-step"
+            onClick={handlePreviousSong}
+            text="Previous"
+            disabled={cooldown || Object.entries(src).length <= 2}
+          />
+           <IconButton
+            icon="fa-solid fa-backward"
+            onClick={slowerRate}
+            disabled={playbackRate <= 0.2}
+            text="Slower"
+          />
+          <Playing
+            playing={playing}
+            setIsPlaying={setIsPlaying}
+            src={src}
+            setSrc={setSrc}
+          />
 
           <IconButton
             icon="fa-solid fa-forward"
@@ -205,56 +264,31 @@ const MusicPlayer = () => {
             disabled={cooldown || Object.entries(src).length <= 2}
           />
         </div>
-        <p>{src && src.playlist ? oldIndex : ""}</p>
-        <p>{playbackRate === 1 ? "Standart" : `${playbackRate}x`} Speed</p>
-        <p className="title-from-current-music">
-          {src && src.playlist ? `${oldName
-            ? oldName.length > 60
-              ? `${oldName.slice(0, 60)}...`
-              : oldName
-            : ""}` : getCurrentName() }
-        
-            
-        </p>
-        <ProgressBar
-          src={src}
-          time={time}
-          setTime={setTime}
-          duration={duration}
-          playerRef={playerRef}
-        />
-        <div className="settings-box">
-          <Playing
-            playing={playing}
-            setIsPlaying={setIsPlaying}
-            src={src}
-            setSrc={setSrc}
-          />
-          <StopList src={src} setSrc={setSrc} />
-          <Loop loop={loop} setLoop={setLoop} src={src} />
+      
         </div>
-        <div className="settings-box">
-          <Muted muted={muted} setMuted={setMuted} volume={volume} />
-          <Volume
-            muted={muted}
-            setMuted={setMuted}
-            volume={volume}
-            setVolume={setVolume}
-          />
-        </div>
-      </div>
-      <Settings
-        src={src}
-        setSrc={setSrc}
-      />
-      <div className="nav-link">
-      <NavLink to="/import-export"><button>Import or export your data</button></NavLink>
-      <NavLink to="/tutorial"><button>How does this website works</button></NavLink>  
+         
+
       </div>
       
+      <Settings src={src} setSrc={setSrc} />
+      <div className="nav-link">
+        <NavLink to="/import-export">
+          <button>Import or export your data</button>
+        </NavLink>
+        <NavLink to="/tutorial">
+          <button>How does this website works</button>
+        </NavLink>
+      </div>
+
       <Outlet />
     </>
   );
 };
 
 export default MusicPlayer;
+
+// {src && src.playlist ? `${oldName
+//   ? oldName.length > 60
+//     ? `${oldName.slice(0, 60)}...`
+//     : oldName
+//   : ""}` : getCurrentName() }

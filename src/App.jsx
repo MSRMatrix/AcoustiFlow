@@ -10,6 +10,8 @@ import CurrentSongIndex from "./components/music-player/MusicContext/CurrentSong
 import CurrentList from "./components/music-player/MusicContext/CurrentList";
 import TakeMusic from "./components/music-player/MusicContext/TakeMusic";
 import Tutorial from "./components/tutorial/Tutorial";
+import Title from "./components/music-player/MusicContext/Title";
+import VolumeContext from "./components/music-player/MusicContext/VolumeContext";
 
 const router = createBrowserRouter([
   {
@@ -38,27 +40,27 @@ function App() {
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const [currentList, setCurrentList] = useState(0);
   const [takeMusic, setTakeMusic] = useState([]);
+  const [title, setTitle] = useState(null);
+  const [volumeContext, setVolumeContext] = useState(null);
   return (
     <>
-      <TakeMusic.Provider value={{ takeMusic, setTakeMusic }}>
-        <CurrentList.Provider value={{ currentList, setCurrentList }}>
-          <CurrentSongIndex.Provider
-            value={{ currentSongIndex, setCurrentSongIndex }}
-          >
-            <ShowInput.Provider value={{ showInput, setShowInput }}>
-              <PlaylistContext.Provider
-                value={{ playlistContext, setPlaylistContext }}
-              >
-                <DisplayTable.Provider
-                  value={{ displayTable, setDisplayTable }}
-                >
-                  <RouterProvider router={router} />
-                </DisplayTable.Provider>
-              </PlaylistContext.Provider>
-            </ShowInput.Provider>
-          </CurrentSongIndex.Provider>
-        </CurrentList.Provider>
-      </TakeMusic.Provider>
+      <VolumeContext.Provider value={{ volumeContext, setVolumeContext }}>
+        <Title.Provider value={{ title, setTitle }}>
+          <TakeMusic.Provider value={{ takeMusic, setTakeMusic }}>
+            <CurrentList.Provider value={{ currentList, setCurrentList }}>
+              <CurrentSongIndex.Provider value={{ currentSongIndex, setCurrentSongIndex }}>
+                <ShowInput.Provider value={{ showInput, setShowInput }}>
+                  <PlaylistContext.Provider value={{ playlistContext, setPlaylistContext }}>
+                    <DisplayTable.Provider value={{ displayTable, setDisplayTable }}>
+                      <RouterProvider router={router} />
+                    </DisplayTable.Provider>
+                  </PlaylistContext.Provider>
+                </ShowInput.Provider>
+              </CurrentSongIndex.Provider>
+            </CurrentList.Provider>
+          </TakeMusic.Provider>
+        </Title.Provider>
+      </VolumeContext.Provider>
     </>
   );
 }

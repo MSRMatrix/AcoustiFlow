@@ -13,10 +13,10 @@ const Playing = ({ playing, setIsPlaying, src, setSrc }) => {
   };
 
   return (
-    <div className="text-container">
+    <div className="text-container" onClick={playFunction}>
       <IconButton
         icon={playing && src.src && src.src.length > 0 ? "fa-solid fa-pause" : "fa-solid fa-play"}
-        onClick={playFunction}
+        
         disabled={!src.src || src.src.length === 0 || cooldown}
         text={!playing ? "Play" : "Pause"}
       />

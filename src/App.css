@@ -26,11 +26,16 @@ h3 {
   border-radius: 5px;
   position: absolute;
   display: none;
-  top: -40px;
+  top: -50px;
   left: 50%;
   transform: translateX(-50%);
   white-space: nowrap;
   z-index: 10;
+}
+
+.muted-volume {
+  position: relative;
+  top: 235px;
 }
 
 .show-text {
@@ -38,7 +43,21 @@ h3 {
 }
 
 .text-container {
-  position: relative;
+  height: 100px;
+  width: 100px;
+  background-color: #282c34;
+  box-shadow:  
+  0 6px 8px rgba(0, 0, 0, 0.4),  
+  inset 0 0px 6px 6px rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+
+  &:active{
+    box-shadow:  
+    inset 0px 0px 20px rgba(0, 0, 0, 0.6) ; 
+  }
 }
 
 button {
@@ -49,7 +68,7 @@ button {
   outline: none;
   background-color: #282c34;
   color: #ffffff;
-  transition: background-color 0.3s, transform 0.2s; 
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 input {

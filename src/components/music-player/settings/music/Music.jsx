@@ -14,13 +14,15 @@ import {
 import { handleNewPlaylist } from "../../functions/handleNewPlaylist";
 import "./music.css";
 import IconButton from "../../functions/IconButton";
+import Title from "../../MusicContext/Title";
 
 const Music = ({ src, setSrc, loop, setLoop }) => {
   const { displayTable, setDisplayTable } = useContext(DisplayTable);
   const { showInput, setShowInput } = useContext(ShowInput);
   const { takeMusic, setTakeMusic } = useContext(TakeMusic);
   const { currentList, setCurrentList } = useContext(CurrentList);
-  const [openDialog, setOpenDialog] = useState({ newMusic: false });
+  const [openDialog, setOpenDialog] = useState({ newMusic: false });  
+  const {title, setTitle} = useContext(Title)
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -142,7 +144,8 @@ const Music = ({ src, setSrc, loop, setLoop }) => {
                       newestList,
                       setDisplayTable,
                       setShowInput,
-                      setSrc
+                      setSrc,
+                      setTitle
                     ),
                       setOpenDialog({ newMusic: true });
                   }
@@ -158,7 +161,8 @@ const Music = ({ src, setSrc, loop, setLoop }) => {
                     newestList,
                     setDisplayTable,
                     showCurrentPlaylist,
-                    setCurrentList
+                    setCurrentList,
+                    setTitle
                   )
                 }
               >

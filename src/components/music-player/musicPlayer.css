@@ -3,23 +3,28 @@
   align-items: center;
   flex-direction: column;
   background-color: #282c34;
-  border-radius: 10px;
+  border-radius: 30px;
   color: #ffffff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  max-width: fit-content;
+  width: 350px;
   margin: 20px auto;
-  padding-top: 10px;
+  padding-top: 10px; 
+  box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset,
+  rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset,
+  rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px,
+  rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px,
+  rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
 }
 
-.playlist-name {
-  padding: 10px 30px;
-  border-radius: 10px;
-  background-color: #3a4a5a;
-  box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset,
-    rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset,
-    rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px,
-    rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px,
-    rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+.black-screen-part {
+  background-color: black;
+  width: 100%;
+  text-align: center;
+  padding: 15px;
+}
+
+.screen-information{
+  padding: 10px 40px 10px 40px;
+  text-align: center;
 }
 
 button {
@@ -42,8 +47,9 @@ form {
 }
 
 .test {
-  padding-top: 10px;
+  margin-top: 10px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   background-color: #282c34;
   border-radius: 10px;
@@ -110,7 +116,7 @@ i {
 }
 
 .title-from-current-music {
-  word-wrap: break-word;
+  /* word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: normal;
   display: flex;
@@ -119,8 +125,16 @@ i {
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 20px;
-  padding-right: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding-right: 20px; */
+  
+  box-shadow: inset 0 2px 70px rgba(5, 5, 5, 1) ;
+  border-left: black 20px solid;
+  border-right: black 20px solid;
+  border-radius: 6%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .nav-link {
@@ -162,8 +176,7 @@ dialog > form > input {
 }
 
 .player {
-  width: 100px;
-  height: 100px;
+ display: none;
   transition: all 0.5s ease-in-out;
 }
 .button-style {
@@ -176,13 +189,10 @@ dialog > form > input {
   font-size: 10px;
 }
 
-@media (max-width: 360px) {
-  .fa-solid {
-    font-size: 10px !important;
-  }
-  .test {
-    width: fit-content;
-    gap: 0px;
-    font-size: 10px;
-  }
+.stop-loop{
+  display: flex;
+  gap: 60px;
+  position: relative;
+  top: 80px;
+  margin-top: -90px;
 }

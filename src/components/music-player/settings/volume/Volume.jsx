@@ -1,9 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import "./volume.css";
+import VolumeContext from "../../MusicContext/VolumeContext";
 
 const Volume = ({ volume: initialVolume, setVolume, muted, setMuted }) => {
   const [localVolume, setLocalVolume] = useState(initialVolume);
   const [savedVolume, setSavedVolume] = useState(0);
+  const {volumeContext, setVolumeContext} = useContext(VolumeContext)
 
   useEffect(() => {
     if (muted) {
@@ -26,6 +28,7 @@ const Volume = ({ volume: initialVolume, setVolume, muted, setMuted }) => {
     }
     if(localVolume === 0 && muted && savedVolume <= 0.01){
       setVolume(0.01)
+      setVolumeContext(0.01)
     }
   },[localVolume, savedVolume])
 
@@ -33,12 +36,14 @@ const Volume = ({ volume: initialVolume, setVolume, muted, setMuted }) => {
     if(muted){
     setLocalVolume(savedVolume)
     setVolume(localVolume)
+    setVolumeContext(localVolume)
     setMuted(false)
     return setSavedVolume(0)
     }
     const newVolume = parseFloat(e.target.value);
     setLocalVolume(newVolume);
     setVolume(newVolume);
+    setVolumeContext(newVolume)
   };
 
   return (
@@ -52,7 +57,6 @@ const Volume = ({ volume: initialVolume, setVolume, muted, setMuted }) => {
         onChange={handleVolumeChange}
         className="volume-slider"
       />
-      <p>Volume: {!muted? (localVolume * 100).toFixed(0) : 0}%</p>
     </div>
   );
 };
