@@ -17,8 +17,8 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <MusicPlayer />,
-  },
-  {
+    children: [
+      {
     path: "/import-export",
     element: <Data />,
   },
@@ -26,7 +26,9 @@ const router = createBrowserRouter([
     path: "/tutorial",
     element: <Tutorial />,
   },
-
+    ]
+  },
+  
   {
     path: "*",
     element: <MusicPlayer />,

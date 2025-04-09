@@ -23,6 +23,7 @@ import ProgressBar from "./settings/progress/ProgressBar";
 import DisplayTable from "./MusicContext/DisplayTable";
 import Title from "./MusicContext/Title";
 import VolumeContext from "./MusicContext/VolumeContext";
+import MusicPlayerWindow from "./MusicPlayerWindow";
 
 const MusicPlayer = () => {
   const playerRef = useRef(null);
@@ -201,6 +202,8 @@ if(!volumeContext){
         <p>{playbackRate === 1 ? "Standart" : `${playbackRate}x`} Speed</p>
         <p>Volume: {!muted? (volumeContext * 100).toFixed(0) : 0}%</p>
 
+        <MusicPlayerWindow />
+
         <ProgressBar
           src={src}
           time={time}
@@ -280,8 +283,6 @@ if(!volumeContext){
           <button>How does this website works</button>
         </NavLink>
       </div>
-
-      <Outlet />
     </>
   );
 };
