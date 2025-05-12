@@ -16,12 +16,12 @@ const ExportImport = () => {
 
   const handleDownload = () => {
     const dataName = prompt("Type in the data name:");
-    
-  if (!dataName || dataName.trim().length <= 0) {
-    alert("Download canceled. Please provide a valid file name.");
-    return;
-  }
-    
+
+    if (!dataName || dataName.trim().length <= 0) {
+      alert("Download canceled. Please provide a valid file name.");
+      return;
+    }
+
     const data = JSON.stringify(localStorage, null, 2);
     const blob = new Blob([data], { type: "application/json" });
     const url = URL.createObjectURL(blob);
@@ -76,52 +76,91 @@ const ExportImport = () => {
 
   return (
     <div className="data">
-      <div>
-
-      
-      <h2>Download data</h2>
-      <IconButton
-        icon="fa-solid fa-download"
+      <h1>Data settings</h1>
+      <div
+        className="data-div"
         onClick={handleDownload}
         disabled={localStorage.length <= 0}
-        text="Download"
-      />
-</div>
-<div>
+      >
+        <h2>Download data</h2>
+      </div>
 
+      <div className="data-div" onClick={triggerFileInput}>
+        <h2>Import data</h2>
+        <span>{fileName.length > 20 ? fileName.slice(0, 19) : fileName}</span>
 
-      <h2>Import data</h2>
-      <IconButton
-        icon="fa-solid fa-upload"
-        onClick={triggerFileInput}
-        text="Upload"
-      />
-      <span>{fileName}</span>
-      <input
-        type="file"
-        ref={fileInputRef}
-        style={{ display: "none" }}
-        accept=".json"
-        onChange={handleFileUpload}
-      />
-</div>
-<div>
-  <h2>Delete data</h2>
-      <IconButton
-        icon="fa-solid fa-trash-can"
+        <input
+          type="file"
+          ref={fileInputRef}
+          style={{ display: "none" }}
+          accept=".json"
+          onChange={handleFileUpload}
+        />
+      </div>
+
+      <div
+        className="data-div"
         onClick={deleteStorage}
         disabled={localStorage.length <= 0}
-        text="Delete"
-      />
-</div>
-      
+      >
+        <h2>Delete data</h2>
+      </div>
+      <NavLink className="back-link" to="/">
+        Zurück
+      </NavLink>
       <p>
         <b>Notice:</b> The import/export feature is not supported in IE, Safari,
         or Opera version 12 (and earlier).
       </p>
-      <NavLink to="/">Zurück</NavLink>
     </div>
   );
 };
 
 export default ExportImport;
+
+// return (
+//   <div className="data">
+//     <div>
+
+//     <h2>Download data</h2>
+//     <IconButton
+//       icon="fa-solid fa-download"
+//       onClick={handleDownload}
+//       disabled={localStorage.length <= 0}
+//       text="Download"
+//     />
+// </div>
+// <div>
+
+//     <h2>Import data</h2>
+//     <IconButton
+//       icon="fa-solid fa-upload"
+//       onClick={triggerFileInput}
+//       text="Upload"
+//     />
+//     <span>{fileName}</span>
+//     <input
+//       type="file"
+//       ref={fileInputRef}
+//       style={{ display: "none" }}
+//       accept=".json"
+//       onChange={handleFileUpload}
+//     />
+// </div>
+// <div>
+// <h2>Delete data</h2>
+//     <IconButton
+//       icon="fa-solid fa-trash-can"
+//       onClick={deleteStorage}
+//       disabled={localStorage.length <= 0}
+//       text="Delete"
+//     />
+// </div>
+
+//     <p>
+//       <b>Notice:</b> The import/export feature is not supported in IE, Safari,
+//       or Opera version 12 (and earlier).
+//     </p>
+//     <NavLink to="/">Zurück</NavLink>
+//   </div>
+// );

@@ -26,10 +26,13 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 10px 40px 10px 40px;
+  padding: 10px 0px;
   min-height: 200px;
   height: 280px;
-  overflow-y: auto;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  width: 100%;
 }
 
 button {
@@ -201,4 +204,26 @@ dialog > form > input {
   position: relative;
   top: 80px;
   margin-top: -90px;
+}
+
+.home-window{
+  a{
+    color: #FAFAFA;
+    padding: 10px 15px;
+    border-bottom: 1px white solid;
+    border-left: none;
+    border-right: none;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: bolder;
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    &:hover{
+     box-shadow: inset 0 0 10px 4px rgba(255, 255, 0, 0.6);
+    transform: translateY(-2px);
+    cursor: pointer; 
+    }
+  }
 }
