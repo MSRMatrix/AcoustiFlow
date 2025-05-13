@@ -12,6 +12,8 @@ import TakeMusic from "./components/music-player/MusicContext/TakeMusic";
 import Tutorial from "./components/tutorial/Tutorial";
 import Title from "./components/music-player/MusicContext/Title";
 import VolumeContext from "./components/music-player/MusicContext/VolumeContext";
+import MusicPlayerWindow from "./components/music-player/musicPlayerWindow/MusicPlayerWindow";
+import Lists from "./components/music-player/musicPlayerWindow/lists/Lists";
 
 const router = createBrowserRouter([
   {
@@ -19,16 +21,24 @@ const router = createBrowserRouter([
     element: <MusicPlayer />,
     children: [
       {
-    path: "/import-export",
-    element: <Data />,
+        path: "/",
+        element: <MusicPlayerWindow />,
+      },
+      {
+        path: "/lists",
+        element: <Lists />,
+      },
+      {
+        path: "/import-export",
+        element: <Data />,
+      },
+      {
+        path: "/tutorial",
+        element: <Tutorial />,
+      },
+    ],
   },
-  {
-    path: "/tutorial",
-    element: <Tutorial />,
-  },
-    ]
-  },
-  
+
   {
     path: "*",
     element: <MusicPlayer />,
@@ -50,10 +60,16 @@ function App() {
         <Title.Provider value={{ title, setTitle }}>
           <TakeMusic.Provider value={{ takeMusic, setTakeMusic }}>
             <CurrentList.Provider value={{ currentList, setCurrentList }}>
-              <CurrentSongIndex.Provider value={{ currentSongIndex, setCurrentSongIndex }}>
+              <CurrentSongIndex.Provider
+                value={{ currentSongIndex, setCurrentSongIndex }}
+              >
                 <ShowInput.Provider value={{ showInput, setShowInput }}>
-                  <PlaylistContext.Provider value={{ playlistContext, setPlaylistContext }}>
-                    <DisplayTable.Provider value={{ displayTable, setDisplayTable }}>
+                  <PlaylistContext.Provider
+                    value={{ playlistContext, setPlaylistContext }}
+                  >
+                    <DisplayTable.Provider
+                      value={{ displayTable, setDisplayTable }}
+                    >
                       <RouterProvider router={router} />
                     </DisplayTable.Provider>
                   </PlaylistContext.Provider>

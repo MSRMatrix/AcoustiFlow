@@ -23,7 +23,7 @@ import ProgressBar from "./settings/progress/ProgressBar";
 import DisplayTable from "./MusicContext/DisplayTable";
 import Title from "./MusicContext/Title";
 import VolumeContext from "./MusicContext/VolumeContext";
-import MusicPlayerWindow from "./MusicPlayerWindow";
+import MusicPlayerWindow from "./musicPlayerWindow/MusicPlayerWindow";
 
 const MusicPlayer = () => {
   const playerRef = useRef(null);
@@ -191,18 +191,18 @@ if(!volumeContext){
         </div>
 
          <div className="screen-information">
-          {currentList[0]?.playlist ? (
+          {/* {currentList[0]?.playlist ? (
             <h2>{currentList[0]?.playlist}</h2>
           ) : (
             ""
-          )}
+          )} */}
 
-          {!title ? "" : title?.length > 60 ? <p>`${title.slice(0, 60)}...`</p> : <p>{title}</p>}
+          {/* {!title ? "" : title?.length > 60 ? <p>`${title.slice(0, 60)}...`</p> : <p>{title}</p>}
           {src && src.playlist ?  <p>{oldIndex}</p> : ""}
         <p>{playbackRate === 1 ? "Standart" : `${playbackRate}x`} Speed</p>
         <p>Volume: {!muted? (volumeContext * 100).toFixed(0) : 0}%</p>
 
-        <MusicPlayerWindow />
+         
 
         <ProgressBar
           src={src}
@@ -210,7 +210,9 @@ if(!volumeContext){
           setTime={setTime}
           duration={duration}
           playerRef={playerRef}
-        />
+        /> 
+         */}
+        <Outlet />
           </div> 
           
         

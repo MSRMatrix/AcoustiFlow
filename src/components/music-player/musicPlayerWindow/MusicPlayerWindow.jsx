@@ -4,7 +4,7 @@ const MusicPlayerWindow = () => {
   return (
     <div className="home-window">
       <h1>Menu</h1>
-      <NavLink to="/list">Lists</NavLink>
+      <NavLink to="/lists">Lists</NavLink>
       <NavLink to="/new-list">Add new List</NavLink>
       <NavLink to="/add-music">Add new Music</NavLink>
       <NavLink to="/tutorial">Tutorial</NavLink>

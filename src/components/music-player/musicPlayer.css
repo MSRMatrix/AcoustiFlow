@@ -25,8 +25,8 @@
 .screen-information{
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: 10px 0px;
+  justify-content: start;
+  padding-top: 5px;
   min-height: 200px;
   height: 280px;
   overflow-x: hidden;
