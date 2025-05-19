@@ -25,7 +25,7 @@ import NotUsedTables from "./notUsedTables/NotUsedTables";
 import UsedTable from "./usedTable/UsedTable";
 // Drag and Drop Import
 
-const Table = ({ src, setSrc }) => {
+const Table = ({ src, setSrc , fakeRouter, setFakeRouter}) => {
   const [openDialog, setOpenDialog] = useState(
     { newPlaylist: false },
     { changeMusic: false },
@@ -245,9 +245,9 @@ const Table = ({ src, setSrc }) => {
   }, []);
 
   return (
-    <>
+    <><div className="list-in-use" style={{display: fakeRouter === "not ready" ? "block" : "none"}}>
       {currentList && currentList.length > 0 ? (
-        <div className="list-in-use">
+        <div>
           <UsedTable
             setOpenDialog={setOpenDialog}
             setTakeMusic={setTakeMusic}
@@ -258,11 +258,11 @@ const Table = ({ src, setSrc }) => {
             currentSongIndex={currentSongIndex}
             playMusic={playMusic}
             handleDelete={handleDelete}
-          />
+          /> <div className="back-link" onClick={() => setFakeRouter("")}>Back</div> 
         </div>
       ) : (
         <></>
-      )}
+      )}</div>
 
       {openDialog.newMusic && (
         <PlaylistChanger
@@ -294,7 +294,8 @@ const Table = ({ src, setSrc }) => {
         collisionDetection={closestCorners}
         onDragEnd={handleDragEnd}
       >
-        <NotUsedTables
+        <div style={{display: fakeRouter === "Lists" ? "block" : "none"}}>
+<NotUsedTables
           setDrag={setDrag}
           setOpenDialog={setOpenDialog}
           setTakeMusic={setTakeMusic}
@@ -305,7 +306,9 @@ const Table = ({ src, setSrc }) => {
           handleDelete={handleDelete}
           setListForDrop={setListForDrop}
           drag={drag}
-        />
+        /> <div className="back-link" onClick={() => setFakeRouter("")}>Back</div> 
+        </div>
+        
       </DndContext>
     </>
   );

@@ -4,12 +4,12 @@ import Music from "./music/Music";
 
 const Settings = ({
   src,
-  setSrc,
+  setSrc,fakeRouter, setFakeRouter
 }) => {
   
   return (
     <>
-      <Music src={src} setSrc={setSrc} />
+      <Music src={src} setSrc={setSrc} fakeRouter={fakeRouter} setFakeRouter={setFakeRouter}/>
     </>
   );
 };

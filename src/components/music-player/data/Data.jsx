@@ -4,7 +4,7 @@ import DisplayTable from "../MusicContext/DisplayTable";
 import IconButton from "../functions/IconButton";
 import "./data.css";
 
-const ExportImport = () => {
+const ExportImport = ({fakeRouter, setFakeRouter}) => {
   const { displayTable, setDisplayTable } = useContext(DisplayTable);
   const [reload, setReload] = useState(false);
   const [fileName, setFileName] = useState("No file chosen");
@@ -73,9 +73,8 @@ const ExportImport = () => {
   const triggerFileInput = () => {
     fileInputRef.current.click();
   };
-
   return (
-    <div className="data">
+    <div className="data" style={{display: fakeRouter === "Import/export data" ? "block" : "none"}}>
       <h1>Data settings</h1>
       <div
         className="data-div"
@@ -105,9 +104,9 @@ const ExportImport = () => {
       >
         <h2>Delete data</h2>
       </div>
-      <NavLink className="back-link" to="/">
+      <div className="back-link" onClick={() => setFakeRouter("")}>
         Zurück
-      </NavLink>
+      </div>
       <p>
         <b>Notice:</b> The import/export feature is not supported in IE, Safari,
         or Opera version 12 (and earlier).

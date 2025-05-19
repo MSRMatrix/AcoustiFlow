@@ -1,16 +1,29 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { useState } from "react";
+import Settings from "../settings/Settings";
+import ExportImport from "../data/Data";
+import Tutorial from "../../tutorial/Tutorial";
 
-const MusicPlayerWindow = () => {
+const MusicPlayerWindow = ({src,setSrc}) => {
+
+  const [fakeRouter, setFakeRouter] = useState("")
+
   return (
-    <div className="home-window">
+    <div >
+    <div className="home-window" style={{display: !fakeRouter ? "block" : "none"}}>
+      
       <h1>Menu</h1>
-      <NavLink to="/lists">Lists</NavLink>
-      <NavLink to="/new-list">Add new List</NavLink>
-      <NavLink to="/add-music">Add new Music</NavLink>
-      <NavLink to="/tutorial">Tutorial</NavLink>
-      <NavLink to="/import-export">Import/export data</NavLink>
-      <NavLink to="/settings">Settings</NavLink>
-      <Outlet />
+      <ul>
+      <li onClick={(e) => setFakeRouter(e.target.innerText)}>Lists</li>
+      <li onClick={(e) => setFakeRouter(e.target.innerText)}>Add new List</li>
+      <li onClick={(e) => setFakeRouter(e.target.innerText)}>Add new Music</li>
+      <li onClick={(e) => setFakeRouter(e.target.innerText)}>Tutorial</li>
+      <li onClick={(e) => setFakeRouter(e.target.innerText)}>Import/export data</li>
+      <li onClick={(e) => setFakeRouter(e.target.innerText)}>Settings</li>  
+      </ul>
+      </div>
+       <Settings src={src} setSrc={setSrc} fakeRouter={fakeRouter} setFakeRouter={setFakeRouter}/>
+       <ExportImport fakeRouter={fakeRouter} setFakeRouter={setFakeRouter}/>
+       <Tutorial fakeRouter={fakeRouter} setFakeRouter={setFakeRouter}/>
     </div>
   );
 };

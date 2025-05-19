@@ -207,7 +207,7 @@ dialog > form > input {
 }
 
 .home-window{
-  a{
+  li{
     color: #FAFAFA;
     padding: 10px 15px;
     border-bottom: 1px white solid;

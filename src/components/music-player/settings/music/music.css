@@ -37,7 +37,6 @@
     padding: 20px;
     max-width: 500px;
     margin: 0 auto;
-
     legend{
         margin-bottom: 10px;
     }
@@ -48,4 +47,9 @@
         width: 100%;
         margin: 0 auto;
     }
+}
+
+
+.show-class{
+    display: block;
 }

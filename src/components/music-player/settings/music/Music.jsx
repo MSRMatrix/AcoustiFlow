@@ -16,7 +16,7 @@ import "./music.css";
 import IconButton from "../../functions/IconButton";
 import Title from "../../MusicContext/Title";
 
-const Music = ({ src, setSrc, loop, setLoop }) => {
+const Music = ({ src, setSrc, loop, setLoop, fakeRouter, setFakeRouter}) => {
   const { displayTable, setDisplayTable } = useContext(DisplayTable);
   const { showInput, setShowInput } = useContext(ShowInput);
   const { takeMusic, setTakeMusic } = useContext(TakeMusic);
@@ -93,7 +93,10 @@ const Music = ({ src, setSrc, loop, setLoop }) => {
           setSrc={setSrc}
         />
       )}
-      <form className="form-style" onSubmit={handleSubmit}>
+      <div style={{display: fakeRouter === "Add new Music" ? "block" : "none"}}>
+
+      
+      <form className="form-style" onSubmit={handleSubmit} >
         <fieldset style={{border: "none"}}>
         <legend>Add new Song</legend>
         <input
@@ -183,7 +186,12 @@ const Music = ({ src, setSrc, loop, setLoop }) => {
           </div>
         </div>
       )}
-      <Table src={src} setSrc={setSrc} />
+      <div className="back-link" onClick={() => setFakeRouter("")}>Back</div> 
+      </div>
+      <Table src={src} setSrc={setSrc} fakeRouter={fakeRouter} setFakeRouter={setFakeRouter} />
+      <div style={{display: fakeRouter === "Add new List" ? "block" : "none"}}>
+
+      
       <form className="form-style" onSubmit={(e) =>
           handleNewPlaylist(
             e,
@@ -207,6 +215,9 @@ const Music = ({ src, setSrc, loop, setLoop }) => {
         
         
       </form>
+      <div className="back-link" onClick={() => setFakeRouter("")}>Back</div> 
+      </div>
+
     </div>
   );
 };

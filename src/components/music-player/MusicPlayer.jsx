@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player";
 import "./musicPlayer.css";
 import Settings from "./settings/Settings";
-import { NavLink, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import CurrentSongIndex from "./MusicContext/CurrentSongIndex";
 import CurrentList from "./MusicContext/CurrentList";
 import { handleDuration, handleProgress } from "./functions/Time";
@@ -19,7 +19,6 @@ import StopList from "./settings/stopList/StopList";
 import Loop from "./settings/loop/Loop";
 import Muted from "./settings/muted/Muted";
 import Volume from "./settings/volume/Volume";
-import ProgressBar from "./settings/progress/ProgressBar";
 import DisplayTable from "./MusicContext/DisplayTable";
 import Title from "./MusicContext/Title";
 import VolumeContext from "./MusicContext/VolumeContext";
@@ -55,7 +54,7 @@ const MusicPlayer = () => {
   const [oldIndex, setOldIndex] = useState(null);
   const { displayTable } = useContext(DisplayTable);
   const { title, setTitle } = useContext(Title);
-  const {volumeContext, setVolumeContext} = useContext(VolumeContext)
+  const { volumeContext, setVolumeContext } = useContext(VolumeContext);
 
   function readyFunction(player) {
     const newSong = player.getInternalPlayer().videoTitle;
@@ -125,16 +124,12 @@ const MusicPlayer = () => {
     setCoolDown(true);
   }
 
-  
-
   useEffect(() => {
-if(!volumeContext){
-   setVolumeContext(0.2)
-  }
-     
-
-  },[])
-
+    if (!volumeContext) {
+      setVolumeContext(0.2);
+    }
+  }, []);
+  
   useEffect(() => {
     const srcLength = src.src && src.src.length;
     let currentName;
@@ -163,41 +158,38 @@ if(!volumeContext){
     <>
       <div className="main-div">
         <div className="player-container">
-        
-        <div className="test">
-          <div className="player">
-            <ReactPlayer
-              url={getCurrentUrl()}
-              controls
-              playing={playing}
-              volume={volume}
-              loop={loop}
-              muted={muted}
-              playbackRate={playbackRate}
-              onEnded={handleNextSong}
-              onDuration={handleDuration(setDuration)}
-              onProgress={handleProgress(setTime)}
-              ref={playerRef}
-              progressInterval={500}
-              onReady={readyFunction}
-            />
-          </div>
+          <div className="test">
+            <div className="player">
+              <ReactPlayer
+                url={getCurrentUrl()}
+                controls
+                playing={playing}
+                volume={volume}
+                loop={loop}
+                muted={muted}
+                playbackRate={playbackRate}
+                onEnded={handleNextSong}
+                onDuration={handleDuration(setDuration)}
+                onProgress={handleProgress(setTime)}
+                ref={playerRef}
+                progressInterval={500}
+                onReady={readyFunction}
+              />
+            </div>
 
-          
-        
-        <div className="title-from-current-music">
-          <div className="black-screen-part">
-          <h3>AcoustiFlow</h3>
-        </div>
+            <div className="title-from-current-music">
+              <div className="black-screen-part">
+                <h3>AcoustiFlow</h3>
+              </div>
 
-         <div className="screen-information">
-          {/* {currentList[0]?.playlist ? (
+              <div className="screen-information">
+                {/* {currentList[0]?.playlist ? (
             <h2>{currentList[0]?.playlist}</h2>
           ) : (
             ""
           )} */}
 
-          {/* {!title ? "" : title?.length > 60 ? <p>`${title.slice(0, 60)}...`</p> : <p>{title}</p>}
+                {/* {!title ? "" : title?.length > 60 ? <p>`${title.slice(0, 60)}...`</p> : <p>{title}</p>}
           {src && src.playlist ?  <p>{oldIndex}</p> : ""}
         <p>{playbackRate === 1 ? "Standart" : `${playbackRate}x`} Speed</p>
         <p>Volume: {!muted? (volumeContext * 100).toFixed(0) : 0}%</p>
@@ -212,79 +204,66 @@ if(!volumeContext){
           playerRef={playerRef}
         /> 
          */}
-        <Outlet />
-          </div> 
-          
-        
-        <Volume
-          muted={muted}
-          setMuted={setMuted}
-          volume={volume}
-          setVolume={setVolume}
-        /> 
-        <div className="black-screen-part"></div>
-        
-        </div>
+                <MusicPlayerWindow src={src} setSrc={setSrc}/>
+               
+              </div>
 
-        </div>
+              <Volume
+                muted={muted}
+                setMuted={setMuted}
+                volume={volume}
+                setVolume={setVolume}
+              />
+              <div className="black-screen-part"></div>
+            </div>
+          </div>
 
-        <div className="muted-volume">
-        <Muted muted={muted} setMuted={setMuted} volume={volume} />
-        </div>
+          <div className="muted-volume">
+            <Muted muted={muted} setMuted={setMuted} volume={volume} />
+          </div>
 
-        <div className="stop-loop">
-        <StopList src={src} setSrc={setSrc} />
-        <Loop loop={loop} setLoop={setLoop} src={src} />
-        </div>
+          <div className="stop-loop">
+            <StopList src={src} setSrc={setSrc} />
+            <Loop loop={loop} setLoop={setLoop} src={src} />
+          </div>
 
-        <div className="settings-box">
-          <IconButton
-            icon="fa-solid fa-backward-step"
-            onClick={handlePreviousSong}
-            text="Previous"
-            disabled={cooldown || Object.entries(src).length <= 2}
-          />
-           <IconButton
-            icon="fa-solid fa-backward"
-            onClick={slowerRate}
-            disabled={playbackRate <= 0.2}
-            text="Slower"
-          />
-          <Playing
-            playing={playing}
-            setIsPlaying={setIsPlaying}
-            src={src}
-            setSrc={setSrc}
-          />
+          <div className="settings-box">
+            <IconButton
+              icon="fa-solid fa-backward-step"
+              onClick={handlePreviousSong}
+              text="Previous"
+              disabled={cooldown || Object.entries(src).length <= 2}
+            />
+            <IconButton
+              icon="fa-solid fa-backward"
+              onClick={slowerRate}
+              disabled={playbackRate <= 0.2}
+              text="Slower"
+            />
+            <Playing
+              playing={playing}
+              setIsPlaying={setIsPlaying}
+              src={src}
+              setSrc={setSrc}
+            />
 
-          <IconButton
-            icon="fa-solid fa-forward"
-            onClick={fasterRate}
-            disabled={playbackRate >= 2}
-            text="Faster"
-          />
-          <IconButton
-            icon="fa-solid fa-forward-step"
-            onClick={handleNextSong}
-            text="Next"
-            disabled={cooldown || Object.entries(src).length <= 2}
-          />
+            <IconButton
+              icon="fa-solid fa-forward"
+              onClick={fasterRate}
+              disabled={playbackRate >= 2}
+              text="Faster"
+            />
+            <IconButton
+              icon="fa-solid fa-forward-step"
+              onClick={handleNextSong}
+              text="Next"
+              disabled={cooldown || Object.entries(src).length <= 2}
+            />
+          </div>
         </div>
-      
-        </div>
-         
-
       </div>
-      
-      <Settings src={src} setSrc={setSrc} />
-      <div className="nav-link">
-        <NavLink to="/import-export">
-          <button>Import or export your data</button>
-        </NavLink>
-        <NavLink to="/tutorial">
-          <button>How does this website works</button>
-        </NavLink>
-      </div>
+
+      {/* <Settings src={src} setSrc={setSrc} /> */}
     </>
   );
 };

@@ -13,9 +13,6 @@ import Tutorial from "./components/tutorial/Tutorial";
 import Title from "./components/music-player/MusicContext/Title";
 import VolumeContext from "./components/music-player/MusicContext/VolumeContext";
 import MusicPlayerWindow from "./components/music-player/musicPlayerWindow/MusicPlayerWindow";
-import Lists from "./components/music-player/musicPlayerWindow/lists/Lists";
-import Playlist from "./components/music-player/musicPlayerWindow/lists/playlist/Playlist";
-import Song from "./components/music-player/musicPlayerWindow/lists/playlist/song/Song";
 
 const router = createBrowserRouter([
   {
@@ -25,18 +22,6 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <MusicPlayerWindow />,
-      },
-      {
-        path: "lists",
-        element: <Lists />,
-      },
-      {
-        path: "lists/:playlist",
-        element: <Playlist />,
-      },
-      {
-        path: "lists/:playlist/:song",
-        element: <Song />,
       },
       {
         path: "import-export",
