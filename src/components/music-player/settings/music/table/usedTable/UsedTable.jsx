@@ -13,6 +13,10 @@ const UsedTable = ({
   currentSongIndex,
   playMusic,
   handleDelete,
+  displaySongs,
+  setDisplaySongs,
+  playingSong,
+  setPlayingSong
 }) => {
   const { currentList, setCurrentList } = useContext(CurrentList);
   const { playlistContext, setPlaylistContext } = useContext(PlaylistContext);
@@ -22,8 +26,9 @@ const UsedTable = ({
     <div>
       {currentList.length > 0 ? (
         currentList.map((item) => (
-          <div key={item.playlist} className="current-list">
-            <h2>Current Playlist: {item.playlist}</h2>
+          <div key={item.playlist} className="current-list" style={{display: displaySongs === item.playlist && !playingSong ? "block" : "none"}}>
+            <h2>Current Playlist: {item.playlist}</h2>iojioj
+            <div style={{display: currentList ? "block" : "none"}}>
             <h2>List options</h2>
             <div className="list-options">
               <IconButton
@@ -35,17 +40,17 @@ const UsedTable = ({
               />
               <IconButton
                 icon="fa-solid fa-trash"
-                onClick={() => deletePlaylist(item.playlist)}
+                onClick={() => {deletePlaylist(item.playlist), setDisplaySongs("")}}
                 text="Delete Playlist"
               />
               <IconButton
                 icon="fa-solid fa-play"
-                onClick={() => listFunction(item)}
+                onClick={() => {listFunction(item),setPlayingSong("play")}}
                 text={`Play ${item.playlist} playlist`}
               />
               <IconButton
                 icon="fa-solid fa-shuffle"
-                onClick={() => randomSequence(item)}
+                onClick={() => {randomSequence(item),setPlayingSong("play")}}
                 text={`Shuffle ${item.playlist} playlist`}
               />
             </div>
@@ -60,6 +65,7 @@ const UsedTable = ({
                 {item.songs.map((innerItem, key) =>
                   innerItem.name.length > 0 ? (
                     <tr
+                    onClick={() => setPlayingSong("play")}
                       className="tr-class"
                       key={innerItem.src}
                       style={{
@@ -163,6 +169,7 @@ const UsedTable = ({
                 )}
               </tbody>
             </table>
+            </div>
           </div>
         ))
       ) : (

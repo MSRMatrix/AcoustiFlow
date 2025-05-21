@@ -3,13 +3,13 @@ import Settings from "../settings/Settings";
 import ExportImport from "../data/Data";
 import Tutorial from "../../tutorial/Tutorial";
 
-const MusicPlayerWindow = ({src,setSrc}) => {
+const MusicPlayerWindow = ({src,setSrc, oldIndex, playbackRate, muted, time, setTime, duration, playerRef}) => {
 
   const [fakeRouter, setFakeRouter] = useState("")
 
   return (
     <div >
-    <div className="home-window" style={{display: !fakeRouter ? "block" : "none"}}>
+    <div className="home-window" style={{display: !fakeRouter ? "block" : "none", textAlign: "center"}}>
       
       <h1>Menu</h1>
       <ul>
@@ -21,7 +21,13 @@ const MusicPlayerWindow = ({src,setSrc}) => {
       <li onClick={(e) => setFakeRouter(e.target.innerText)}>Settings</li>  
       </ul>
       </div>
-       <Settings src={src} setSrc={setSrc} fakeRouter={fakeRouter} setFakeRouter={setFakeRouter}/>
+       <Settings src={src} setSrc={setSrc} fakeRouter={fakeRouter} setFakeRouter={setFakeRouter}oldIndex={oldIndex} 
+      playbackRate={playbackRate} 
+      muted={muted} 
+      time={time} 
+      setTime={setTime} 
+      duration={duration} 
+      playerRef={playerRef}/>
        <ExportImport fakeRouter={fakeRouter} setFakeRouter={setFakeRouter}/>
        <Tutorial fakeRouter={fakeRouter} setFakeRouter={setFakeRouter}/>
     </div>

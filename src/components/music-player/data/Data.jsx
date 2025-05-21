@@ -75,7 +75,7 @@ const ExportImport = ({fakeRouter, setFakeRouter}) => {
   };
   return (
     <div className="data" style={{display: fakeRouter === "Import/export data" ? "block" : "none"}}>
-      <h1>Data settings</h1>
+      <h1 style={{textAlign: "center"}}>Data settings</h1>
       <div
         className="data-div"
         onClick={handleDownload}

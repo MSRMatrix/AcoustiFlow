@@ -204,7 +204,13 @@ const MusicPlayer = () => {
           playerRef={playerRef}
         /> 
          */}
-                <MusicPlayerWindow src={src} setSrc={setSrc}/>
+                <MusicPlayerWindow src={src} setSrc={setSrc}oldIndex={oldIndex} 
+      playbackRate={playbackRate} 
+      muted={muted} 
+      time={time} 
+      setTime={setTime} 
+      duration={duration} 
+      playerRef={playerRef}/>
                
               </div>
 

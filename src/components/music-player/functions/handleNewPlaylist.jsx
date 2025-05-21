@@ -1,7 +1,9 @@
 export const handleNewPlaylist = (e, setShowInput, currentList, newestList, setDisplayTable, showCurrentPlaylist, setCurrentList) => {
     e.preventDefault();
     setShowInput(false);
-    const newList = e.target.elements[0].value.trim();
+    console.log(e.target.elements.input);
+    
+    const newList = e.target.elements[1].value.trim();
 
     if (newList.length <= 0) {
       e.target.reset();

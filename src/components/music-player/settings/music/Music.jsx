@@ -16,7 +16,7 @@ import "./music.css";
 import IconButton from "../../functions/IconButton";
 import Title from "../../MusicContext/Title";
 
-const Music = ({ src, setSrc, loop, setLoop, fakeRouter, setFakeRouter}) => {
+const Music = ({ src, setSrc, loop, setLoop, fakeRouter, setFakeRouter, oldIndex, playbackRate, muted, time, setTime, duration, playerRef}) => {
   const { displayTable, setDisplayTable } = useContext(DisplayTable);
   const { showInput, setShowInput } = useContext(ShowInput);
   const { takeMusic, setTakeMusic } = useContext(TakeMusic);
@@ -100,7 +100,6 @@ const Music = ({ src, setSrc, loop, setLoop, fakeRouter, setFakeRouter}) => {
         <fieldset style={{border: "none"}}>
         <legend>Add new Song</legend>
         <input
-          style={{ width: "300px" }}
           type="url"
           name="src"
           required
@@ -126,7 +125,6 @@ const Music = ({ src, setSrc, loop, setLoop, fakeRouter, setFakeRouter}) => {
                     ? "0px 0px 10px 10px red"
                     : "",
                 transition: "0.5s ease-in-out",
-                width: "300px",
               }}
               type="text"
               value={src.name || ""}
@@ -136,7 +134,7 @@ const Music = ({ src, setSrc, loop, setLoop, fakeRouter, setFakeRouter}) => {
             <div>
               <button
                 onClick={() => {
-                  if (src.name.trim().length > 60) {
+                  if (src.name.length > 60) {
                     return alert(`Name should be shorter or equal to 60!`);
                   } else if (!src.name.trim() || !src.src.trim()) {
                     return alert("Should not be empty!");
@@ -188,7 +186,13 @@ const Music = ({ src, setSrc, loop, setLoop, fakeRouter, setFakeRouter}) => {
       )}
       <div className="back-link" onClick={() => setFakeRouter("")}>Back</div> 
       </div>
-      <Table src={src} setSrc={setSrc} fakeRouter={fakeRouter} setFakeRouter={setFakeRouter} />
+      <Table src={src} setSrc={setSrc} fakeRouter={fakeRouter} setFakeRouter={setFakeRouter} oldIndex={oldIndex} 
+      playbackRate={playbackRate} 
+      muted={muted} 
+      time={time} 
+      setTime={setTime} 
+      duration={duration} 
+      playerRef={playerRef}/>
       <div style={{display: fakeRouter === "Add new List" ? "block" : "none"}}>
 
       

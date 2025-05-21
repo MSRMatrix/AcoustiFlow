@@ -23,9 +23,22 @@ import {
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import NotUsedTables from "./notUsedTables/NotUsedTables";
 import UsedTable from "./usedTable/UsedTable";
+import PlayingSong from "../../../playingSong/PlayingSong";
 // Drag and Drop Import
 
-const Table = ({ src, setSrc , fakeRouter, setFakeRouter}) => {
+const Table = ({
+  src,
+  setSrc,
+  fakeRouter,
+  setFakeRouter,
+  oldIndex,
+  playbackRate,
+  muted,
+  time,
+  setTime,
+  duration,
+  playerRef,
+}) => {
   const [openDialog, setOpenDialog] = useState(
     { newPlaylist: false },
     { changeMusic: false },
@@ -41,6 +54,8 @@ const Table = ({ src, setSrc , fakeRouter, setFakeRouter}) => {
 
   const [drag, setDrag] = useState(false);
   const [listForDrop, setListForDrop] = useState(null);
+  const [displaySongs, setDisplaySongs] = useState("");
+  const [playingSong, setPlayingSong] = useState("");
 
   const updateAllLists = (playlist) => {
     newestList(setDisplayTable, playlist);
@@ -50,31 +65,27 @@ const Table = ({ src, setSrc , fakeRouter, setFakeRouter}) => {
   const handleDelete = (item, playlist) => {
     setShowInput(false);
     console.log(item);
-    
-     const storedData = localStorage.getItem(playlist);
-     if (storedData) {
-       const parsedData = storedData.split(", ");
-       const updatedData = [];
-       for (let i = 0; i < parsedData.length; i += 2) {
-         if (parsedData.length <= 2) {
-           localStorage.setItem(playlist, "");
-           updateAllLists(src.playlist);
-           return;
-         }
-         if (parsedData[i] !== item.name || parsedData[i + 1] !== item.src) {
-           updatedData.push(parsedData[i], parsedData[i + 1]);
-   
-           
-         }
-       }
-       localStorage.setItem(playlist, updatedData.join(", "));
-       updateAllLists(src.playlist);
-       
-       
-     }
-     if (playlist === src.playlist) {
-       updateSrc();
-     }
+
+    const storedData = localStorage.getItem(playlist);
+    if (storedData) {
+      const parsedData = storedData.split(", ");
+      const updatedData = [];
+      for (let i = 0; i < parsedData.length; i += 2) {
+        if (parsedData.length <= 2) {
+          localStorage.setItem(playlist, "");
+          updateAllLists(src.playlist);
+          return;
+        }
+        if (parsedData[i] !== item.name || parsedData[i + 1] !== item.src) {
+          updatedData.push(parsedData[i], parsedData[i + 1]);
+        }
+      }
+      localStorage.setItem(playlist, updatedData.join(", "));
+      updateAllLists(src.playlist);
+    }
+    if (playlist === src.playlist) {
+      updateSrc();
+    }
   };
 
   const listFunction = async (list) => {
@@ -172,13 +183,13 @@ const Table = ({ src, setSrc , fakeRouter, setFakeRouter}) => {
       names.push(list[i]);
       url.push(list[i + 1]);
     }
-    
-     setSrc({
-       playlist: src.playlist,
-       name: names,
-       src: url,
-     });
-     updateAllLists(src.playlist);
+
+    setSrc({
+      playlist: src.playlist,
+      name: names,
+      src: url,
+    });
+    updateAllLists(src.playlist);
   };
 
   // Drag and Drop
@@ -244,25 +255,55 @@ const Table = ({ src, setSrc , fakeRouter, setFakeRouter}) => {
     updateAllLists(src.playlist);
   }, []);
 
+  function returnFunction() {
+    if (playingSong) {
+      return setPlayingSong("");
+    }
+    if (displaySongs) {
+      return setDisplaySongs("");
+    }
+    if (fakeRouter) {
+      return setFakeRouter("");
+    }
+  }
+
   return (
-    <><div className="list-in-use" style={{display: fakeRouter === "not ready" ? "block" : "none"}}>
+    <div style={{ display: fakeRouter ? "block" : "none" }}>
+      <div
+        style={{
+          display: fakeRouter && displaySongs && playingSong ? "block" : "none",
+        }}
+      >
+        <PlayingSong
+          src={src}
+          oldIndex={oldIndex}
+          playbackRate={playbackRate}
+          muted={muted}
+          time={time}
+          setTime={setTime}
+          duration={duration}
+          playerRef={playerRef}
+        />
+      </div>
+
       {currentList && currentList.length > 0 ? (
-        <div>
-          <UsedTable
-            setOpenDialog={setOpenDialog}
-            setTakeMusic={setTakeMusic}
-            deletePlaylist={deletePlaylist}
-            listFunction={listFunction}
-            randomSequence={randomSequence}
-            src={src}
-            currentSongIndex={currentSongIndex}
-            playMusic={playMusic}
-            handleDelete={handleDelete}
-          /> <div className="back-link" onClick={() => setFakeRouter("")}>Back</div> 
-        </div>
+        <UsedTable
+          setOpenDialog={setOpenDialog}
+          setTakeMusic={setTakeMusic}
+          deletePlaylist={deletePlaylist}
+          listFunction={listFunction}
+          randomSequence={randomSequence}
+          src={src}
+          currentSongIndex={currentSongIndex}
+          playMusic={playMusic}
+          handleDelete={handleDelete}
+          displaySongs={displaySongs}
+          playingSong={playingSong}
+          setPlayingSong={setPlayingSong}
+        />
       ) : (
         <></>
-      )}</div>
+      )}
 
       {openDialog.newMusic && (
         <PlaylistChanger
@@ -294,23 +335,37 @@ const Table = ({ src, setSrc , fakeRouter, setFakeRouter}) => {
         collisionDetection={closestCorners}
         onDragEnd={handleDragEnd}
       >
-        <div style={{display: fakeRouter === "Lists" ? "block" : "none"}}>
-<NotUsedTables
-          setDrag={setDrag}
-          setOpenDialog={setOpenDialog}
-          setTakeMusic={setTakeMusic}
-          deletePlaylist={deletePlaylist}
-          listFunction={listFunction}
-          randomSequence={randomSequence}
-          playMusic={playMusic}
-          handleDelete={handleDelete}
-          setListForDrop={setListForDrop}
-          drag={drag}
-        /> <div className="back-link" onClick={() => setFakeRouter("")}>Back</div> 
+        <div style={{ display: fakeRouter === "Lists" ? "block" : "none" }}>
+          <NotUsedTables
+            setDrag={setDrag}
+            setOpenDialog={setOpenDialog}
+            setTakeMusic={setTakeMusic}
+            deletePlaylist={deletePlaylist}
+            listFunction={listFunction}
+            randomSequence={randomSequence}
+            playMusic={playMusic}
+            handleDelete={handleDelete}
+            setListForDrop={setListForDrop}
+            drag={drag}
+            displaySongs={displaySongs}
+            setDisplaySongs={setDisplaySongs}
+            fakeRouter={fakeRouter}
+            setFakeRouter={setFakeRouter}
+            playingSong={playingSong}
+            setPlayingSong={setPlayingSong}
+          />
         </div>
-        
+        <div
+          className="back-link"
+          onClick={() => {
+            returnFunction();
+          }}
+          style={{ display: fakeRouter ? "block" : "none" }}
+        >
+          Back
+        </div>
       </DndContext>
-    </>
+    </div>
   );
 };
 

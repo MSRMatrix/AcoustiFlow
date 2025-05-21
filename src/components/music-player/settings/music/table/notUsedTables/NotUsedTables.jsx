@@ -16,11 +16,13 @@ const NotUsedTables = ({
   randomSequence,
   playMusic,
   handleDelete,
-  setListForDrop,
+  setListForDrop,displaySongs, setDisplaySongs, fakeRouter, setFakeRouter, playingSong,
+  setPlayingSong
 }) => {
   const { displayTable } = useContext(DisplayTable);
   const { setPlaylistContext } = useContext(PlaylistContext);
   const [action, setAction] = useState("Play");
+console.log(displaySongs);
 
   return (
     <div className="main-div-from-not-used-list">
@@ -36,13 +38,15 @@ const NotUsedTables = ({
         {Array.isArray(displayTable) && displayTable.length > 0 ? (
           displayTable.map((item) => (
             <div
-              className="not-used-list-div"
+              className="not-used-list-div" style={{display: fakeRouter === "Lists" && !displaySongs ? "block" : displaySongs === item.playlist ? "block" : "none"}}
               key={item.playlist}
+              onClick={() => setDisplaySongs(item.playlist)}
               onMouseEnter={() => setListForDrop(item.playlist)}
               onTouchStart={() => setListForDrop(item.playlist)}
             >
               <h2>List name: {item.playlist}</h2>
-              <h2>List options</h2>
+              <div style={{display: displaySongs === item.playlist ? "block" : "none"}}>
+               <h2>List options</h2>
               <div className="list-options">
                 <IconButton
                   icon="fa-solid fa-pencil"
@@ -54,24 +58,26 @@ const NotUsedTables = ({
                 />
                 <IconButton
                   icon="fa-solid fa-trash"
-                  onClick={() => deletePlaylist(item.playlist)}
+                  onClick={() => {deletePlaylist(item.playlist), setDisplaySongs("")}}
                   text="Delete Playlist"
                 />
                 <IconButton
                   icon="fa-solid fa-play"
-                  onClick={() => listFunction(item)}
+                  onClick={() => {listFunction(item),setPlayingSong("play")}}
                   text={`Play ${item.playlist} playlist`}
                   disabled={item.songs && item.songs.length < 1}
                 />
                 <IconButton
                   icon="fa-solid fa-shuffle"
-                  onClick={() => randomSequence(item)}
+                  onClick={() => {randomSequence(item),setPlayingSong("play")}}
                   text={`Shuffle ${item.playlist} playlist`}
                   disabled={item.songs && item.songs.length < 1}
                 />
+              </div>  
               </div>
+             
 
-              <table>
+              <table style={{display: displaySongs === item.playlist ? "block" : "none"}}>
                 <thead>
                   <tr className="list-topics">
                     <th>Song</th>
@@ -143,7 +149,7 @@ const NotUsedTables = ({
                               {action === "Play" ? (
                                 <IconButton
                                   icon="fa-solid fa-play"
-                                  onClick={() => playMusic(innerItem, item)}
+                                  onClick={() => {playMusic(innerItem, item),setPlayingSong("play")}}
                                   text="Play"
                                 />
                               ) : null}
@@ -200,6 +206,7 @@ const NotUsedTables = ({
                   </tbody>
                 )}
               </table>
+             
             </div>
           ))
         ) : (

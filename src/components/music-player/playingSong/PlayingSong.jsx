@@ -1,10 +1,13 @@
 import { useContext } from "react";
 import CurrentList from "../MusicContext/CurrentList";
 import Title from "../MusicContext/Title";
+import VolumeContext from "../MusicContext/VolumeContext";
+import ProgressBar from "../settings/progress/ProgressBar";
 
-const PlayingSong = ({src}) => {
+const PlayingSong = ({src, oldIndex, playbackRate, muted, time, setTime, duration, playerRef}) => {
 const { currentList } = useContext(CurrentList);
 const { title, setTitle } = useContext(Title);
+  const { volumeContext, setVolumeContext } = useContext(VolumeContext);
 
     return(
     <div>
