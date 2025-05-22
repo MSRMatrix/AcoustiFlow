@@ -1,21 +1,43 @@
 .not-used-playlists {
-  display: flex;
+  /* display: flex;
   flex-wrap: wrap;
   justify-content: center;
   flex-direction: column;
   color: #ffffff;
   border-radius: 10px;
   padding: 20px;
-  margin: 20px auto;
+  margin: 20px auto; */
 }
 
 .not-used-list-div {
-  background-color: #282c34;
+  /* background-color: #282c34;
   border-radius: 10px;
   color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   margin-bottom: 10px;
-  padding: 20px;
+  padding: 20px; */
+  width: 240px;
+  p{
+    color: #FAFAFA;
+    padding: 10px 15px;
+    border-bottom: 1px white solid;
+    border-left: none;
+    border-right: none;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: bolder;
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 240px;
+    &:hover{
+     box-shadow: inset 0 0 10px 4px rgba(255, 255, 0, 0.6);
+    transform: translateY(-2px);
+    cursor: pointer; 
+    }
+  }
+   
 }
 
 .list-in-use {
@@ -35,7 +57,25 @@
 }
 
 .current-list {
- 
+ h2{
+   color: #FAFAFA;
+    padding: 10px 15px;
+    border-bottom: 1px white solid;
+    border-left: none;
+    border-right: none;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: bolder;
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    &:hover{
+     box-shadow: inset 0 0 10px 4px rgba(255, 255, 0, 0.6);
+    transform: translateY(-2px);
+    cursor: pointer; 
+    }
+ }
 }
 
 .list-options {
@@ -60,8 +100,27 @@
 }
 
 .tr-class {
-  display: flex;
-  align-items: center;
+  td{
+    p{
+       color: #FAFAFA;
+    padding: 10px 15px;
+    border-bottom: 1px white solid;
+    border-left: none;
+    border-right: none;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: bolder;
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    &:hover{
+     box-shadow: inset 0 0 10px 4px rgba(255, 255, 0, 0.6);
+    transform: translateY(-2px);
+    cursor: pointer; 
+    }
+    }
+  }
 }
 
 .list-topics-drag {
@@ -75,11 +134,11 @@
 }
 
 .show-hidden-text {
-  position: relative;
+  /* position: relative;
   color: #ffffff;
   border-radius: 5px;
   padding: 10px;
-  cursor: default;
+  cursor: default; */
 }
 
 .drag-drop {
@@ -117,11 +176,11 @@
   .list-options {
     width: 100%;
   }
-  .current-list,
+  /* .current-list,
   .not-used-list-div {
     max-width: none;
     min-width: auto;
-  }
+  } */
 }
 .choose-options {
   width: fit-content;

@@ -268,10 +268,10 @@ const Table = ({
   }
 
   return (
-    <div style={{ display: fakeRouter ? "block" : "none" }}>
+    <div style={{ display: fakeRouter === "Lists" ? "block" : "none" }}>
       <div
         style={{
-          display: fakeRouter && displaySongs && playingSong ? "block" : "none",
+          display: fakeRouter === "Lists" && displaySongs && playingSong ? "block" : "none",
         }}
       >
         <PlayingSong
@@ -298,6 +298,7 @@ const Table = ({
           playMusic={playMusic}
           handleDelete={handleDelete}
           displaySongs={displaySongs}
+          setDisplaySongs={setDisplaySongs}
           playingSong={playingSong}
           setPlayingSong={setPlayingSong}
         />

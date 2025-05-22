@@ -12,13 +12,6 @@ body {
   scrollbar-width: none;
 }
 
-
-
-tr {
-  display: flex;
-  justify-content: space-between;
-}
-
 table {
   width: 100%;
 }

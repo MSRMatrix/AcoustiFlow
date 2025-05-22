@@ -26,9 +26,9 @@ const UsedTable = ({
     <div>
       {currentList.length > 0 ? (
         currentList.map((item) => (
-          <div key={item.playlist} className="current-list" style={{display: displaySongs === item.playlist && !playingSong ? "block" : "none"}}>
-            <h2>Current Playlist: {item.playlist}</h2>iojioj
-            <div style={{display: currentList ? "block" : "none"}}>
+          <div key={item.playlist} className="current-list" style={{display: displaySongs === item.playlist && !playingSong || src.playlist === item.playlist && !playingSong ? "block" : "none"}}>
+            <h2 onClick={() => setDisplaySongs(item.playlist)}>Current Playlist: {item.playlist}</h2>
+            <div style={{display: currentList && displaySongs === item.playlist ? "block" : "none"}}>
             <h2>List options</h2>
             <div className="list-options">
               <IconButton
@@ -88,14 +88,17 @@ const UsedTable = ({
                       }}
                     >
                       <td className="show-hidden-text">
-                        <p className="hidden-text">
+                        {/* <p className="hidden-text">
                           {innerItem.name.length > 60
                             ? `${innerItem.name.slice(0, 60)}...`
                             : innerItem.name}
-                        </p>
+                        </p> */}
+                        <p>
                         {innerItem.name.length >= 60
                           ? `${innerItem.name.slice(0, 60)}...`
-                          : innerItem.name}
+                          : innerItem.name}  
+                        </p>
+                        
                       </td>
                       <td className="music-options-drag">
                         {!showAction ? <IconButton

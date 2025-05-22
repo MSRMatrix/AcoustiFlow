@@ -22,7 +22,6 @@ const NotUsedTables = ({
   const { displayTable } = useContext(DisplayTable);
   const { setPlaylistContext } = useContext(PlaylistContext);
   const [action, setAction] = useState("Play");
-console.log(displaySongs);
 
   return (
     <div className="main-div-from-not-used-list">
@@ -34,7 +33,7 @@ console.log(displaySongs);
         <option value="Drag">Drag</option>
       </select>
 
-      <div className="not-used-playlists">
+      <div className="not-used-playlists"><h1>List Name</h1>
         {Array.isArray(displayTable) && displayTable.length > 0 ? (
           displayTable.map((item) => (
             <div
@@ -44,7 +43,8 @@ console.log(displaySongs);
               onMouseEnter={() => setListForDrop(item.playlist)}
               onTouchStart={() => setListForDrop(item.playlist)}
             >
-              <h2>List name: {item.playlist}</h2>
+              
+              <p>{item.playlist}</p>
               <div style={{display: displaySongs === item.playlist ? "block" : "none"}}>
                <h2>List options</h2>
               <div className="list-options">
@@ -99,11 +99,11 @@ console.log(displaySongs);
                               id={`${item.playlist}-${innerItem.src}`}
                             >
                               <td className="drag-drop">
-                                <p className="hidden-text">
+                                {/* <p className="hidden-text">
                                   {innerItem.name.length > 60
                                     ? `${innerItem.name.slice(0, 60)}...`
                                     : innerItem.name}
-                                </p>
+                                </p> */}
                                 <p>
                                   {innerItem.name.length >= 40
                                     ? `${innerItem.name.slice(0, 40)}...`
@@ -134,11 +134,11 @@ console.log(displaySongs);
                             id={`${item.playlist}-${innerItem.src}`}
                           >
                             <td className="show-hidden-text">
-                              <p className="hidden-text">
+                              {/* <p className="hidden-text">
                                 {innerItem.name.length > 60
                                   ? `${innerItem.name.slice(0, 60)}...`
                                   : innerItem.name}
-                              </p>
+                              </p> */}
                               <p>
                                 {innerItem.name.length >= 40
                                   ? `${innerItem.name.slice(0, 40)}...`

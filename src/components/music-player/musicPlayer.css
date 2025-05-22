@@ -59,10 +59,6 @@ form {
   max-width: fit-content;
 }
 
-p {
-  margin: 10px 0;
-}
-
 .nav-link {
   color: #61dafb;
   text-decoration: none;
@@ -137,7 +133,6 @@ i {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 280px;
 }
 
 .nav-link {
