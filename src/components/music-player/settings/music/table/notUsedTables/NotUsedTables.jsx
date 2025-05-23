@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { act, useContext, useState } from "react";
 import IconButton from "../../../../functions/IconButton";
 import DisplayTable from "../../../../MusicContext/DisplayTable";
 import {
@@ -16,75 +16,117 @@ const NotUsedTables = ({
   randomSequence,
   playMusic,
   handleDelete,
-  setListForDrop,displaySongs, setDisplaySongs, fakeRouter, setFakeRouter, playingSong,
-  setPlayingSong
+  setListForDrop,
+  displaySongs,
+  setDisplaySongs,
+  fakeRouter,
+  setFakeRouter,
+  playingSong,
+  setPlayingSong,
+  action,
+  setAction,
 }) => {
   const { displayTable } = useContext(DisplayTable);
   const { setPlaylistContext } = useContext(PlaylistContext);
-  const [action, setAction] = useState("Play");
 
   return (
     <div className="main-div-from-not-used-list">
-      <select className="choose-options" onChange={(e) => setAction(e.target.value)} value={action}>
-        <option value="Play">Play</option>
-        <option value="Delete">Delete</option>
-        <option value="Change">Change</option>
-        <option value="Rename">Rename</option>
-        <option value="Drag">Drag</option>
-      </select>
-
-      <div className="not-used-playlists"><h1>List Name</h1>
+      <div className="not-used-playlists">
         {Array.isArray(displayTable) && displayTable.length > 0 ? (
           displayTable.map((item) => (
             <div
-              className="not-used-list-div" style={{display: fakeRouter === "Lists" && !displaySongs ? "block" : displaySongs === item.playlist ? "block" : "none"}}
+              className="not-used-list-div"
+              style={{
+                display:
+                  fakeRouter === "Lists" && !displaySongs
+                    ? "block"
+                    : displaySongs === item.playlist
+                    ? "block"
+                    : "none",
+              }}
               key={item.playlist}
               onClick={() => setDisplaySongs(item.playlist)}
               onMouseEnter={() => setListForDrop(item.playlist)}
               onTouchStart={() => setListForDrop(item.playlist)}
             >
-              
-              <p>{item.playlist}</p>
-              <div style={{display: displaySongs === item.playlist ? "block" : "none"}}>
-               <h2>List options</h2>
-              <div className="list-options">
-                <IconButton
-                  icon="fa-solid fa-pencil"
-                  onClick={() => {
-                    setOpenDialog({newPlaylist: true});
-                    setTakeMusic(item.playlist);
-                  }}
-                  text="Rename Playlist"
-                />
-                <IconButton
-                  icon="fa-solid fa-trash"
-                  onClick={() => {deletePlaylist(item.playlist), setDisplaySongs("")}}
-                  text="Delete Playlist"
-                />
-                <IconButton
-                  icon="fa-solid fa-play"
-                  onClick={() => {listFunction(item),setPlayingSong("play")}}
-                  text={`Play ${item.playlist} playlist`}
-                  disabled={item.songs && item.songs.length < 1}
-                />
-                <IconButton
-                  icon="fa-solid fa-shuffle"
-                  onClick={() => {randomSequence(item),setPlayingSong("play")}}
-                  text={`Shuffle ${item.playlist} playlist`}
-                  disabled={item.songs && item.songs.length < 1}
-                />
-              </div>  
-              </div>
-             
+              {!displaySongs ? (
+                <p>{item.playlist}</p>
+              ) : (
+                <h1>{item.playlist}</h1>
+              )}
 
-              <table style={{display: displaySongs === item.playlist ? "block" : "none"}}>
+              <h2
+                style={{
+                  display: displaySongs ? "block" : "none",
+                }}
+              >
+                Mode: {action}
+              </h2>
+              <ul
+                className="music-options"
+                style={{
+                  display: displaySongs ? "flex" : "none",
+                }}
+              >
+                <li onClick={(e) => setAction(e.target.textContent)}>Play</li>
+                <li onClick={(e) => setAction(e.target.textContent)}>Delete</li>
+                <li onClick={(e) => setAction(e.target.textContent)}>Change</li>
+                <li onClick={(e) => setAction(e.target.textContent)}>Rename</li>
+                <li onClick={(e) => setAction(e.target.textContent)}>Drag</li>
+              </ul>
+              <div
+                style={{
+                  display: displaySongs === item.playlist ? "block" : "none",
+                }}
+              >
+                <h2>List options</h2>
+                <div className="list-options">
+                  <IconButton
+                    icon="fa-solid fa-pencil"
+                    onClick={() => {
+                      setOpenDialog({ newPlaylist: true });
+                      setTakeMusic(item.playlist);
+                    }}
+                    text="Rename Playlist"
+                  />
+                  <IconButton
+                    icon="fa-solid fa-trash"
+                    onClick={() => {
+                      deletePlaylist(item.playlist), setDisplaySongs("");
+                    }}
+                    text="Delete Playlist"
+                  />
+                  <IconButton
+                    icon="fa-solid fa-play"
+                    onClick={() => {
+                      listFunction(item), setPlayingSong("play");
+                    }}
+                    text={`Play ${item.playlist} playlist`}
+                    disabled={item.songs && item.songs.length < 1}
+                  />
+                  <IconButton
+                    icon="fa-solid fa-shuffle"
+                    onClick={() => {
+                      randomSequence(item), setPlayingSong("play");
+                    }}
+                    text={`Shuffle ${item.playlist} playlist`}
+                    disabled={item.songs && item.songs.length < 1}
+                  />
+                </div>
+              </div>
+
+              <table
+                style={{
+                  display: displaySongs === item.playlist ? "block" : "none",
+                }}
+              >
                 <thead>
                   <tr className="list-topics">
                     <th>Song</th>
                   </tr>
                 </thead>
                 {action === "Drag" ? (
-                  <tbody>
+                  <tbody className="tbody">
                     {Array.isArray(item.songs) && item.songs.length > 0 ? (
                       <SortableContext
                         items={item.songs.map(
@@ -139,57 +181,30 @@ const NotUsedTables = ({
                                   ? `${innerItem.name.slice(0, 60)}...`
                                   : innerItem.name}
                               </p> */}
-                              <p>
-                                {innerItem.name.length >= 40
-                                  ? `${innerItem.name.slice(0, 40)}...`
-                                  : innerItem.name}
-                              </p>
-                            </td>
-                            <td className="music-options">
-                              {action === "Play" ? (
-                                <IconButton
-                                  icon="fa-solid fa-play"
-                                  onClick={() => {playMusic(innerItem, item),setPlayingSong("play")}}
-                                  text="Play"
-                                />
-                              ) : null}
-
-                              {action === "Delete" ? (
-                                <IconButton
-                                  icon="fa-solid fa-square-minus"
-                                  onClick={() =>
-                                    handleDelete(innerItem, item.playlist)
-                                  }
-                                  text="Delete"
-                                />
-                              ) : null}
-
-                              {action === "Change" ? (
-                                <IconButton
-                                  icon="fa-solid fa-arrow-turn-up"
-                                  onClick={() => {
+                              <p
+                                onClick={() => {
+                                  if (action === "Play") {
+                                    playMusic(innerItem, item); setPlayingSong("play")
+                                  } else if (action === "Delete") {
+                                    handleDelete(innerItem, item.playlist);
+                                  } else if (action === "Drag") {
                                     setTakeMusic(innerItem);
                                     setPlaylistContext(item.playlist);
-                                    setOpenDialog({newMusic: true});
-                                  }}
-                                  text="Move"
-                                />
-                              ) : null}
-
-                              {action === "Rename" ? (
-                                <IconButton
-                                  icon="fa-solid fa-pencil"
-                                  onClick={() => {
-                                    setOpenDialog({changeMusic: true});
+                                    setOpenDialog({ newMusic: true });
+                                  } else if (action === "Rename") {
                                     setTakeMusic({
                                       playlist: item.playlist,
                                       name: innerItem.name,
                                       src: innerItem.src,
                                     });
-                                  }}
-                                  text="Rename"
-                                />
-                              ) : null}
+                                    setOpenDialog({ changeMusic: true });
+                                  }
+                                }}
+                              >
+                                {innerItem.name.length >= 40
+                                  ? `${innerItem.name.slice(0, 40)}...`
+                                  : innerItem.name}
+                              </p>
                             </td>
                           </tr>
                         ) : (
@@ -206,7 +221,6 @@ const NotUsedTables = ({
                   </tbody>
                 )}
               </table>
-             
             </div>
           ))
         ) : (

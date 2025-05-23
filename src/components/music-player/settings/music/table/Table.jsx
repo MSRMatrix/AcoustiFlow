@@ -56,6 +56,7 @@ const Table = ({
   const [listForDrop, setListForDrop] = useState(null);
   const [displaySongs, setDisplaySongs] = useState("");
   const [playingSong, setPlayingSong] = useState("");
+  const [action, setAction] = useState("Play");
 
   const updateAllLists = (playlist) => {
     newestList(setDisplayTable, playlist);
@@ -260,6 +261,7 @@ const Table = ({
       return setPlayingSong("");
     }
     if (displaySongs) {
+      setAction("Play");
       return setDisplaySongs("");
     }
     if (fakeRouter) {
@@ -268,12 +270,16 @@ const Table = ({
   }
 
   return (
-    <div style={{ display: fakeRouter === "Lists" ? "block" : "none" }}>
+    <div style={{ display: fakeRouter === "Lists" ? "block" : "none" }}><h1>Lists</h1>
       <div
         style={{
-          display: fakeRouter === "Lists" && displaySongs && playingSong ? "block" : "none",
+          display:
+            fakeRouter === "Lists" && displaySongs && playingSong
+              ? "block"
+              : "none",
         }}
       >
+        
         <PlayingSong
           src={src}
           oldIndex={oldIndex}
@@ -301,6 +307,8 @@ const Table = ({
           setDisplaySongs={setDisplaySongs}
           playingSong={playingSong}
           setPlayingSong={setPlayingSong}
+          action={action}
+          setAction={setAction}
         />
       ) : (
         <></>
@@ -354,6 +362,8 @@ const Table = ({
             setFakeRouter={setFakeRouter}
             playingSong={playingSong}
             setPlayingSong={setPlayingSong}
+            action={action}
+            setAction={setAction}
           />
         </div>
         <div
