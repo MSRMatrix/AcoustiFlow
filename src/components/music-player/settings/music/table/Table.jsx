@@ -278,7 +278,7 @@ const Table = ({
               ? "block"
               : "none",
         }}
-      >
+      > 
         
         <PlayingSong
           src={src}
