@@ -8,6 +8,7 @@ const PlayerSettings = ({fakeRouter, setFakeRouter}) => {
          <input type="color" name="" id="" />   
         </div>
 
+
         
         <div></div>
         <div></div>
