@@ -28,6 +28,7 @@ const NotUsedTables = ({
 }) => {
   const { displayTable } = useContext(DisplayTable);
   const { setPlaylistContext } = useContext(PlaylistContext);
+  
 
   return (
     <div className="main-div-from-not-used-list">
@@ -95,6 +96,7 @@ const NotUsedTables = ({
                       deletePlaylist(item.playlist), setDisplaySongs("");
                     }}
                     text="Delete Playlist"
+                    disabled={localStorage.length <= 1}
                   />
                   <IconButton
                     icon="fa-solid fa-play"
@@ -110,7 +112,7 @@ const NotUsedTables = ({
                       randomSequence(item), setPlayingSong("play");
                     }}
                     text={`Shuffle ${item.playlist} playlist`}
-                    disabled={item.songs && item.songs.length < 1}
+                    disabled={item.songs && item.songs.length <= 1}
                   />
                 </div>
               </div>
@@ -223,8 +225,7 @@ const NotUsedTables = ({
               </table>
             </div>
           ))
-        ) : (
-          <p>No Playlist there!</p>
+        ) : (<></>
         )}
       </div>
     </div>

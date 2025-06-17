@@ -56,15 +56,44 @@ const MusicPlayer = () => {
   const { title, setTitle } = useContext(Title);
   const { volumeContext, setVolumeContext } = useContext(VolumeContext);
 
-  function readyFunction(player) {
+  function readyFunction(player, setSrc, src) {
     const newSong = player.getInternalPlayer().videoTitle;
-    setTitle(newSong);
-    return;
+    if (!currentList || !currentList[0]?.playlist) {
+      setSrc({
+        src: src.src,
+        name: newSong,
+      });
+      return;
+    } else {
+      return;
+    }
+  }
+
+  function errorHandler(e) {
+    const errorCode = typeof e === "number" ? e : e?.data ?? null;
+    if (!errorCode) return;
+
+    switch (errorCode) {
+      case 2:
+        alert("⚠️ Invalid video ID or URL");
+        break;
+      case 5:
+        alert("⚠️ HTML5 player cannot play this video");
+        break;
+      case 100:
+        alert("⚠️ Video not found (deleted or private)");
+        break;
+      case 101:
+      case 150:
+        alert("⚠️ Embedding disabled by the video owner");
+        break;
+      default:
+        alert("⚠️ Unknown error occurred while playing the video");
+    }
   }
 
   useEffect(() => {
     let count = 0;
-
     const changePicture = () => {
       count = (count + 1) % pictureArray.length;
       setTimeout(() => {
@@ -77,7 +106,10 @@ const MusicPlayer = () => {
   }, []);
 
   if (localStorage.length <= 0) {
-    localStorage.setItem("default-list", "");
+    localStorage.setItem(
+      "default-list",
+      "It Ain't Me - CCR, https://www.youtube.com/watch?v=2Beda3kFNjo&ab_channel=DropkickMurphys12"
+    );
   }
 
   const handleNextSong = () => {
@@ -129,7 +161,7 @@ const MusicPlayer = () => {
       setVolumeContext(0.2);
     }
   }, []);
-  
+
   useEffect(() => {
     const srcLength = src.src && src.src.length;
     let currentName;
@@ -173,7 +205,8 @@ const MusicPlayer = () => {
                 onProgress={handleProgress(setTime)}
                 ref={playerRef}
                 progressInterval={500}
-                onReady={readyFunction}
+                onReady={(e) => readyFunction(e, setSrc, src)}
+                onError={(e) => errorHandler(e)}
               />
             </div>
 
@@ -183,35 +216,17 @@ const MusicPlayer = () => {
               </div>
 
               <div className="screen-information">
-                {/* {currentList[0]?.playlist ? (
-            <h2>{currentList[0]?.playlist}</h2>
-          ) : (
-            ""
-          )} */}
-
-                {/* {!title ? "" : title?.length > 60 ? <p>`${title.slice(0, 60)}...`</p> : <p>{title}</p>}
-          {src && src.playlist ?  <p>{oldIndex}</p> : ""}
-        <p>{playbackRate === 1 ? "Standart" : `${playbackRate}x`} Speed</p>
-        <p>Volume: {!muted? (volumeContext * 100).toFixed(0) : 0}%</p>
-
-         
-
-        <ProgressBar
-          src={src}
-          time={time}
-          setTime={setTime}
-          duration={duration}
-          playerRef={playerRef}
-        /> 
-         */}
-                <MusicPlayerWindow src={src} setSrc={setSrc}oldIndex={oldIndex} 
-      playbackRate={playbackRate} 
-      muted={muted} 
-      time={time} 
-      setTime={setTime} 
-      duration={duration} 
-      playerRef={playerRef}/>
-               
+                <MusicPlayerWindow
+                  src={src}
+                  setSrc={setSrc}
+                  oldIndex={oldIndex}
+                  playbackRate={playbackRate}
+                  muted={muted}
+                  time={time}
+                  setTime={setTime}
+                  duration={duration}
+                  playerRef={playerRef}
+                />
               </div>
 
               <Volume
@@ -268,16 +283,8 @@ const MusicPlayer = () => {
           </div>
         </div>
       </div>
-
-      {/* <Settings src={src} setSrc={setSrc} /> */}
     </>
   );
 };
 
 export default MusicPlayer;
-
-// {src && src.playlist ? `${oldName
-//   ? oldName.length > 60
-//     ? `${oldName.slice(0, 60)}...`
-//     : oldName
-//   : ""}` : getCurrentName() }

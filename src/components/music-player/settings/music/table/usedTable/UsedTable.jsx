@@ -93,6 +93,7 @@ const UsedTable = ({
                     deletePlaylist(item.playlist), setDisplaySongs("");
                   }}
                   text="Delete Playlist"
+                  disabled={localStorage.length <= 1}
                 />
                 <IconButton
                   icon="fa-solid fa-play"
@@ -116,6 +117,7 @@ const UsedTable = ({
                     <th>Actions</th>
                   </tr>
                 </thead>
+                
                 <tbody>
                   {item.songs.map((innerItem, key) =>
                     innerItem.name.length > 0 ? (
@@ -141,6 +143,7 @@ const UsedTable = ({
                           borderRadius: "10px",
                         }}
                       >
+                        
                         <td className="show-hidden-text">
                           {/* <p className="hidden-text">
                           {innerItem.name.length > 60

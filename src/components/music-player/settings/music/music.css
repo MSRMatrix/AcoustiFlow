@@ -13,10 +13,6 @@
     border-bottom-left-radius: 10px;
 }
 
-.add-new-song>input{
-    border-radius: 10px;
-}
-
 .add-new-song>div{
     display: flex;
     justify-content: center;
@@ -39,14 +35,6 @@
         text-align: center;
     }
 }
-/* 
-@media (max-width:750px){
-    .music-component-div{
-        width: 100%;
-        margin: 0 auto;
-    }
-} */
-
 
 .show-class{
     display: block;

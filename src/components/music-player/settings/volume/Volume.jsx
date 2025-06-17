@@ -7,6 +7,9 @@ const Volume = ({ volume: initialVolume, setVolume, muted, setMuted }) => {
   const [savedVolume, setSavedVolume] = useState(0);
   const {volumeContext, setVolumeContext} = useContext(VolumeContext)
 
+  // console.log(`localVolume: ${localVolume}`);
+  // console.log(`savedVolume: ${savedVolume}`);
+  // console.log(`volumeContext: ${volumeContext}`);
   useEffect(() => {
     if (muted) {
       if(localVolume <= 0){

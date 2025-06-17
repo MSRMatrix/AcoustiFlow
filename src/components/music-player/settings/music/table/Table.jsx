@@ -270,7 +270,7 @@ const Table = ({
   }
 
   return (
-    <div style={{ display: fakeRouter === "Lists" ? "block" : "none" }}>
+    <div style={{ display: fakeRouter === "Lists" ? "block" : "none", width: "100%" }}>
       <h1 style={{ display: !displaySongs ? "block" : "none" }}>Lists</h1>
       <div
         style={{

@@ -26,58 +26,18 @@ const Music = ({ src, setSrc, loop, setLoop, fakeRouter, setFakeRouter, oldIndex
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSrc([]);
+    setSrc({ name: "", src: [] });
     setCurrentList([]);
-
-    setTimeout(() => {
       const newSrc = {
         src: e.target.elements.src.value,
       };
       setSrc(newSrc);
-      titleFixer(newSrc);
       e.target.reset();
       setShowInput(true);
-    }, 100);
-  };
-
-  const titleFixer = (newSrc) => {
-    setTimeout(() => {
-      if (!document.querySelector("iframe")?.title.split(",").join("")) {
-        setShowInput(false);
-        setSrc({
-          name: "Unknown",
-          src: newSrc.src,
-        });
-        return;
-      }
-      const title = document.querySelector("iframe").title.split(",").join("");
-
-      if (title === "YouTube video player") {
-        setTimeout(() => {
-          const newTitle = document
-            .querySelector("iframe")
-            .title.split(",")
-            .join("");
-          const music = {
-            name: newTitle,
-            src: newSrc.src,
-          };
-          setSrc(music);
-          newestList(setDisplayTable);
-          showCurrentPlaylist(setCurrentList);
-          return;
-        }, 1000);
-      } else {
-        const newTitle = {
-          name: title,
-          src: newSrc.src,
-        };
-        setSrc(newTitle);
-      }
-      newestList(setDisplayTable);
+     newestList(setDisplayTable);
       showCurrentPlaylist(setCurrentList);
-    }, 1000);
   };
+
 
   useEffect(() => {
     newestList(setDisplayTable, src.playlist);
@@ -96,7 +56,7 @@ const Music = ({ src, setSrc, loop, setLoop, fakeRouter, setFakeRouter, oldIndex
       <div style={{display: fakeRouter === "Add new Music" ? "block" : "none"}}>
 
       
-      <form className="form-style" onSubmit={handleSubmit} >
+      <form className="form-style" onSubmit={(e)=>handleSubmit(e)} >
         <fieldset style={{border: "none"}}>
         <legend>Add new Song</legend>
         <input
